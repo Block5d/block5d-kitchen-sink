@@ -2,6 +2,8 @@ var User = require('./models/user');
 var bCrypt = require('bcrypt-nodejs');
 
 module.exports = function(app){
+
+    //CREATE USER
     app.post('/api/v1/users', (req, res)=>{
         console.log(req.body);
         var user = req.body;
@@ -13,11 +15,30 @@ module.exports = function(app){
         newUser.address = user.address;
         newUser.nationality = user.nationality;
         newUser.contactNumber = user.contactNumber;
-        
+
         newUser.save(function(err, result) {
           res.status(201).send("User added to database");
         });
-    })
+    });
+
+    //READ USER
+    app.get('/api/v1/users', (req, res)=>{
+
+      console.log('GET /api/v1/users');
+      
+      User.find(function (err, users) {
+
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+
+        console.log(users);
+
+        res.json(users);
+      });
+    });
+
 
 
     // Generates hash using bCrypt
@@ -25,4 +46,4 @@ module.exports = function(app){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
     }
 
-}
+};

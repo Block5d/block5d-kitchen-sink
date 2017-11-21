@@ -13,7 +13,7 @@ var NODE_PORT = process.env.PORT;
 app.use(bodyParser.urlencoded({ limit: '50mb' , extended:true}));
 app.use(bodyParser.json({ limit: '50mb'}));
 
-app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}))
+app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 
 require('./routes')(app);
 
