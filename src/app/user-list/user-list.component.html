@@ -15,7 +15,7 @@
       <td>{{user.dateOfBirth | date:medium}}</td>
       <td>
         <button class="btn btn-primary" title="edit user"
-        (click)="edit(user)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        (click)="edit(user, template2)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
         <button class="btn btn-danger" title="delete user"
               (click)="delete(user)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
       </td>
@@ -24,3 +24,97 @@
   </tbody>
 </table>
 </div>
+
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit user</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="container-fluid">
+          <form #editform="ngForm" (ngSubmit)="onEdit()" novalidate>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+            
+                    
+              <div class="form-group">
+                  <label for="fullname">Full Name</label>
+                  <input id="fullname" #fullname="ngModel" name="fullname" type="text" placeholder="Adam Smith" [(ngModel)]="editUser.fullname" class="form-control" required />
+                  <div *ngIf="fullname.errors && (fullname.touched || submitted)">
+                    <div [hidden]="!fullname.errors.required && fullname.dirty" class="alert alert-danger">
+                      Full Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <br/>
+                  <input id="gender" name="gender" type="radio" [(ngModel)]="editUser.gender" value="M"/>Male
+                  <br/>
+                  <input id="gender" name="gender" type="radio" [(ngModel)]="editUser.gender" value="F" />Female
+        
+                </div>
+        <!--
+                <div class="form-group">
+                  <label for="dob">Date of Birth</label>
+                  <input id="dob" name="dob" type="date" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth"  value="{{ model.dateOfBirth }}" required/>
+                  <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
+                    <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
+                      Date of Birth is required
+                    </div>
+                  </div>
+                </div>-->
+        
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editUser.address" required/>
+                  <div *ngIf="address.errors && (address.touched || submitted)">
+                    <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                      Address is required
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="form-group">
+                  <label for="nationality">Nationality</label>
+                  <select class="form-control" #nationality="ngModel" id="nationality" [(ngModel)]="editUser.nationality" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                    <option *ngFor="let nationality of nationalities" [ngValue]="nationality.value">{{nationality.desc}}</option>
+                  </select>
+                  <div *ngIf="nationality.errors && (nationality.touched || submitted)">
+                    <div [hidden]="!nationality.errors.required && nationality.dirty" class="alert alert-danger">
+                      Nationality is required.
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="form-group">
+                  <label for="contactNumber">Contact Number</label>
+                  <input id="contactNumber"  #contactNumber="ngModel" name="contactNumber" type="number" class="form-control"  [(ngModel)]="editUser.contactNumber" pattern="[0-8]*" required/>
+                  <div *ngIf="contactNumber.errors && (contactNumber.touched || submitted)">
+                    <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="alert alert-danger">
+                      Contact no. is required.
+                    </div>
+                            <span [hidden]="!contactNumber.errors.pattern" class="alert alert-danger">
+                              Contact no. is invalid.
+                            </span>
+                  </div>
+                </div>
+        
+                <div class="form-group">
+                  <hr/>
+                  <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Save</button>
+                  <button type="reset" class="btn btn-danger" (click)="regForm.reset()">Cancel</button>
+                </div>
+                <ng2-toasty></ng2-toasty>
+              
+            </div>
+        
+          </div>
+          </form>
+        </div>
+    
+  </div>
+</ng-template>
+  

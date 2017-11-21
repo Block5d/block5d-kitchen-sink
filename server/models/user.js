@@ -15,6 +15,7 @@ module.exports = mongoose.model('user',{
       message: '{VALUE} must be more than 6 chars!'
     },
   },
+  gender: String,
   nationality: String,
   contactNumber: Number
 });

@@ -16,6 +16,7 @@ module.exports = function(app){
         newUser.address = user.address;
         newUser.nationality = user.nationality;
         newUser.contactNumber = user.contactNumber;
+        newUser.gender = user.gender;
         var error = newUser.validateSync();
         if(!error){
           newUser.save(function(err, result) {
