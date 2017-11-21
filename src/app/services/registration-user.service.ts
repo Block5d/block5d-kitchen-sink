@@ -17,13 +17,18 @@ export class RegistrationService {
 
   }
   
-
   public saveRegisteredUser(user){
     console.log(user);
     return this.httpClient.post(this.usersURL, user, httpOptions)
-      .pipe(
-      catchError(this.handleError<RegistrationUser>('addUser')))
+      .pipe(catchError(this.handleError<RegistrationUser>('addUser')))
   };
+
+
+  public getAllUsers(){
+    return this.httpClient.get<RegistrationUser[]>(this.usersURL, httpOptions)
+    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')))
+  }
+  
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

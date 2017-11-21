@@ -22,6 +22,8 @@
         "../node_modules/tether/dist/css/tether.min.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/ng2-toasty/bundles/style-bootstrap.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css",
+        "../node_modules/simple-line-icons/css/simple-line-icons.css",
         "styles.css"
       ],
       "scripts": [

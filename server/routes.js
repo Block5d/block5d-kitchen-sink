@@ -49,23 +49,38 @@ module.exports = function(app){
       });
     });
 
-    app.get('/api/v2/users', (req, res)=>{
-      
-        console.log('GET /api/v2/users');
-        var query = { fullname: req.params.last_name};
-  
-        User.find(query ,function (err, users) {
-  
-          if (err) {
-            res.status(500).send(err);
-            return;
-          }
-  
-          console.log(users);
-  
-          res.json(users);
-        });
+    app.get('/api/v1/users/:fullname', (req, res)=>{
+      console.log('GET /api/v2/users');
+      var queryCriteria = { fullname: req.params.fullname};
+
+      User.find(queryCriteria ,function (err, users) {
+
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+        console.log(users);
+        res.json(users);
       });
+    });
+
+    app.get('/api/v2/users', (req, res)=>{
+      console.log('GET /api/v3/users');
+      var queryCriteria = { fullname: req.query.fullname,
+        contactNumber: req.query.contactNumber};
+
+      User.find(queryCriteria ,function (err, users) {
+
+        if (err) {
+          res.status(500).send(err);
+          return;
+        }
+
+        console.log(users);
+
+        res.json(users);
+      });
+    });
 
     // Generates hash using bCrypt
     var createHash = function(password){
