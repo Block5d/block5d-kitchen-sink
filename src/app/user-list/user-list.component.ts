@@ -10,9 +10,11 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
+
 export class UserListComponent implements OnInit {
   private users: Observable<RegistrationUser[]>;
   modalRef: BsModalRef;
+  bsValue: Date = new Date();
   submitted = false;
   private editUser: RegistrationUser;
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
@@ -38,7 +40,10 @@ export class UserListComponent implements OnInit {
     console.log(user.nationality);
     console.log(user.gender);
     
-    //this.editUser.dateOfBirth = new Date(user.dateOfBirth);
+    //this.editUser.dateOfBirth = user.dateOfBirth;
+
+    this.editUser.dateOfBirth = new Date(user.dateOfBirth);
+    console.log(this.editUser.dateOfBirth);
     console.log(this.editUser);
     this.modalRef = this.modalService.show(template);
   }

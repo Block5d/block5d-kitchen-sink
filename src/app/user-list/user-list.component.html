@@ -56,16 +56,19 @@
                   <input id="gender" name="gender" type="radio" [(ngModel)]="editUser.gender" value="F" />Female
         
                 </div>
-        <!--
+        
                 <div class="form-group">
                   <label for="dob">Date of Birth</label>
-                  <input id="dob" name="dob" type="date" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth"  value="{{ model.dateOfBirth }}" required/>
+                  <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
+                  <div class="col-xs-12 col-12 col-md-3">
+                      <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                  </div>
                   <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
                     <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
                       Date of Birth is required
                     </div>
                   </div>
-                </div>-->
+                </div>
         
                 <div class="form-group">
                   <label for="address">Address</label>
@@ -104,8 +107,8 @@
         
                 <div class="form-group">
                   <hr/>
-                  <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Save</button>
-                  <button type="reset" class="btn btn-danger" (click)="regForm.reset()">Cancel</button>
+                  <button type="submit" [disabled]="!editform.form.valid" class="btn btn-success">Save</button>
+                  <button type="reset" class="btn btn-danger" (click)="editform.reset()">Cancel</button>
                 </div>
                 <ng2-toasty></ng2-toasty>
               

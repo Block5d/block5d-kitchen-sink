@@ -10,8 +10,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { AppRoutingModule } from './app-routing.module';
 import {ToastyModule} from 'ng2-toasty';
-import { ModalModule } from 'ngx-bootstrap';
-
+import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +25,7 @@ import { ModalModule } from 'ngx-bootstrap';
     AppRoutingModule,
     ToastyModule,
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers: [ RegistrationService ],
   bootstrap: [ AppComponent ]
