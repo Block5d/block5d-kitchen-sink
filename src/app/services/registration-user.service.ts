@@ -27,7 +27,8 @@ export class RegistrationService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
+      console.error(" why not catching ? " + error); // log to console instead
+      JSON.stringify(error);
       return of(result as T);
     };
   }

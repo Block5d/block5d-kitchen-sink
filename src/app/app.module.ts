@@ -9,6 +9,7 @@ import { RegistrationService } from './services/registration-user.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { AppRoutingModule } from './app-routing.module';
+import {ToastyModule} from 'ng2-toasty';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ToastyModule,
   ],
   providers: [ RegistrationService ],
   bootstrap: [ AppComponent ]

@@ -6,7 +6,15 @@ module.exports = mongoose.model('user',{
 	password: String,
 	fullname: String,
   dateOfBirth: Date,
-  address: String,
+  address: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return v.length > 6;
+      },
+      message: '{VALUE} must be more than 6 chars!'
+    },
+  },
   nationality: String,
   contactNumber: Number
 });

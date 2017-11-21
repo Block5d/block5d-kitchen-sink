@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationUser } from '../shared/registration-user';
 import { RegistrationService } from '../services/registration-user.service';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 @Component({
   selector: 'app-reg-user',
@@ -14,7 +15,9 @@ export class RegUserComponent implements OnInit {
   model = new RegistrationUser('','','','','',null, '', '', '');
 
   constructor(
-    private registrationService: RegistrationService
+    private registrationService: RegistrationService,
+    private toastyService:ToastyService, 
+    private toastyConfig: ToastyConfig
   ){
 
   }
@@ -26,6 +29,7 @@ export class RegUserComponent implements OnInit {
     this.registrationService.saveRegisteredUser(this.model as RegistrationUser)
       .subscribe(user => {
         console.log(user);
+        this.addSuccessToast('Successfully added', `Added ${this.model.fullname}`);
       });
   }
 
@@ -35,5 +39,22 @@ export class RegUserComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  addSuccessToast(title,msg) {
+    var toastOptions:ToastOptions = {
+        title: title,
+        msg: msg,
+        showClose: true,
+        timeout: 1500,
+        theme: 'bootstrap',
+        onAdd: (toast:ToastData) => {
+            console.log('Toast ' + toast.id + ' has been added!');
+        },
+        onRemove: function(toast:ToastData) {
+            console.log('Toast ' + toast.id + ' has been removed!');
+        }
+    };
+    this.toastyService.success(toastOptions);
+}
 
 }

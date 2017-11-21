@@ -1,5 +1,6 @@
 var User = require('./models/user');
 var bCrypt = require('bcrypt-nodejs');
+var assert = require('assert');
 
 module.exports = function(app){
 
@@ -15,18 +16,27 @@ module.exports = function(app){
         newUser.address = user.address;
         newUser.nationality = user.nationality;
         newUser.contactNumber = user.contactNumber;
-
-        newUser.save(function(err, result) {
-          res.status(201).send("User added to database");
-        });
+        var error = newUser.validateSync();
+        if(!error){
+          newUser.save(function(err, result) {
+            res.status(201).json(result);
+          });
+        }else{
+          console.log(error);
+          assert.equal(error.errors['address'].message,
+            'Address must be above 6 chars');
+          res.status(500).json(error);
+        }
+        
     });
 
     //READ USER
     app.get('/api/v1/users', (req, res)=>{
 
       console.log('GET /api/v1/users');
-      
-      User.find(function (err, users) {
+      var query = {};
+
+      User.find(query ,function (err, users) {
 
         if (err) {
           res.status(500).send(err);
@@ -39,7 +49,23 @@ module.exports = function(app){
       });
     });
 
-
+    app.get('/api/v2/users', (req, res)=>{
+      
+        console.log('GET /api/v2/users');
+        var query = { fullname: req.params.last_name};
+  
+        User.find(query ,function (err, users) {
+  
+          if (err) {
+            res.status(500).send(err);
+            return;
+          }
+  
+          console.log(users);
+  
+          res.json(users);
+        });
+      });
 
     // Generates hash using bCrypt
     var createHash = function(password){
