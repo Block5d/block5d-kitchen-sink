@@ -34,7 +34,7 @@
   </div>
   <div class="modal-body">
       <div class="container-fluid">
-          <form #editform="ngForm" (ngSubmit)="onEdit()" novalidate>
+          <form #editform="ngForm" novalidate>
           <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
             
@@ -107,7 +107,7 @@
         
                 <div class="form-group">
                   <hr/>
-                  <button type="submit" [disabled]="!editform.form.valid" class="btn btn-success">Save</button>
+                  <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
                   <button class="btn btn-danger" (click)="hide()">Cancel</button>
                 </div>
             </div>
