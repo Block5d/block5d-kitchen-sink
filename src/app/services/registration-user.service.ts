@@ -23,6 +23,12 @@ export class RegistrationService {
       .pipe(catchError(this.handleError<RegistrationUser>('addUser')))
   };
 
+  public updateUser(user){
+    console.log(user);
+    return this.httpClient.put(this.usersURL, user, httpOptions)
+      .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
+  };
+
 
   public getAllUsers(){
     return this.httpClient.get<RegistrationUser[]>(this.usersURL, httpOptions)

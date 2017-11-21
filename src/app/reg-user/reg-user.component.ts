@@ -55,6 +55,6 @@ export class RegUserComponent implements OnInit {
         }
     };
     this.toastyService.success(toastOptions);
-}
+  }
 
 }

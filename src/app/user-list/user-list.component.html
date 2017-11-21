@@ -60,9 +60,9 @@
                 <div class="form-group">
                   <label for="dob">Date of Birth</label>
                   <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
-                  <div class="col-xs-12 col-12 col-md-3">
+                  <span class="input-group-btn">
                       <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                  </div>
+                  </span>
                   <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
                     <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
                       Date of Birth is required
@@ -108,16 +108,13 @@
                 <div class="form-group">
                   <hr/>
                   <button type="submit" [disabled]="!editform.form.valid" class="btn btn-success">Save</button>
-                  <button type="reset" class="btn btn-danger" (click)="editform.reset()">Cancel</button>
+                  <button class="btn btn-danger" (click)="hide()">Cancel</button>
                 </div>
-                <ng2-toasty></ng2-toasty>
-              
             </div>
         
           </div>
           </form>
-        </div>
-    
+        </div>  
   </div>
 </ng-template>
   

@@ -4,6 +4,8 @@ import { RegistrationUser } from '../shared/registration-user';
 import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+//import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-user-list',
@@ -13,6 +15,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 export class UserListComponent implements OnInit {
   private users: Observable<RegistrationUser[]>;
+  //@ViewChild('encasUnPwModal') public modal: ModalDirective;
   modalRef: BsModalRef;
   bsValue: Date = new Date();
   submitted = false;
@@ -20,6 +23,8 @@ export class UserListComponent implements OnInit {
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
   
   constructor(private registrationService: RegistrationService,
+    private toastyService:ToastyService, 
+    private toastyConfig: ToastyConfig,
     private modalService: BsModalService) { 
     this.users = this.getAllUsers();
     console.log(this.users);
@@ -49,7 +54,29 @@ export class UserListComponent implements OnInit {
   }
 
   onEdit(){
-
+    console.log("Saving edit ...");
+    this.registrationService.updateUser(this.editUser as RegistrationUser)
+    .subscribe(user => {
+      console.log(user);
+      this.addSuccessToast('Successfully updated', `Saved ${this.editUser.fullname}`);
+      this.modalRef.hide();
+    });
   }
 
+  addSuccessToast(title,msg) {
+    var toastOptions:ToastOptions = {
+        title: title,
+        msg: msg,
+        showClose: true,
+        timeout: 1500,
+        theme: 'bootstrap',
+        onAdd: (toast:ToastData) => {
+            console.log('Toast ' + toast.id + ' has been added!');
+        },
+        onRemove: function(toast:ToastData) {
+            console.log('Toast ' + toast.id + ' has been removed!');
+        }
+    };
+    this.toastyService.success(toastOptions);
+  }
 }
