@@ -81,19 +81,11 @@ module.exports = function(app){
       var error = newUser.validateSync();
       
       if(!error){
-        console.log(user.id);
         console.log(user._id);
-        
         User.findByIdAndUpdate({_id: user._id},{ $set: user}, { new: true }, (err, result)=>{
           if (err) res.status(500).json(result);
           res.status(201).json(result);
-          /*if(result){
-            newUser.save(function(err, result) {
-              res.status(201).json(result);
-            });
-          };*/
         })
-        
       }else{
         console.log(error);
         assert.equal(error.errors['address'].message,
