@@ -20,7 +20,7 @@
       </div>
     </form>
   </div>
-  <table *ngIf="users.length > 0" class="table">
+  <table *ngIf= "users" class="table">
         <thead>
           <tr>
             <th>#</th>
@@ -43,5 +43,6 @@
           </tr>
           
         </tbody>
-      </table>
+    </table>
+    <div *ngIf= "!users"><p class="font-weight-bold">No record found.</p></div>
 </div>
