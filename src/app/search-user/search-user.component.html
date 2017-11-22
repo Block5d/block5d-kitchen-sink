@@ -1,14 +1,17 @@
 <div class="container">
   <div class="jumbotron">
       <form #searchUserForm="ngForm" (ngSubmit)="onSearch()" novalidate>
-          <div class="keyword col-lg-6">
+          <div class="input-group">
 
                 <input id="keyword" #keyword="ngModel" name="keyword" 
                         type="text" [(ngModel)]="model.keyword" 
                         placeholder="you@domain.com" class="form-control" 
-                        #keyword="ngModel" required/>  
+                        #keyword="ngModel" required/>
+                <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
           </div>
-          <div class="sort-by col-lg-2">
+          <div class="col-lg-6">
                 <select class="form-control" #sortBy="ngModel" id="sortBy" [(ngModel)]="model.sortBy" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
                     <option *ngFor="let sortvalue of sorts" [ngValue]="sortvalue.value">{{sortvalue.desc}}</option>
                 </select>
@@ -18,7 +21,7 @@
                   <option value="DESC">Descending</option>
               </select>-->
           </div>
-          <div class="col-lg-1">
+          <div class="col-lg-6">
               <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
           </div>
       </form>

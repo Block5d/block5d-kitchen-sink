@@ -40,10 +40,16 @@ module.exports = function(app){
     console.log('GET /api/v1/users');
     console.log(req);
     var keyword = req.query.keyword;
+    var sortBy = req.query.sortBy;
+    console.log(sortBy);
     console.log(keyword);
     console.log(keyword != 'undefined');
     if(typeof keyword == 'undefined'){
       keyword = "";
+    }
+
+    if(typeof sortBy == 'undefined'){
+      sortBy = 1;
     }
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
@@ -57,7 +63,7 @@ module.exports = function(app){
       }
       //console.log(users);
       res.json(users);
-    });
+    }).sort({fullname: parseInt(sortBy)});
   });
 
   // SEARCH BY FULL NAME

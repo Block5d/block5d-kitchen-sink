@@ -32,8 +32,8 @@ export class RegistrationService {
       .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
   };
 
-  public searchUsersByFullName(keyword){
-    return this.getAllUsers(this.usersURL + '?keyword=' + keyword);
+  public searchUsersByFullName(keyword, sortBy){
+    return this.getAllUsers(this.usersURL + '?keyword=' + keyword + '&sortBy=' + sortBy);
   }
 
   public getAllUsers(url){

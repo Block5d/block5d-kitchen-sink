@@ -11,14 +11,14 @@ import { RegistrationUser } from '../shared/registration-user';
 })
 export class SearchUserComponent implements OnInit {
   
-  sorts = [ { desc: "Ascending", value: "ASC"}, {desc: "Descending", value: "DESC"}];
+  sorts = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
   private users: Observable<RegistrationUser[]>;
   model = new SearchUsrCriteria('', '');
 
   constructor(private registrationService: RegistrationService,) { }
 
-  getAllUsers(keyword){
-    return this.registrationService.searchUsersByFullName(keyword);
+  getAllUsers(keyword, sortBy){
+    return this.registrationService.searchUsersByFullName(keyword, sortBy);
   }
 
   ngOnInit() {
@@ -26,7 +26,8 @@ export class SearchUserComponent implements OnInit {
 
   //TODO  to implement later.
   onSearch(){
-     this.users = this.getAllUsers(this.model.keyword);
+    console.log(this.model.sortBy);
+    this.users = this.getAllUsers(this.model.keyword, this.model.sortBy);
   }
 
   onChange(evt){
