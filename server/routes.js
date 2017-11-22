@@ -81,12 +81,17 @@ module.exports = function(app){
       var error = newUser.validateSync();
       
       if(!error){
-        User.findOne({_id: user._id}, (err, result)=>{
-          if(result){
+        console.log(user.id);
+        console.log(user._id);
+        
+        User.findByIdAndUpdate({_id: user._id},{ $set: user}, { new: true }, (err, result)=>{
+          if (err) res.status(500).json(result);
+          res.status(201).json(result);
+          /*if(result){
             newUser.save(function(err, result) {
               res.status(201).json(result);
             });
-          };
+          };*/
         })
         
       }else{
