@@ -15,11 +15,6 @@
                 <select class="form-control" #sortBy="ngModel" id="sortBy" [(ngModel)]="model.sortBy" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
                     <option *ngFor="let sortvalue of sorts" [ngValue]="sortvalue.value">{{sortvalue.desc}}</option>
                 </select>
-              <!--<select ng-model="ctrl.sortBy" class="form-control">
-                  <option value="" disabled selected>Sort by</option>
-                  <option value="ASC">Ascending</option>
-                  <option value="DESC">Descending</option>
-              </select>-->
           </div>
           <div class="col-lg-6">
               <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>

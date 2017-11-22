@@ -61,8 +61,7 @@ module.exports = function(app){
         res.status(500).send(err);
         return;
       }
-      //console.log(users);
-      res.json(users);
+      res.status(200).json(users);
     }).sort({fullname: parseInt(sortBy)});
   });
 
