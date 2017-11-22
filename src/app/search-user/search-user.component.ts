@@ -14,6 +14,7 @@ export class SearchUserComponent implements OnInit {
   sorts = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
   private users: Observable<RegistrationUser[]>;
   model = new SearchUsrCriteria('', '');
+  userCount = 0;
 
   constructor(private registrationService: RegistrationService,) { }
 
@@ -28,6 +29,7 @@ export class SearchUserComponent implements OnInit {
   onSearch(){
     console.log(this.model.sortBy);
     this.users = this.getAllUsers(this.model.keyword, this.model.sortBy);
+    //this.userCount = this.users.length;
   }
 
   onChange(evt){

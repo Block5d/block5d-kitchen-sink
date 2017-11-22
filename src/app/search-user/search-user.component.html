@@ -20,7 +20,7 @@
       </div>
     </form>
   </div>
-  <table *ngIf= "users" class="table">
+  <table *ngIf="(users | async)?.length > 0" class="table">
         <thead>
           <tr>
             <th>#</th>
@@ -44,5 +44,5 @@
           
         </tbody>
     </table>
-    <div *ngIf= "!users"><p class="font-weight-bold">No record found.</p></div>
+    <div *ngIf="(users | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
 </div>
