@@ -41,6 +41,10 @@ module.exports = function(app){
     console.log(req);
     var keyword = req.query.keyword;
     console.log(keyword);
+    console.log(keyword != 'undefined');
+    if(typeof keyword == 'undefined'){
+      keyword = "";
+    }
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
