@@ -31,6 +31,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     // not mandatory
+    
   }
 
   getAllUsers(){
@@ -64,6 +65,16 @@ export class UserListComponent implements OnInit {
 
   onCancel(){
     this.modalRef.hide();
+  }
+
+  onDelete(user){
+    this.registrationService.deleteUser(user as RegistrationUser)
+    .subscribe(user => {
+      console.log("DELETE >>>>>" + user);
+      this.users = this.getAllUsers();
+      this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
+      //this.modalRef.hide();
+    });
   }
 
   addSuccessToast(title,msg) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import { RegistrationUser } from '../shared/registration-user';
@@ -32,12 +32,17 @@ export class RegistrationService {
       .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
   };
 
-
   public getAllUsers(){
     return this.httpClient.get<RegistrationUser[]>(this.usersURL, httpOptions)
     .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')))
   }
-  
+
+  public deleteUser(user){
+    console.log(user);
+    let deleteParams = new HttpParams().set('_id', user._id);
+    return this.httpClient.delete<RegistrationUser>(this.usersURL, {params: deleteParams})
+    .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')))
+  }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
