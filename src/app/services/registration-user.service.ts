@@ -43,7 +43,7 @@ export class RegistrationService {
     return (error: any): Observable<T> => {
       console.error(" why not catching ? " + error); // log to console instead
       JSON.stringify(error);
-      this.addErrorToast("Error", JSON.stringify(error));
+      this.addErrorToast("Error", error.error);
       return Observable.throw(error  || 'backend server error');
     };
   }
