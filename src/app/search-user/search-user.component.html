@@ -1,25 +1,24 @@
 <div class="container">
   <div class="jumbotron">
-      <form #searchUserForm="ngForm" (ngSubmit)="onSearch()" novalidate>
-          <div class="input-group">
+    <form #searchUserForm="ngForm" (ngSubmit)="onSearch()" novalidate class="row">
+      <div class="input-group col-lg-7">
 
-                <input id="keyword" #keyword="ngModel" name="keyword" 
-                        type="text" [(ngModel)]="model.keyword" 
-                        placeholder="you@domain.com" class="form-control" 
-                        #keyword="ngModel" required/>
-                <span class="input-group-addon">
-                    <i class="fa fa-search"></i>
-                </span>
-          </div>
-          <div class="col-lg-6">
-                <select class="form-control" #sortBy="ngModel" id="sortBy" [(ngModel)]="model.sortBy" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
-                    <option *ngFor="let sortvalue of sorts" [ngValue]="sortvalue.value">{{sortvalue.desc}}</option>
-                </select>
-          </div>
-          <div class="col-lg-6">
-              <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
-          </div>
-      </form>
+       <input id="keyword" #keyword="ngModel" name="keyword" type="text" [(ngModel)]="model.keyword" placeholder="you@domain.com"
+          class="form-control" #keyword="ngModel" required/>
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" #sortBy="ngModel" id="sortBy" [(ngModel)]="model.sortBy" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="onChange($event)">
+          <option *ngFor="let sortvalue of sorts" [ngValue]="sortvalue.value">{{sortvalue.desc}}</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+      </div>
+    </form>
   </div>
   <table class="table">
         <thead>
