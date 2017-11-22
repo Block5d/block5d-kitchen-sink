@@ -32,8 +32,18 @@ export class RegistrationService {
       .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
   };
 
-  public getAllUsers(){
-    return this.httpClient.get<RegistrationUser[]>(this.usersURL, httpOptions)
+  public searchUsersByFullName(keyword){
+    return this.getAllUsers(this.usersURL + '?keyword=' + keyword);
+  }
+
+  public getAllUsers(url){
+    console.log(" >>>> " + url);
+    var getURL = this.usersURL;
+    if(url){
+      getURL = url;
+    }
+    console.log(" <<<<< " + JSON.stringify(getURL));
+    return this.httpClient.get<RegistrationUser[]>(getURL, httpOptions)
     .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')))
   }
 

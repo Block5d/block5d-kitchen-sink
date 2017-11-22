@@ -35,10 +35,16 @@ module.exports = function(app){
 
   //READ USER
   app.get(USERS_API_URL, (req, res)=>{
-
-    console.log('GET /api/v1/users');
     var query = {};
-
+    
+    console.log('GET /api/v1/users');
+    console.log(req);
+    var keyword = req.query.keyword;
+    console.log(keyword);
+    if(typeof keyword != ''){ 
+      query = { fullname: keyword};
+    }
+    console.log(query);
     User.find(query ,function (err, users) {
 
       if (err) {
@@ -51,8 +57,9 @@ module.exports = function(app){
   });
 
   // SEARCH BY FULL NAME
+  /*
   app.get(`${USERS_API_URL}/:fullname`, (req, res)=>{
-    console.log('GET /api/v2/users');
+    //console.log('GET /api/v2/users');
     var queryCriteria = { fullname: req.params.fullname};
 
     User.find(queryCriteria ,function (err, users) {
@@ -64,7 +71,7 @@ module.exports = function(app){
       //console.log(users);
       res.json(users);
     });
-  });
+  });*/
 
   // UPDATE USER
   app.put(USERS_API_URL, (req, res)=>{

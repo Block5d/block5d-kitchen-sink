@@ -11,12 +11,15 @@ import { RegUserComponent } from './reg-user/reg-user.component';
 import { AppRoutingModule } from './app-routing.module';
 import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { SearchUserComponent } from './search-user/search-user.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     UserListComponent,
     RegUserComponent,
+    SearchUserComponent,
   ],
   imports: [
     BrowserModule,

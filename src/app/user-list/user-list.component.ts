@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
   }
 
   getAllUsers(){
-    return this.registrationService.getAllUsers();
+    return this.registrationService.getAllUsers(null);
   }
 
   edit(user, template: TemplateRef<any>) {

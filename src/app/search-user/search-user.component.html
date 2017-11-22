@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="jumbotron">
+      <form #searchUserForm="ngForm" (ngSubmit)="onSearch()" novalidate>
+          <div class="keyword col-lg-6">
+
+                <input id="keyword" #keyword="ngModel" name="keyword" 
+                        type="text" [(ngModel)]="model.keyword" 
+                        placeholder="you@domain.com" class="form-control" 
+                        #keyword="ngModel" required/>  
+          </div>
+          <div class="sort-by col-lg-2">
+                <select class="form-control" #sortBy="ngModel" id="sortBy" [(ngModel)]="model.sortBy" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
+                    <option *ngFor="let sortvalue of sorts" [ngValue]="sortvalue.value">{{sortvalue.desc}}</option>
+                </select>
+              <!--<select ng-model="ctrl.sortBy" class="form-control">
+                  <option value="" disabled selected>Sort by</option>
+                  <option value="ASC">Ascending</option>
+                  <option value="DESC">Descending</option>
+              </select>-->
+          </div>
+          <div class="col-lg-1">
+              <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+          </div>
+      </form>
+  </div>
+  <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users | async"> <!--<tr *ngFor="let user of users | async">-->
+            <th scope="row">{{user._id}}</th>
+            <td>{{user.fullname}}</td>
+            <td>{{user.dateOfBirth | date:medium}}</td>
+            <td>
+              <button class="btn btn-primary" title="edit user"
+              (click)="edit(user, template2)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+              <button class="btn btn-danger" title="delete user"
+                    (click)="onDelete(user)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
