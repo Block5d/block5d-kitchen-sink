@@ -48,7 +48,7 @@ module.exports = function(app){
       keyword = "";
     }
 
-    if(typeof sortBy == 'undefined'){
+    if(typeof sortBy == 'undefined' || typeof sortBy != ''){
       sortBy = 1;
     }
     if(typeof keyword != ''){ 
@@ -58,29 +58,12 @@ module.exports = function(app){
     User.find(query ,function (err, users) {
 
       if (err) {
+        console.log(err);
         res.status(500).send(err);
-        return;
       }
       res.status(200).json(users);
     }).sort({fullname: parseInt(sortBy)});
   });
-
-  // SEARCH BY FULL NAME
-  /*
-  app.get(`${USERS_API_URL}/:fullname`, (req, res)=>{
-    //console.log('GET /api/v2/users');
-    var queryCriteria = { fullname: req.params.fullname};
-
-    User.find(queryCriteria ,function (err, users) {
-
-      if (err) {
-        res.status(500).send(err);
-        return;
-      }
-      //console.log(users);
-      res.json(users);
-    });
-  });*/
 
   // UPDATE USER
   app.put(USERS_API_URL, (req, res)=>{
@@ -118,10 +101,8 @@ module.exports = function(app){
     User.findByIdAndRemove({_id: deleteUserId},(err,result)=>{
       if(err){
         res.status(500).send(err);
-        return;
       }
       res.status(200).json(result);
-
    })
   });
 
