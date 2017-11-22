@@ -42,7 +42,7 @@ module.exports = function(app){
     var keyword = req.query.keyword;
     console.log(keyword);
     if(typeof keyword != ''){ 
-      query = { fullname: keyword};
+      query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
     console.log(query);
     User.find(query ,function (err, users) {
