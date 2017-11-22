@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
-//import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-user-list',
@@ -57,10 +56,14 @@ export class UserListComponent implements OnInit {
     console.log("Saving edit ...");
     this.registrationService.updateUser(this.editUser as RegistrationUser)
     .subscribe(user => {
-      console.log(user);
+      console.log(">>>>>" + user);
       this.addSuccessToast('Successfully updated', `Saved ${this.editUser.fullname}`);
       this.modalRef.hide();
     });
+  }
+
+  onCancel(){
+    this.modalRef.hide();
   }
 
   addSuccessToast(title,msg) {

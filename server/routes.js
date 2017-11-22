@@ -95,11 +95,9 @@ module.exports = function(app){
       
   });
 
-    
-
-    // Generates hash using bCrypt
-    var createHash = function(password){
-        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-    }
+  // Generates hash using bCrypt
+  var createHash = function(password){
+      return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+  }
 
 };

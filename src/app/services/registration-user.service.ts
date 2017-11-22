@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { RegistrationUser } from '../shared/registration-user';
 import { Observable} from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
+import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -13,7 +14,9 @@ const httpOptions = {
 @Injectable()
 export class RegistrationService {
   private usersURL = 'http://localhost:4201/api/v1/users';
-  constructor(private httpClient:HttpClient) {
+  constructor(private httpClient:HttpClient,
+    private toastyService:ToastyService, 
+    private toastyConfig: ToastyConfig) {
 
   }
   
@@ -40,7 +43,26 @@ export class RegistrationService {
     return (error: any): Observable<T> => {
       console.error(" why not catching ? " + error); // log to console instead
       JSON.stringify(error);
-      return of(result as T);
+      this.addErrorToast("Error", JSON.stringify(error));
+      return Observable.throw(error  || 'backend server error');
     };
   }
+
+  addErrorToast(title,msg) {
+    var toastOptions:ToastOptions = {
+        title: title,
+        msg: msg,
+        showClose: true,
+        timeout: 3500,
+        theme: 'bootstrap',
+        onAdd: (toast:ToastData) => {
+            console.log('Toast ' + toast.id + ' has been added!');
+        },
+        onRemove: function(toast:ToastData) {
+            console.log('Toast ' + toast.id + ' has been removed!');
+        }
+    };
+    this.toastyService.error(toastOptions);
+  }
+
 }
