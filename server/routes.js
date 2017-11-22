@@ -83,7 +83,7 @@ module.exports = function(app){
       if(!error){
         console.log(user._id);
         User.findByIdAndUpdate({_id: user._id},{ $set: user}, { new: true }, (err, result)=>{
-          if (err) res.status(500).json(result);
+          if (err) res.status(500).json(err);
           res.status(201).json(result);
         })
       }else{
