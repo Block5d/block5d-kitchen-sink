@@ -12,7 +12,7 @@ export class RegUserComponent implements OnInit {
 
   submitted = false;
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
-  model = new RegistrationUser('','','','','',null, '', '', '');
+  model = new RegistrationUser('','','','','',null, '', '', '', 0);
 
   constructor(
     private registrationService: RegistrationService,
