@@ -14,6 +14,12 @@ import { HeaderComponent } from './header/header.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { SearchUserComponent } from './search-user/search-user.component';
+import { SampleApp4Component } from './sample-app4/sample-app4.component';
+import { AlertModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { ChildComponentComponent } from './child-component/child-component.component';
 import { LikeUserComponent } from './like-user/like-user.component';
@@ -35,6 +41,7 @@ import { FileUploadService } from './services/file-upload.service';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+    SampleApp4Component,
     ParentComponentComponent,
     ChildComponentComponent,
     LikeUserComponent,
@@ -52,7 +59,13 @@ import { FileUploadService } from './services/file-upload.service';
     ToastyModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AlertModule.forRoot(),
+    AccordionModule.forRoot(),
+    AlertModule.forRoot(),
+    ButtonsModule.forRoot(),
+    CarouselModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   providers: [ RegistrationService, FileUploadService ],
   bootstrap: [ AppComponent ]
