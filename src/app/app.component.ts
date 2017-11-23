@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',

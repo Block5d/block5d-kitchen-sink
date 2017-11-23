@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { SearchUserComponent } from './search-user/search-user.component';
+import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SearchUserComponent } from './search-user/search-user.component';
     AppRoutingModule,
     ToastyModule,
     ModalModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [ RegistrationService ],
   bootstrap: [ AppComponent ]

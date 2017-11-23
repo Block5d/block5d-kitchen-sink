@@ -1,11 +1,67 @@
 <h1>
-  NIMBUS DEMO APP
+  NIMBUS Kitchen Sink APP
 </h1>
-<nav>
-  <button type="button" class="btn btn-primary" routerLink="/reg-user">Registration</button>
-  <button type="button" class="btn btn-info" routerLink="/user-list">List Of Users</button>
-  <button type="button" class="btn btn-info" routerLink="/search-user">Search by Full Name</button>
-</nav>
-<hr>
 <ng2-toasty></ng2-toasty>
-<router-outlet></router-outlet>
+<div>
+  <tabset>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/reg-user">Registration</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/user-list">list OF Users</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/search-user">Search by Full Name</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/sampleApp1">Sample App 1</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/sampleApp2">Sample App 2</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/sampleApp3">Sample App 3</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/sampleApp4">Sample App 4</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/upload-s3">Upload to AWS S3</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/firechat">Firebase Chat App</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/pic-gallery">Photo Gallery (FireStore)</a>
+          </ng-template>
+      </tab>
+  </tabset>
+</div>
+<hr>
+<div class="col-lg-12">
+    <router-outlet></router-outlet>
+</div>
