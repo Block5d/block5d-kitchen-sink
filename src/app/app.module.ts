@@ -13,6 +13,12 @@ import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { TabsModule } from 'ngx-bootstrap';
+import { SampleApp4Component } from './sample-app4/sample-app4.component';
+import { AlertModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,6 +27,7 @@ import { TabsModule } from 'ngx-bootstrap';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+    SampleApp4Component,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,13 @@ import { TabsModule } from 'ngx-bootstrap';
     ToastyModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AlertModule.forRoot(),
+    AccordionModule.forRoot(),
+    AlertModule.forRoot(),
+    ButtonsModule.forRoot(),
+    CarouselModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   providers: [ RegistrationService ],
   bootstrap: [ AppComponent ]

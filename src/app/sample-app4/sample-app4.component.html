@@ -1,0 +1,108 @@
+<!-- Disabled Buttons -->
+<div>
+  <button type="button" class="btn btn-warning" (click)="disabled = !disabled">Enable/Disable Button</button>
+</div>
+<hr>
+<!-- Alerts -->
+<button type="button" class="btn btn-primary" (click)="isCollapsedAlerts = !isCollapsedAlerts" [disabled]="disabled">Alerts
+</button>
+<hr>
+<div [collapse]="isCollapsedAlerts" class="card card-block card-header">
+  <div class="well well-lg">
+    <div *ngFor="let alert of alerts">
+      <alert [type]="alert.type" [dismissible]="dismissible">
+        <!-- <h4 calss=""alert-heading>Heads up!</h4> You can <a href="http://localhost:4200/reg-user" class="alert-link">click the magic link </a>to go back to the Registration page. -->
+        {{alert.msg[index]}}
+      </alert>
+    </div>
+    <div *ngIf="index !== alerts.length-1; else:elseBlock">
+      <button class="btn btn-primary" (click)="changeText()" [disabled]="disabled">Change text</button>
+      <button type="button" class="btn btn-primary" (click)="dismissible = !dismissible" [disabled]="disabled">Toggle dismissible</button>
+      <button type="button" class="btn btn-primary" (click)="reset()" [disabled]="disabled">Reset</button>
+    </div>
+    <ng-template #elseBlock>
+      <button class="btn btn-primary" (click)="index = 0">Reset</button>
+    </ng-template>
+  </div>
+</div>
+<!-- Accordion -->
+<hr>
+<button type="button" class="btn btn-primary" (click)="isCollapsedAccordion = !isCollapsedAccordion" [disabled]="disabled">Accordion
+</button>
+<hr>
+<div [collapse]="isCollapsedAccordion" class="card card-block card-header">
+  <div class="well well-lg">
+    <div>
+      <button type="button" class="btn btn-primary btn-sm" (click)="status.isFirstDisabled = ! status.isFirstDisabled" [disabled]="disabled">Enable / Disable first panel</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="group.isOpen = !group.isOpen" [disabled]="disabled">Toggle last panel</button>
+    </div>
+    <p></p>
+    <accordion>
+      <accordion-group heading="Dispalying Users' Id" [isOpen]="status.isFirstOpen" [isDisabled]="status.isFirstDisabled">
+        <table>
+          <tr *ngFor="let user of users | async">
+            <td>{{user._id}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+      </accordion-group>
+      <accordion-group *ngFor="let group of groups" [heading]="group.title">
+        <table>
+          <tr *ngFor="let user of users | async">
+            <td>{{user.email}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+        <!-- {{ group?.content }} -->
+      </accordion-group>
+      <accordion-group heading="Dynamic Body Content">
+        <p>The body of the accordion group grows to fit the contents</p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">Add Item
+        </button>
+        <div *ngFor="let item of items">{{item}}</div>
+      </accordion-group>
+      <accordion-group #group [isOpen]="status.isOpen">
+        <div accordion-heading>
+          I can have markup, too!
+          <span class="badge badge-secondary float-right pull-right">Some HTML here</span>
+        </div>
+        This is just some content to illustrate fancy headings.
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
+<!-- Carousel -->
+<hr>
+<button type="button" class="btn btn-primary" (click)="isCollapsedCarousel = !isCollapsedCarousel" [disabled]="disabled">Carousel
+</button>
+<hr>
+<div [collapse]="isCollapsedCarousel" class="card card-block card-header">
+  <div class="well well-lg">
+    <carousel [interval]="myInterval">
+      <slide>
+        <img src="assets/images/pic/1.jpg" alt="First slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pic/2.jpg" alt="Second slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>Second slide label</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pic/3.jpg" alt="Third slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>Third slide label</h3>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+        </div>
+      </slide>
+    </carousel>
+    <p></p>
+  </div>
+</div>
