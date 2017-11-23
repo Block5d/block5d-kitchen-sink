@@ -13,6 +13,11 @@ import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { TabsModule } from 'ngx-bootstrap';
+import { ParentComponentComponent } from './parent-component/parent-component.component';
+import { ChildComponentComponent } from './child-component/child-component.component';
+import { LikeUserComponent } from './like-user/like-user.component';
+import { DislikeUserComponent } from './dislike-user/dislike-user.component';
+import { VoteUserComponent } from './vote-user/vote-user.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +26,11 @@ import { TabsModule } from 'ngx-bootstrap';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+    ParentComponentComponent,
+    ChildComponentComponent,
+    LikeUserComponent,
+    DislikeUserComponent,
+    VoteUserComponent,
   ],
   imports: [
     BrowserModule,
