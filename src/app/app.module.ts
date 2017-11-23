@@ -7,6 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap';
+import { PopoverModule } from 'ngx-bootstrap';
+
 
 // Components
 import { AppComponent } from './app.component';
@@ -15,11 +23,6 @@ import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { SampleApp4Component } from './sample-app4/sample-app4.component';
-import { AlertModule } from 'ngx-bootstrap';
-import { AccordionModule } from 'ngx-bootstrap';
-import { ButtonsModule } from 'ngx-bootstrap';
-import { CarouselModule } from 'ngx-bootstrap';
-import { CollapseModule } from 'ngx-bootstrap';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { ChildComponentComponent } from './child-component/child-component.component';
 import { LikeUserComponent } from './like-user/like-user.component';
@@ -65,7 +68,9 @@ import { FileUploadService } from './services/file-upload.service';
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
     CarouselModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    PopoverModule.forRoot()
   ],
   providers: [ RegistrationService, FileUploadService ],
   bootstrap: [ AppComponent ]

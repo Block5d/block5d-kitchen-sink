@@ -93,6 +93,7 @@ module.exports = function(app){
     }
   });
 
+  // DELETE USER
   app.delete(USERS_API_URL, (req, res)=>{
     console.log("delete ... user ");
     console.log(req);
