@@ -2,6 +2,6 @@
     background-color: #c21812;
     color: #fff;
   }
-  :host >>> .popover>.arrow:after {
+:host >>> .popover>.arrow:after {
     border-top-color: #009688;
   }

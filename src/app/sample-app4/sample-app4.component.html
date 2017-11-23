@@ -1,13 +1,13 @@
 <!-- Disabled Buttons -->
 <div>
-  <button type="button" class="btn btn-warning" (click)="disabled = !disabled" popover="Click me to forbid all buttons"
-  triggers="mouseenter:mouseleave">Enable/Disable Button</button>
+  <button type="button" class="btn btn-warning" (click)="disabled = !disabled" popover="Click me to forbid all buttons" triggers="mouseenter:mouseleave">Enable/Disable Button</button>
 </div>
 <hr>
 <!-- Accordion -->
 <hr>
-<button type="button" class="btn btn-primary" (click)="isCollapsedAccordion = !isCollapsedAccordion" [disabled]="disabled" popover="Let me show the users!" triggers="mouseenter:mouseleave" placement="right">Users
-  
+<button type="button" class="btn btn-primary" (click)="isCollapsedAccordion = !isCollapsedAccordion" [disabled]="disabled"
+  popover="Let me show the users!" triggers="mouseenter:mouseleave" placement="right">Users
+
 </button>
 <hr>
 <div [collapse]="isCollapsedAccordion" class="card card-block card-header">
@@ -87,7 +87,7 @@
               <input id="fullname" #fullname="ngModel" name="fullname" type="text" placeholder="Adam Smith" [(ngModel)]="editUser.fullname"
                 class="form-control" required />
               <div *ngIf="fullname.errors && (fullname.touched || submitted)">
-                <alert type="danger">
+                <alert type="danger" [hidden]="!fullname.errors.required && fullname.dirty">
                   Full Name is required
                 </alert>
                 <!-- <div [hidden]="!fullname.errors.required && fullname.dirty" class="alert alert-danger">
@@ -107,16 +107,24 @@
             <div class="form-group">
               <label for="dob">Date of Birth</label>
               <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" [minDate]="minDate"
-                [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
+                [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" [(bsValue)]="bsValue" required/>
               <span class="input-group-btn">
+                <select name='color' class="custom-select form-control " [(ngModel)]="colorTheme" (ngModelChange)="applyTheme(dp);">
+                  <option value="theme-default">Default</option>
+                  <option value="theme-green">Green</option>
+                  <option value="theme-blue">Blue</option>
+                  <option value="theme-dark-blue">Dark-Blue</option>
+                  <option value="theme-red">Red</option>
+                  <option value="theme-orange">Orange</option>
+                </select>
                 <button class="btn btn-success" (click)="dp.toggle()">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                 </button>
               </span>
               <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
-                  <alert type="danger">
-                      Date of Birth is required
-                    </alert>
+                <alert type="danger" [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty">
+                  Date of Birth is required
+                </alert>
                 <!-- <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
                   Date of Birth is required
                 </div> -->
@@ -127,9 +135,9 @@
               <label for="address">Address</label>
               <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editUser.address" required/>
               <div *ngIf="address.errors && (address.touched || submitted)">
-                  <alert type="danger">
-                      Address is required
-                    </alert>
+                <alert type="danger" [hidden]="!address.errors.required && address.dirty">
+                  Address is required
+                </alert>
                 <!-- <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
                   Address is required
                 </div> -->
@@ -143,9 +151,9 @@
                 <option *ngFor="let nationality of nationalities" [ngValue]="nationality.value">{{nationality.desc}}</option>
               </select>
               <div *ngIf="nationality.errors && (nationality.touched || submitted)">
-                  <alert type="danger">
-                      Nationality is required
-                    </alert>
+                <alert type="danger" [hidden]="!nationality.errors.required && nationality.dirty">
+                  Nationality is required
+                </alert>
                 <!-- <div [hidden]="!nationality.errors.required && nationality.dirty" class="alert alert-danger">
                   Nationality is required.
                 </div> -->
@@ -157,9 +165,12 @@
               <input id="contactNumber" #contactNumber="ngModel" name="contactNumber" type="number" class="form-control" [(ngModel)]="editUser.contactNumber"
                 pattern="[0-8]*" required/>
               <div *ngIf="contactNumber.errors && (contactNumber.touched || submitted)">
-                <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="alert alert-danger">
+                  <alert type="danger" [hidden]="!contactNumber.errors.required && contactNumber.dirty">
+                      Contact no. is required.
+                  </alert>
+                <!-- <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="alert alert-danger">
                   Contact no. is required.
-                </div>
+                </div> -->
                 <span [hidden]="!contactNumber.errors.pattern" class="alert alert-danger">
                   Contact no. is invalid.
                 </span>

@@ -33,6 +33,7 @@ export class SampleApp4Component implements OnInit {
   minDate: Date;
   maxDate: Date;
   modalRef: BsModalRef;
+  colorTheme = 'theme-green';
 
   nationalities = [
     { desc: "Chinese", value: "CNY" },
@@ -104,6 +105,15 @@ export class SampleApp4Component implements OnInit {
       }
     };
     this.toastyService.success(toastOptions);
+  }
+
+  applyTheme(pop: any) {
+    // create new object on each property change
+    // so Angular can catch object reference change
+    this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+    setTimeout(() => {
+      pop.show();
+    });
   }
 
 }
