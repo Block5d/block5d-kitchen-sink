@@ -13,7 +13,7 @@ const httpOptions = {
 
 @Injectable()
 export class RegistrationService {
-  private usersURL = 'http://localhost:4201/api/v1/users';
+  private usersURL = 'https://d488c7ad.ngrok.io/api/v1/users';
   constructor(private httpClient:HttpClient,
     private toastyService:ToastyService, 
     private toastyConfig: ToastyConfig) {
