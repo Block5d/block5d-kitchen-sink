@@ -6,6 +6,8 @@ import { SearchUserComponent } from './search-user/search-user.component';
 import { SampleApp4Component } from './sample-app4/sample-app4.component'
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
+import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component'
+import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user-list', pathMatch: 'full' },
@@ -14,7 +16,9 @@ const routes: Routes = [
   { path: 'search-user', component: SearchUserComponent },
   { path: 'sampleApp4',component:SampleApp4Component},
   { path: 'c-input', component: ParentComponentComponent },
-  { path: 'vote-user', component: VoteUserComponent }
+  { path: 'vote-user', component: VoteUserComponent },
+  { path: 'upload-firebase', component: UploadtoFireStoreComponent },
+  { path: 'upload-s3', component: UploadtoS3Component },
 ];
 
 @NgModule({

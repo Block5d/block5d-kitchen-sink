@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 })
 export class LikeUserComponent implements OnInit {
   @Output() onlikeItEvt = new EventEmitter<boolean>();
+ 
   constructor() { }
 
   ngOnInit() {

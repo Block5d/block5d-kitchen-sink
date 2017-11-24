@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import {ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
+import { ProgressbarModule } from 'ngx-bootstrap';
+import { PaginationModule } from 'ngx-bootstrap';
 
 // Components
 import { AppComponent } from './app.component';
@@ -65,7 +67,9 @@ import { FileUploadService } from './services/file-upload.service';
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
     CarouselModule.forRoot(),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [ RegistrationService, FileUploadService ],
   bootstrap: [ AppComponent ]

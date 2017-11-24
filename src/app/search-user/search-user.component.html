@@ -20,6 +20,34 @@
       </div>
     </form>
   </div>
+  
+  <div *ngIf="(users | async)?.length > 0" class="row">
+      <div class="col-xs-12 col-12 col-md-6">
+        <pagination
+          class="pagination-sm"
+          [boundaryLinks]="true"
+          [totalItems]="totalItems"
+          [(ngModel)]="currentPage"
+          [itemsPerPage]="itemsPerPage"
+          (pageChanged)="pageChanged($event)"
+          (numPages)="numPages = $event">
+        </pagination>
+      </div>
+     
+      <div class="col-xs-12 col-12 col-md-6">
+        <pager
+          [totalItems]="totalItems"
+          [(ngModel)]="currentPage"
+          (pageChanged)="pageChanged($event)"
+          pageBtnClass="btn"
+          [itemsPerPage]="itemsPerPage"
+          class="pull-left">
+        </pager>
+      </div>
+    </div>
+     
+  <pre *ngIf="(users | async)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+  <hr>
   <table *ngIf="(users | async)?.length > 0" class="table">
         <thead>
           <tr>

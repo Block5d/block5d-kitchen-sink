@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'multipart/form-data'})
+  //headers: new HttpHeaders({'Content-Type': 'multipart/form-data'})
 };
 
 @Injectable()
@@ -24,11 +24,6 @@ export class FileUploadService {
     return this.httpClient.post(this.uploadURL, file, httpOptions)
     .pipe(catchError(this.handleError<Fileupload>('uploadImg')))
 
-  }
-
-  public getImages(){
-    return this.httpClient.get<Fileupload[]>(this.getImagesURL, httpOptions)
-    .pipe(catchError(this.handleError<Fileupload[]>('getImages')))
   }
 
   private handleError<T> (operation = 'operation', result?: T) {

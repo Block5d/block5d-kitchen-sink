@@ -5,6 +5,7 @@ import { RegistrationUser } from '../shared/registration-user';
 import { Observable} from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { SearchUsrCriteria } from '../shared/search-user';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -31,8 +32,18 @@ export class RegistrationService {
       .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
   };
 
-  public searchUsersByFullName(keyword, sortBy){
-    return this.getAllUsers(this.usersURL + '?keyword=' + keyword + '&sortBy=' + sortBy);
+  public searchUsersByFullName(model){
+    return this.getAllUsers(`${this.usersURL}?keyword=${model.keyword}&sortBy=
+    ${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`);
+  }
+
+  public searchUsersByFullNamePagination(model){
+    return this.httpClient.get(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
+      &currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`, httpOptions);
+  }
+
+  public countUsers(){
+    return this.httpClient.get(`${this.usersURL}/count`, httpOptions);
   }
 
   public getAllUsers(url){
