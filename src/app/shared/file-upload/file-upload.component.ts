@@ -16,8 +16,7 @@ export class FileUploadComponent implements OnInit {
   progressPct: number = 0;
   max: number = 100;
   
-  @Input() projectId: number;
-  @Input() sectionId: number;
+  @Input() storageType: number;
   @Input() fileExt: string = "JPG, GIF, PNG";
 
   @Input() maxFiles: number = 5; // max only 5 files
