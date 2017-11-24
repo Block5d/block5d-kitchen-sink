@@ -33,8 +33,6 @@ export class FileUploadService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(" why not catching ? " + error); // log to console instead
-      JSON.stringify(error);
       this.addErrorToast("Error", error.error);
       return Observable.throw(error  || 'backend server error');
     };
