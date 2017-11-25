@@ -6,6 +6,7 @@ const bCrypt = require('bcrypt-nodejs'),
       multerS3 = require('multer-s3'),
       firebase = require('firebase'),
       googleStorage = require('@google-cloud/storage');
+      _ = require('lodash');
       
 
 const BASE_API_URL = '/api/v1';
@@ -17,7 +18,6 @@ const UPLOAD_FIRESTORE_API_URL = `${BASE_API_URL}/upload-firestore`;
 storage = multer.diskStorage({
   destination: './upload_tmp',
   filename: function(req, file, callback){
-    console.log(file);
     callback(null, `${Date.now()}-${file.originalname}`);
   }
 }),
@@ -50,11 +50,9 @@ var uploadS3 = new multer({
       s3: s3bucket,
       bucket: 'nus-stackup9',
       metadata: function(req, file, cb){
-          console.log(file.fieldname);
           cb(null, {fieldName: file.fieldname});
       },
       key: function(req, file, cb){
-          console.log(cb);
           cb(null, Date.now() + '-' + file.originalname);
       }
   })
@@ -65,7 +63,6 @@ module.exports = function(app){
 
     //CREATE USER
   app.post(USERS_API_URL, (req, res)=>{
-    //console.log(req.body);
     var user = req.body;
     var newUser = new User();
     newUser.password = createHash(user.password);
@@ -98,7 +95,6 @@ module.exports = function(app){
         console.log(err);
         res.status(500).send(err);
       }
-      console.log(count);
       res.status(200).json(count);
     });
   });
@@ -107,18 +103,12 @@ module.exports = function(app){
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
     
-    console.log('GET /api/v1/users');
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
-    var currentPerPage = req.query.currentPerPage;
-    var itemsPerPage = req.query.itemsPerPage;
-    console.log(sortBy);
-    console.log(keyword);
-    console.log(currentPerPage);
-    console.log(itemsPerPage);
+    let currentPerPage = req.query.currentPerPage;
+    let itemsPerPage = req.query.itemsPerPage;
+    let isAllRecord = req.query.record;
     var offset = (parseInt(currentPerPage) -1) * parseInt(itemsPerPage);
-    console.log(offset);
-    console.log(keyword != 'undefined');
     if(typeof keyword == 'undefined'){
       keyword = "";
     }
@@ -129,20 +119,31 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
-    console.log(query);
-    User.find(query ,function (err, users) {
-
-      if (err) {
-        console.log(err);
-        res.status(500).send(err);
-      }
-      res.status(200).json(users);
-    }).sort({fullname: parseInt(sortBy)}).skip(offset).limit(parseInt(itemsPerPage));
+    
+    if(isAllRecord == 'all'){
+      User.find({} ,function (err, users) {
+        
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+        res.status(200).json(users);
+      });
+    }else{
+      User.find(query ,function (err, users) {
+        
+        if (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+        res.status(200).json(users);
+      }).sort({fullname: parseInt(sortBy)}).skip(offset).limit(parseInt(itemsPerPage));
+    }
+    
   });
 
   // UPDATE USER
   app.put(USERS_API_URL, (req, res)=>{
-    //console.log(req.body);
     var user = req.body;
     var newUser = new User();
     newUser.email = user.email;
@@ -155,7 +156,6 @@ module.exports = function(app){
     var error = newUser.validateSync();
     
     if(!error){
-      //console.log(user._id);
       User.findByIdAndUpdate({_id: user._id},{ $set: user}, { new: true }, (err, result)=>{
         if (err) res.status(500).json(err);
         res.status(201).json(result);
@@ -169,10 +169,7 @@ module.exports = function(app){
   });
 
   app.delete(USERS_API_URL, (req, res)=>{
-    console.log("delete ... user ");
-    console.log(req);
     var deleteUserId = req.query._id;
-    console.log(deleteUserId);
     User.findByIdAndRemove({_id: deleteUserId},(err,result)=>{
       if(err){
         res.status(500).send(err);
@@ -183,12 +180,10 @@ module.exports = function(app){
   
   
   app.post(UPLOAD_S3_API_URL, upload.array('file[]', 5), (req,res)=>{
-    console.log("upload to s3 " + req.files);
     res.status(200).json(req.files);
   })
 
   app.post(UPLOAD_FIRESTORE_API_URL, googleMulter.array('file[]', 5), (req,res)=>{
-    console.log("upload to firestore " + req.files);
     let multipleFiles = req.files;
     multipleFiles.forEach((file, index)=>{
       if (file) {
@@ -204,7 +199,6 @@ module.exports = function(app){
   })
 
   app.post(UPLOAD_API_URL, upload.array('file[]', 5), (req,res)=>{
-    console.log("upload to local storage " + req.files);
     res.status(200).json(req.files);
   })
 
@@ -236,7 +230,6 @@ module.exports = function(app){
       blobStream.on('finish', () => {
         // The public URL can be used to directly access the file via HTTP.
         const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
-        console.log(url);
         resolve(url);
       });
   

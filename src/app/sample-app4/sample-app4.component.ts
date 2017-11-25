@@ -3,6 +3,7 @@ import { AccordionConfig } from 'ngx-bootstrap/accordion';
 import { RegistrationService } from '../services/registration-user.service';
 import { RegistrationUser } from '../shared/registration-user'
 import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 
 export function getAccordionConfig(): AccordionConfig {
   return Object.assign(new AccordionConfig(), { closeOthers: true });
@@ -15,12 +16,14 @@ export function getAccordionConfig(): AccordionConfig {
   providers: [{ provide: AccordionConfig, useFactory: getAccordionConfig }]
 })
 export class SampleApp4Component implements OnInit {
-  private users:Observable<RegistrationUser[]>;
+  private users: Observable<RegistrationUser[]>;
 
   constructor(
     private registrationService:RegistrationService
   ) {
-    this.users = this.getAllUsers();
+    this.users = this.getAllUsers()
+      .do(console.log)
+      .map(data => _.values(data))
    }
 
   ngOnInit() {

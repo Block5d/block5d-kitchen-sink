@@ -16,11 +16,11 @@
         </select>
       </div>
       <div class="col-lg-2">
-        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search !</button>
       </div>
     </form>
   </div>
-  
+  {{ totalItems}} {{ currentPage }} {{maxSize}} {{numPages}}
   <div *ngIf="(users | async)?.length > 0" class="row">
       <div class="col-xs-12 col-12 col-md-6">
         <pagination
@@ -29,20 +29,10 @@
           [totalItems]="totalItems"
           [(ngModel)]="currentPage"
           [itemsPerPage]="itemsPerPage"
+          [maxSize]="maxSize"
           (pageChanged)="pageChanged($event)"
-          (numPages)="numPages = $event">
+          (numPages)="numPages1 = $event">
         </pagination>
-      </div>
-     
-      <div class="col-xs-12 col-12 col-md-6">
-        <pager
-          [totalItems]="totalItems"
-          [(ngModel)]="currentPage"
-          (pageChanged)="pageChanged($event)"
-          pageBtnClass="btn"
-          [itemsPerPage]="itemsPerPage"
-          class="pull-left">
-        </pager>
       </div>
     </div>
      
@@ -58,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of users | async"> <!--<tr *ngFor="let user of users | async">-->
+          <tr *ngFor="let user of users | async">
             <th scope="row">{{user._id}}</th>
             <td>{{user.fullname}}</td>
             <td>{{user.dateOfBirth | date:medium}}</td>

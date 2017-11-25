@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-user-list',
@@ -14,7 +15,6 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 export class UserListComponent implements OnInit {
   private users: Observable<RegistrationUser[]>;
-  //@ViewChild('encasUnPwModal') public modal: ModalDirective;
   modalRef: BsModalRef;
   bsValue: Date = new Date();
   submitted = false;
@@ -25,8 +25,9 @@ export class UserListComponent implements OnInit {
     private toastyService:ToastyService, 
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService) { 
-    this.users = this.getAllUsers();
-    console.log(this.users);
+    this.users = this.getAllUsers()
+      .do(console.log)
+      .map(data => _.values(data));
   }
 
   ngOnInit() {
@@ -45,8 +46,6 @@ export class UserListComponent implements OnInit {
     console.log(user.nationality);
     console.log(user.gender);
     
-    //this.editUser.dateOfBirth = user.dateOfBirth;
-
     this.editUser.dateOfBirth = new Date(user.dateOfBirth);
     console.log(this.editUser.dateOfBirth);
     console.log(this.editUser);
@@ -55,12 +54,10 @@ export class UserListComponent implements OnInit {
 
   onEdit(){
     console.log("Saving edit ...");
-    this.registrationService.updateUser(this.editUser as RegistrationUser)
-    .subscribe(user => {
-      console.log(">>>>>" + user);
-      this.addSuccessToast('Successfully updated', `Saved ${this.editUser.fullname}`);
-      this.modalRef.hide();
-    });
+    this.registrationService.updateUser(this.editUser as RegistrationUser).subscribe((user)=> user);
+    this.addSuccessToast('Successfully updated', `Saved ${this.editUser.fullname}`);
+    this.modalRef.hide();
+    
   }
 
   onCancel(){
@@ -68,13 +65,12 @@ export class UserListComponent implements OnInit {
   }
 
   onDelete(user){
-    this.registrationService.deleteUser(user as RegistrationUser)
-    .subscribe(user => {
-      console.log("DELETE >>>>>" + user);
-      this.users = this.getAllUsers();
-      this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
-      //this.modalRef.hide();
-    });
+    this.registrationService.deleteUser(user as RegistrationUser).subscribe((user)=> user);
+    this.users = this.getAllUsers()
+      .do(console.log)
+      .map(data => _.values(data));
+    this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
+    
   }
 
   addSuccessToast(title,msg) {

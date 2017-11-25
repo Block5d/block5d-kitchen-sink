@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RegistrationService } from '../services/registration-user.service';
 import { Observable } from 'rxjs';
 import { RegistrationUser } from '../shared/registration-user';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-vote-user',
@@ -19,8 +20,9 @@ export class VoteUserComponent implements OnInit {
     'http://www.omega-level.net/wp-content/uploads/2017/10/wonder-woman-2-filming-summer-2018.jpg']
   
   constructor(private registrationService: RegistrationService) {
-    this.users = this.getAllUsers();
-    
+    this.users = this.getAllUsers()
+      .do(console.log)
+      .map(data => _.values(data))
    }
 
   ngOnInit() {

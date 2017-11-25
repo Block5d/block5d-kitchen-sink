@@ -22,49 +22,55 @@ export class RegistrationService {
 
   }
   
-  public saveRegisteredUser(user){
+  public saveRegisteredUser(user: RegistrationUser){
     return this.httpClient.post(this.usersURL, user, httpOptions)
-      .pipe(catchError(this.handleError<RegistrationUser>('addUser')))
+    .pipe(catchError(this.handleError<RegistrationUser>('saveRegisteredUser')));
   };
 
-  public updateUser(user){
+  public updateUser(user: RegistrationUser){
+    console.log(user);
     return this.httpClient.put(this.usersURL, user, httpOptions)
-      .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
+     .pipe(catchError(this.handleError<RegistrationUser>('updateUser')));
   };
 
-  public searchUsersByFullName(model){
+  public searchUsersByFullName(model) {
     return this.getAllUsers(`${this.usersURL}?keyword=${model.keyword}&sortBy=
-    ${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`);
+    ${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`)
+     .pipe(catchError(this.handleError<RegistrationUser[]>('searchUsersByFullName')));
   }
 
-  public searchUsersByFullNamePagination(model){
-    return this.httpClient.get(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
-      &currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`, httpOptions);
+  public searchUsersByFullNamePagination(model, currentPerPage: number, itemsPerPage: number) {
+    console.log("itemsPerPage >>>>" + itemsPerPage);
+    console.log("currentPerPage >>>" +  currentPerPage);
+    
+    return this.httpClient.get<RegistrationUser[]>(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
+    &currentPerPage=${currentPerPage}&itemsPerPage=${itemsPerPage}`, httpOptions)
+    .pipe(catchError(this.handleError<RegistrationUser[]>('searchUsersByFullNamePagination')));
   }
 
   public countUsers(){
     return this.httpClient.get(`${this.usersURL}/count`, httpOptions);
   }
 
-  public getAllUsers(url){
-    var getURL = this.usersURL;
+  public getAllUsers(url) {
+    var getURL = this.usersURL + '?record=all';
     if(url){
       getURL = url;
     }
     return this.httpClient.get<RegistrationUser[]>(getURL, httpOptions)
-    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')))
+    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')));
   }
 
   public deleteUser(user){
     console.log(user);
     let deleteParams = new HttpParams().set('_id', user._id);
-    return this.httpClient.delete<RegistrationUser>(this.usersURL, {params: deleteParams})
-    .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')))
+    return this.httpClient.delete(this.usersURL, {params: deleteParams})
+    .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')));
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      this.addErrorToast("Error", error.error);
+      this.addErrorToast("Error", JSON.stringify(error.error));
       return Observable.throw(error  || 'backend server error');
     };
   }

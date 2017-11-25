@@ -40,7 +40,7 @@
     <accordion>
       <accordion-group heading="Dispalying Users' Id" [isOpen]="status.isFirstOpen" [isDisabled]="status.isFirstDisabled">
         <table>
-          <tr *ngFor="let user of users | async">
+          <tr *ngFor="let user of users">
             <td>{{user._id}}</td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td>{{user.fullname}}</td>
@@ -49,7 +49,7 @@
       </accordion-group>
       <accordion-group *ngFor="let group of groups" [heading]="group.title">
         <table>
-          <tr *ngFor="let user of users | async">
+          <tr *ngFor="let user of users">
             <td>{{user.email}}</td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td>{{user.fullname}}</td>

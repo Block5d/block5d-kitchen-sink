@@ -4,6 +4,7 @@ import { RegistrationService } from '../services/registration-user.service';
 import { Observable  } from 'rxjs';
 import { RegistrationUser } from '../shared/registration-user';
 import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-search-user',
@@ -23,7 +24,7 @@ export class SearchUserComponent implements OnInit {
   itemsPerPage: number = +environment.itemPerPage;
   model = new SearchUsrCriteria('', '', this.currentPage, this.itemsPerPage);
   constructor(private registrationService: RegistrationService,) { 
-    this.searchUsers();
+    this.searchUsers(true);
   }
 
   getAllUsers(keyword, sortBy){
@@ -35,7 +36,7 @@ export class SearchUserComponent implements OnInit {
 
   onSearch(){
     console.log(this.model.sortBy);
-    this.searchUsers();
+    this.searchUsers(false);
   }
 
   onChange(evt){
@@ -45,56 +46,48 @@ export class SearchUserComponent implements OnInit {
   pageChanged(event: any): void {
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
-    console.log('this.currentPage: ' + this.currentPage);
-    /*
-    this.registrationService.countUsers()
-      .subscribe(totalCnt => {
-        this.totalItems = +totalCnt;
-        console.log(this.totalItems);
-        console.log(this.totalItems);
-        console.log(this.itemsPerPage);
-      });
-    this.users = this.getAllUsers(this.model.keyword, this.model.sortBy);*/
-    //return this.searchUsers();
-    
     this.currentPage = event.page;
     this.itemsPerPage = event.itemsPerPage;
     
-    this.registrationService.searchUsersByFullNamePagination(this.model).subscribe(result => {
-      console.log("Page changed > " + JSON.stringify(result));
-      console.log(result);
-      //this.numPages = Math.ceil(result.length / this.itemsPerPage);
-      console.log(this.numPages);
-      //this.users = new Observable(result);
-      //this.users = Observable.of(result);;
-    });
-
+    
+    this.users = this.registrationService.searchUsersByFullNamePagination(
+        this.model, event.page, event.itemsPerPage)
+        .do(console.log)
+        .map(data => _.values(data));
+    
+    this.users.subscribe((users)=>{
+      this.numPages = Math.ceil(users.length / this.itemsPerPage);
+      //this.totalItems = +users.length;
+    })
+    
     this.registrationService.countUsers()
     .subscribe(totalCnt => {
       this.totalItems = +totalCnt;
-      console.log(this.totalItems);
-      console.log(this.totalItems);
-      console.log(this.itemsPerPage);
     });
   }
 
-  searchUsers(){
+  searchUsers(initial: boolean){
     console.log("searchUsers > ");
-    this.users = this.getAllUsers(this.model.keyword, this.model.sortBy);
-    this.users.subscribe(result => {
-      console.log(JSON.stringify(result));
-      console.log(result.length);
-      this.numPages = Math.ceil(result.length / this.itemsPerPage);
+  
+    this.users = this.getAllUsers(this.model.keyword, this.model.sortBy)
+      .do(console.log)
+      .map(data => _.values(data));
+      
+    this.users.distinctUntilChanged().subscribe((users)=>{
+      console.log(users.length);
+      if(!initial){
+        this.currentPage = 1;
+      }
+      this.numPages = Math.ceil(users.length / this.itemsPerPage);
       console.log(this.numPages);
-    });
+      //this.totalItems = +users.length;
+    })
     
     this.registrationService.countUsers()
           .subscribe(totalCnt => {
+            console.log(">>>>" + totalCnt);
             this.totalItems = +totalCnt;
-            console.log(this.totalItems);
-            console.log(this.totalItems);
-            console.log(this.itemsPerPage);
-          });
+    });
   }
 
 }
