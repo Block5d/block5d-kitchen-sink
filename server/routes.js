@@ -76,6 +76,8 @@ module.exports = function(app){
     var error = newUser.validateSync();
     if(!error){
       newUser.save(function(err, result) {
+        if (err) 
+          console.log(err);
         res.status(201).json(result);
       });
     }else{
@@ -107,7 +109,7 @@ module.exports = function(app){
   //READ USER
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
-    console.log(req);
+    //console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
     let currentPerPage = req.query.currentPerPage;
@@ -135,6 +137,7 @@ module.exports = function(app){
         res.status(200).json(users);
       });
     }else{
+      console.log("......");
       User.find(query ,function (err, users) {
         
         if (err) {
@@ -142,7 +145,8 @@ module.exports = function(app){
           res.status(500).send(err);
         }
         res.status(200).json(users);
-      }).sort({fullname: parseInt(sortBy)}).skip(offset).limit(parseInt(itemsPerPage));
+      }).sort({fullname: parseInt(sortBy)});
+      //}).sort({fullname: parseInt(sortBy)}).skip(offset).limit(parseInt(itemsPerPage));
     }
     
   });
@@ -150,19 +154,27 @@ module.exports = function(app){
   // UPDATE USER
   app.put(USERS_API_URL, (req, res)=>{
     var user = req.body;
-    var newUser = new User();
-    newUser.email = user.email;
-    newUser.fullname = user.fullname;
-    newUser.dateOfBirth = user.dateOfBirth;
-    newUser.address = user.address;
-    newUser.nationality = user.nationality;
-    newUser.contactNumber = user.contactNumber;
-    newUser.gender = user.gender;
-    var error = newUser.validateSync();
-    
+    var updatedUser = new User();
+    updatedUser.email = user.email;
+    updatedUser.fullname = user.fullname;
+    updatedUser.dateOfBirth = user.dateOfBirth;
+    updatedUser.address = user.address;
+    updatedUser.nationality = user.nationality;
+    updatedUser.contactNumber = user.contactNumber;
+    updatedUser.gender = user.gender;
+    var error = updatedUser.validateSync();
+    delete user.createdAt;
+    const options = {
+      runValidators: true,
+      upsert: false,
+      setDefaultsOnInsert: false
+    }
     if(!error){
-      User.findByIdAndUpdate({_id: user._id},{ $set: user}, { new: true }, (err, result)=>{
-        if (err) res.status(500).json(err);
+      User.findByIdAndUpdate({_id: user._id},{ $set: user}, options, (err, result)=>{
+        if (err){ 
+          console.log(err);
+          res.status(500).json(err);
+        }
         res.status(201).json(result);
       })
     }else{

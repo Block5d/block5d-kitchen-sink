@@ -30,11 +30,12 @@ import { VoteUserComponent } from './vote-user/vote-user.component';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 //Services
 import { RegistrationService } from './services/registration-user.service';
 import { FileUploadService } from './services/file-upload.service';
-import { PaginationComponent } from './pagination/pagination.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     UploadtoS3Component,
     UploadtoFireStoreComponent,
     PaginationComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,

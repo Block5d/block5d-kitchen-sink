@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
-
-module.exports = mongoose.model('user',{
+var Schema = mongoose.Schema;
+var timestamps = require('mongoose-timestamp');
+var userSchema = new Schema({
 	id: String,
 	email: String,
 	password: String,
@@ -19,3 +20,5 @@ module.exports = mongoose.model('user',{
   nationality: String,
   contactNumber: Number
 });
+userSchema.plugin(timestamps);
+module.exports = mongoose.model('user',userSchema);

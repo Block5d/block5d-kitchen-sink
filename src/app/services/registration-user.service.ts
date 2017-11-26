@@ -33,32 +33,14 @@ export class RegistrationService {
      .pipe(catchError(this.handleError<RegistrationUser>('updateUser')));
   };
 
-  public searchUsersByFullName(model) {
-    return this.getAllUsers(`${this.usersURL}?keyword=${model.keyword}&sortBy=
-    ${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`)
-     .pipe(catchError(this.handleError<RegistrationUser[]>('searchUsersByFullName')));
-  }
-
-  public searchUsersByFullNamePagination(model, currentPerPage: number, itemsPerPage: number) {
-    console.log("itemsPerPage >>>>" + itemsPerPage);
-    console.log("currentPerPage >>>" +  currentPerPage);
-    
-    return this.httpClient.get(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
-    &currentPerPage=${currentPerPage}&itemsPerPage=${itemsPerPage}`, httpOptions)
-    
-  }
-
   public countUsers(keyword){
     return this.httpClient.get(`${this.usersURL}/count?keyword=${keyword}`, httpOptions);
   }
 
-  public getAllUsers(url) {
-    var getURL = this.usersURL + '?record=all';
-    if(url){
-      getURL = url;
-    }
+  public getAllUsers(model) : Observable<RegistrationUser[]> {
+    var getURL = `${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`;
     return this.httpClient.get<RegistrationUser[]>(getURL, httpOptions)
-    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')));
+      .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')));
   }
 
   public deleteUser(user){

@@ -16,12 +16,11 @@
         </select>
       </div>
       <div class="col-lg-2">
-        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search !</button>
+        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
       </div>
     </form>
   </div>
-  {{ totalItems}} {{ currentPage }} {{maxSize}} {{numPages}}
-  <div *ngIf="(users | async)?.length > 0" class="row">
+  <div *ngIf="(result)?.length > 0" class="row">
       <div class="col-xs-12 col-12 col-md-6">
         <pagination
           class="pagination-sm"
@@ -37,9 +36,10 @@
       </div>
     </div>
      
-  <pre *ngIf="(users | async)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+  <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
   <hr>
-  <table *ngIf="(users | async)?.length > 0" class="table">
+  <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
+  <table *ngIf="(result)?.length > 0" class="table">
         <thead>
           <tr>
             <th>#</th>
@@ -49,7 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of users | async">
+          <tr *ngFor="let user of result">
             <th scope="row">{{user._id}}</th>
             <td>{{user.fullname}}</td>
             <td>{{user.dateOfBirth | date:medium}}</td>
@@ -63,5 +63,6 @@
           
         </tbody>
     </table>
-    <div *ngIf="(users | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
+    <div *ngIf="(result)?.length==0"><p class="font-weight-bold">No record found.</p></div>
 </div>
+

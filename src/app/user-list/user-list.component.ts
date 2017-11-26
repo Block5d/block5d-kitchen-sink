@@ -6,6 +6,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import * as _ from 'lodash';
+import { SearchUsrCriteria } from '../shared/search-user';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -19,24 +21,30 @@ export class UserListComponent implements OnInit {
   bsValue: Date = new Date();
   submitted = false;
   private editUser: RegistrationUser;
+  maxSize: number = 5;
+  totalItems: number = 0;
+  currentPage: number = 1;
+  numPages: number = 0;
+  inited: boolean = false;
+  itemsPerPage: number = +environment.itemPerPage;
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
-  
+  model = new SearchUsrCriteria('', '', this.currentPage, this.itemsPerPage);
+  showSpinner = true;
+
   constructor(private registrationService: RegistrationService,
     private toastyService:ToastyService, 
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService) { 
-    this.users = this.getAllUsers()
-      .do(console.log)
-      .map(data => _.values(data));
+    this.users = this.registrationService.getAllUsers(this.model);
   }
 
   ngOnInit() {
-    // not mandatory
+    this.users.subscribe((x) => {
+      this.showSpinner = false;
+      this.totalItems = x.length;
+      //this.numPages = x.length / this.itemsPerPage;
+    });
     
-  }
-
-  getAllUsers(){
-    return this.registrationService.getAllUsers(null);
   }
 
   edit(user, template: TemplateRef<any>) {
@@ -66,9 +74,7 @@ export class UserListComponent implements OnInit {
 
   onDelete(user){
     this.registrationService.deleteUser(user as RegistrationUser).subscribe((user)=> user);
-    this.users = this.getAllUsers()
-      .do(console.log)
-      .map(data => _.values(data));
+    this.users = this.registrationService.getAllUsers(this.model);
     this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
     
   }
@@ -78,7 +84,7 @@ export class UserListComponent implements OnInit {
         title: title,
         msg: msg,
         showClose: true,
-        timeout: 1500,
+        timeout: 3000,
         theme: 'bootstrap',
         onAdd: (toast:ToastData) => {
             console.log('Toast ' + toast.id + ' has been added!');
