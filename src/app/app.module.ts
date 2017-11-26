@@ -34,6 +34,7 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 //Services
 import { RegistrationService } from './services/registration-user.service';
 import { FileUploadService } from './services/file-upload.service';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { FileUploadService } from './services/file-upload.service';
     FileUploadComponent,
     UploadtoS3Component,
     UploadtoFireStoreComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,

@@ -26,12 +26,13 @@
         <pagination
           class="pagination-sm"
           [boundaryLinks]="true"
+          [rotate]="false"
           [totalItems]="totalItems"
           [(ngModel)]="currentPage"
           [itemsPerPage]="itemsPerPage"
           [maxSize]="maxSize"
           (pageChanged)="pageChanged($event)"
-          (numPages)="numPages1 = $event">
+          (numPages)="numPages = $event">
         </pagination>
       </div>
     </div>

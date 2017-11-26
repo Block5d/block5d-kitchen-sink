@@ -89,8 +89,13 @@ module.exports = function(app){
 
   /** count all users */
   app.get(`${USERS_API_URL}/count`, (req, res)=>{
-    
-    User.find().count(function (err, count) {
+    var keyword = req.query.keyword;
+    var query = {};
+    console.log(keyword);
+    if(typeof keyword != ''){ 
+      query = { fullname: {$regex: '.*' + keyword + '.*'}};
+    }
+    User.find(query).count(function (err, count) {
       if (err) {
         console.log(err);
         res.status(500).send(err);
@@ -102,7 +107,7 @@ module.exports = function(app){
   //READ USER
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
-    
+    console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
     let currentPerPage = req.query.currentPerPage;
@@ -119,7 +124,7 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
-    
+    console.log(query);
     if(isAllRecord == 'all'){
       User.find({} ,function (err, users) {
         

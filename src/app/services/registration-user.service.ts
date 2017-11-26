@@ -43,13 +43,13 @@ export class RegistrationService {
     console.log("itemsPerPage >>>>" + itemsPerPage);
     console.log("currentPerPage >>>" +  currentPerPage);
     
-    return this.httpClient.get<RegistrationUser[]>(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
+    return this.httpClient.get(`${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}
     &currentPerPage=${currentPerPage}&itemsPerPage=${itemsPerPage}`, httpOptions)
-    .pipe(catchError(this.handleError<RegistrationUser[]>('searchUsersByFullNamePagination')));
+    
   }
 
-  public countUsers(){
-    return this.httpClient.get(`${this.usersURL}/count`, httpOptions);
+  public countUsers(keyword){
+    return this.httpClient.get(`${this.usersURL}/count?keyword=${keyword}`, httpOptions);
   }
 
   public getAllUsers(url) {
