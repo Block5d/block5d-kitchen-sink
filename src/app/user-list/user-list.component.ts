@@ -42,7 +42,6 @@ export class UserListComponent implements OnInit {
     this.users.subscribe((x) => {
       this.showSpinner = false;
       this.totalItems = x.length;
-      //this.numPages = x.length / this.itemsPerPage;
     });
     
   }

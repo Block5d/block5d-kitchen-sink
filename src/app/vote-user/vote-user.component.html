@@ -7,7 +7,7 @@
       <p class="card-text">Do you like me or not ?</p>
       <select class="form-control dropdown" #voteUser="ngModel" id="voteUser" [(ngModel)]="model.voteUser" [ngModelOptions]="{standalone: true}"
       (ngModelChange)="onChange($event)">
-      <option *ngFor="let user of users" [ngValue]="user.fullname">{{user.fullname}}</option>
+      <option *ngFor="let user of users | async" [ngValue]="user.fullname">{{user.fullname}}</option>
       </select>
 
       <br>
