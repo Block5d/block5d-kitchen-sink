@@ -14,12 +14,11 @@ const httpOptions = {
 @Injectable()
 export class RegistrationService {
   private usersURL = 'http://localhost:4201/api/v1/users';
-  constructor(private httpClient:HttpClient,
-    private toastyService:ToastyService, 
+  constructor(private httpClient: HttpClient,
+    private toastyService: ToastyService,
     private toastyConfig: ToastyConfig) {
 
   }
-  
   public saveRegisteredUser(user){
     console.log(user);
     return this.httpClient.post(this.usersURL, user, httpOptions)
@@ -63,17 +62,17 @@ export class RegistrationService {
     };
   }
 
-  addErrorToast(title,msg) {
-    var toastOptions:ToastOptions = {
+  addErrorToast(title, msg) {
+    var toastOptions: ToastOptions = {
         title: title,
         msg: msg,
         showClose: true,
         timeout: 3500,
         theme: 'bootstrap',
-        onAdd: (toast:ToastData) => {
+        onAdd: (toast: ToastData) => {
             console.log('Toast ' + toast.id + ' has been added!');
         },
-        onRemove: function(toast:ToastData) {
+        onRemove: function(toast: ToastData) {
             console.log('Toast ' + toast.id + ' has been removed!');
         }
     };

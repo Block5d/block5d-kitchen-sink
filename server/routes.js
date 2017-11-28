@@ -38,12 +38,8 @@ module.exports = function(app){
     var query = {};
     
     console.log('GET /api/v1/users');
-    console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
-    console.log(sortBy);
-    console.log(keyword);
-    console.log(keyword != 'undefined');
     if(typeof keyword == 'undefined'){
       keyword = "";
     }
@@ -54,7 +50,6 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
-    console.log(query);
     User.find(query ,function (err, users) {
 
       if (err) {

@@ -8,5 +8,4 @@ import { TemplateRef } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-  
 }

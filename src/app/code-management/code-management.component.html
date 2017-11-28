@@ -1,0 +1,151 @@
+<div class="container">
+  <div class="jumbotron">
+    <form #searchCodeForm="ngForm" class="row">
+      <div class="input-group col-xl-8">
+        <input id="keyword" #keyword="ngModel" name="keyword" type="text" [(ngModel)]="searchcode.keyword" placeholder="Search for"
+          class="form-control" required/>
+        <select class="form-control" [(ngModel)]="searchcode.type" name="type">
+          <option value="Code">Code</option>
+          <option value="CodeDesc">Code Desc.</option>
+          <option value="CateDesc">Category Desc.</option>
+          <option value="CateCode">Category Code</option>
+        </select>
+      </div>
+      <div class="col-xl-4 col-md-12 col-xs-12 col-sm-12 col-12">
+        <button (click)="search()" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+        <button id="addcodeBtn" type="button" class="btn btn-success" (click)="openModal(addcodemodel)">addCode</button>
+        <button id="addcategoryBtn" type="button" class="btn btn-success" (click)="openModal(addcategorymodel)">addCategory</button>
+      </div>
+    </form>
+  </div>
+  <table *ngIf="(resultcode | async)?.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Code Description</th>
+        <th>Code</th>
+        <th>Category Description</th>
+        <th>Category Code</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let result of resultcode | async">
+        <!--<tr *ngFor="let user of users | async">-->
+        <th scope="row">{{result._id}}</th>
+        <td>{{result.code_details.code_desc}}</td>
+        <td>{{result.code_details.code}}</td>
+        <td>{{result.category_details.categoryDesc}}</td>
+        <td>{{result.category_details.categoryCode}}</td>
+        <td>{{result.created_date | date:'y-MM-dd'}}</td>
+        <td>{{result.modified_date | date:'y-MM-dd'}}</td>
+        <td>
+          <button class="btn btn-primary" title="edit" (click)="edit(result,editmodel)">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger" title="delete" (click)="delete(result)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div *ngIf="(resultcode | async)?.length==0">
+    <p class="font-weight-bold">No record found.</p>
+  </div>
+</div>
+<ng-template #editmodel>
+  <div class="modal-body">
+    <h2>Edit code</h2>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="codeDesc">Code Description</label>
+        <input type="text" class="form-control" id="codeDesc" [(ngModel)]="editcode.code_desc" name="codeDesc">
+      </div>
+      <div class="form-group">
+        <label for="code">Code</label>
+        <input type="text" class="form-control" id="code" [(ngModel)]="editcode.code" name="code">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox">Is Category
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="gennder">Category</label>
+        <select class="form-control" id="gennder">
+          <option>Geneder</option>
+          <option>Currencies</option>
+        </select>
+      </div>
+      <h2>Edit Category</h2>
+      <div class="form-group">
+        <label for="categorydesc">Category Description</label>
+        <input type="text" class="form-control" id="categorydesc" [(ngModel)]="editcode.categoryDesc" name="categorydesc" disabled>
+      </div>
+      <div class="form-group">
+        <label for="categorycode">Category Code</label>
+        <input type="text" class="form-control" id="categorycode" [(ngModel)]="editcode.categoryCode" name="categorycode">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" [(ngModel)]="editcode.is_category" name="checkbox">Is Category
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn" (click)="saveeditcode()">Save</button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #addcodemodel>
+  <div class="modal-body">
+    <h2>Add code</h2>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="codeDesc">Code Description</label>
+        <input type="text" class="form-control" id="codeDesc" [(ngModel)]="addcode.code_desc" name="codeDesc">
+      </div>
+      <div class="form-group">
+        <label for="code">Code</label>
+        <input type="text" class="form-control" id="code" [(ngModel)]="addcode.code" name="code">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox">Is Category
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="gennder">Category</label>
+        <select class="form-control" id="gennder">
+          <option>Geneder</option>
+        </select>
+      </div>
+      <button type="submit" class="btn" (click)="saveaddcode()">Save</button>
+      <button type="reset" class="btn">Reset</button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #addcategorymodel>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <h2>Add Category</h2>
+      <div class="form-group">
+        <label for="categorydesc">Category Description</label>
+        <input type="text" class="form-control" id="categorydesc" [(ngModel)]="addcategor.categoryDesc" name="categorydesc">
+      </div>
+      <div class="form-group">
+        <label for="categorycode">Category Code</label>
+        <input type="text" class="form-control" id="categorycode" [(ngModel)]="addcategor.categoryCode" name="categorycode">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" [(ngModel)]="addcategor.is_category" name="checkbox">Is Category
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn" (click)="savecategory()">Save</button>
+      <button type="reset" class="btn">Reset</button>
+    </form>
+  </div>
+</ng-template>

@@ -22,9 +22,9 @@ export class UserListComponent implements OnInit {
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
   
   constructor(private registrationService: RegistrationService,
-    private toastyService:ToastyService, 
+    private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
-    private modalService: BsModalService) { 
+    private modalService: BsModalService) {
     this.users = this.getAllUsers();
     console.log(this.users);
   }
@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     
   }
 
-  getAllUsers(){
+  getAllUsers() {
     return this.registrationService.getAllUsers(null);
   }
 
