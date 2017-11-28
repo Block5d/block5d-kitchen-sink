@@ -18,15 +18,16 @@ export class CodeManagementComponent implements OnInit {
   codenum: number;
   addcategory = new AddCategory('', '', true);
   addcode = new AddCodeMana(null, '', '', '', '', true, new Date(), new Date(), '', '', '');
+  categoryDesc;
   private editcode: AddCodeMana;
   private resultcode: Observable<AddCodeMana[]>;
+  private category: Observable<AddCategory[]>;
   constructor(
     private modalService: BsModalService,
     private codemanaservice: CodeManaService,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
-    this.codenumber();
   }
   ngOnInit() {
   }
@@ -36,8 +37,14 @@ export class CodeManagementComponent implements OnInit {
       this.codenum = number + 1;
     });
   }
+  getcategory() {
+    this.category = this.codemanaservice.getcategroy();
+  }
   openModal(template: TemplateRef<any>) {
     this.codenumber();
+    this.getcategory();
+    console.log(this.category);
+    console.log(this.categoryDesc);
     this.modalRef = this.modalService.show(template);
   }
   delete(result) {
@@ -64,7 +71,8 @@ export class CodeManagementComponent implements OnInit {
     this.modalRef2.hide();
   }
   savecategory() {
-    this.codemanaservice.addcategor(this.addcategory).subscribe();
+    console.log(this.addcategory);
+    this.codemanaservice.addcategory(this.addcategory).subscribe();
   }
   saveaddcode() {
     this.addcode._id = this.codenum;

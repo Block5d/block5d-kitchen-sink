@@ -25,12 +25,15 @@ export class CodeManaService {
       return this.httpClient.get<AddCodeMana[]>(url, httpOptions);
     }
   }
+  getcategroy() {
+    return this.httpClient.get<AddCategory[]>(this.addcategroy, httpOptions);
+  }
   addcode(code) {
     return this.httpClient.post(this.addcodeurl, code, httpOptions)
       .pipe(catchError(this.handleError<AddCodeMana>('post')));
   }
-  addcategor(categroy) {
-    return this.httpClient.post(this.addcategroy, categroy, httpOptions);
+  addcategory(category) {
+    return this.httpClient.post(this.addcategroy, category, httpOptions);
   }
   deletecode(code) {
     let deleteParms = new HttpParams().set('_id', code._id);

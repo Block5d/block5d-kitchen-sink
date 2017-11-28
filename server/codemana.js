@@ -82,6 +82,28 @@ module.exports = function (app) {
         }
     })
     app.post(addcategory,(req,res)=>{
-
+        let getcategory = req.body;
+        let newcategory = new categroy();
+        newcategory.categoryDesc = getcategory.categoryDesc;
+        newcategory.categoryCode = getcategory.categoryCode;
+        newcategory.is_category = getcategory.is_category;
+        var error = newcategory.validateSync();
+        if (!error) {
+            newcategory.save(function (err, result) {
+                res.status(201).json(result);
+            });
+        } else {
+            console.log(error);
+            res.status(500).send(error);
+        }
+    })
+    app.get(addcategory,(req,res)=>{
+        categroy.find((err, result)=>{
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+            res.status(200).json(result);
+        })
     })
 }
