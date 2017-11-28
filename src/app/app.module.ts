@@ -14,7 +14,8 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
 import { PopoverModule } from 'ngx-bootstrap';
-
+import { SelectModule } from 'ng2-select';
+import { AgmCoreModule } from '@agm/core';
 
 // Components
 import { AppComponent } from './app.component';
@@ -35,6 +36,12 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 //Services
 import { RegistrationService } from './services/registration-user.service';
 import { FileUploadService } from './services/file-upload.service';
+import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
+import { ProjectSubmissionService } from './services/project-submission.service';
+import { PersonManagementComponent } from './person-management/person-management.component';
+import { PersonManagementService } from './services/person-management.service';
+import { AddProjectComponent } from './add-project/add-project.component';
+import { AddProjectService } from './services/add-project.service';
 
 
 @NgModule({
@@ -53,6 +60,9 @@ import { FileUploadService } from './services/file-upload.service';
     FileUploadComponent,
     UploadtoS3Component,
     UploadtoFireStoreComponent,
+    ProjectSubmissionComponent,
+    PersonManagementComponent,
+    AddProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,9 +80,14 @@ import { FileUploadService } from './services/file-upload.service';
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    SelectModule,
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyDcUr3um3aXl67B1kWg_Q3Cos4EjC-X2uo",
+      libraries: ["places"]
+    })
   ],
-  providers: [ RegistrationService, FileUploadService ],
+  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, AddProjectService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

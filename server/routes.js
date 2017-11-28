@@ -25,7 +25,7 @@ module.exports = function(app){
         res.status(201).json(result);
       });
     }else{
-      console.log(error);
+      //console.log(error);
       assert.equal(error.errors['address'].message,
         'Address must be above 6 chars');
       res.status(500).json(error);
@@ -37,13 +37,13 @@ module.exports = function(app){
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
     
-    console.log('GET /api/v1/users');
-    console.log(req);
+    //console.log('GET /api/v1/users');
+    //console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
-    console.log(sortBy);
-    console.log(keyword);
-    console.log(keyword != 'undefined');
+    //console.log(sortBy);
+    console.log(typeof(keyword));
+    //console.log(keyword != 'undefined');
     if(typeof keyword == 'undefined'){
       keyword = "";
     }
@@ -54,11 +54,11 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
-    console.log(query);
+    console.log(req.query);
     User.find(query ,function (err, users) {
 
       if (err) {
-        console.log(err);
+        //console.log(err);
         res.status(500).send(err);
       }
       res.status(200).json(users);
@@ -86,7 +86,7 @@ module.exports = function(app){
         res.status(201).json(result);
       })
     }else{
-      console.log(error);
+      //console.log(error);
       assert.equal(error.errors['address'].message,
         'Address must be above 6 chars');
       res.status(500).json(error);
@@ -95,10 +95,10 @@ module.exports = function(app){
 
   // DELETE USER
   app.delete(USERS_API_URL, (req, res)=>{
-    console.log("delete ... user ");
-    console.log(req);
+    //console.log("delete ... user ");
+    //console.log(req);
     var deleteUserId = req.query._id;
-    console.log(deleteUserId);
+    //console.log(deleteUserId);
     User.findByIdAndRemove({_id: deleteUserId},(err,result)=>{
       if(err){
         res.status(500).send(err);

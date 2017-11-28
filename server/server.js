@@ -16,6 +16,8 @@ app.use(bodyParser.json({ limit: '50mb'}));
 app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 
 require('./routes')(app);
+require('./route')(app);
+require('./p-routes')(app);
 
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);

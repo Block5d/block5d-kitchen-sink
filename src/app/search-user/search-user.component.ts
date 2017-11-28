@@ -10,11 +10,10 @@ import { RegistrationUser } from '../shared/registration-user';
   styleUrls: ['./search-user.component.css']
 })
 export class SearchUserComponent implements OnInit {
-  
   sorts = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
+  keyword = [ { desc: "email", value: "1"}, {desc: "Descending", value: "-1"}];
   private users: Observable<RegistrationUser[]>;
-  model = new SearchUsrCriteria('', '');
-  userCount = 0;
+  model = new SearchUsrCriteria('','');
 
   constructor(private registrationService: RegistrationService,) { }
 

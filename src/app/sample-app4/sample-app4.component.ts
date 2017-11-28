@@ -8,6 +8,7 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty
 import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { RegUserComponent } from '../reg-user/reg-user.component';
+import { SelectComponent } from 'ng2-select';
 
 
 // export function getAccordionConfig(): AccordionConfig {
@@ -18,6 +19,7 @@ import { RegUserComponent } from '../reg-user/reg-user.component';
   selector: 'app-sample-app4',
   templateUrl: './sample-app4.component.html',
   styleUrls: ['./sample-app4.component.css'],
+  
   //providers: [{ provide: AccordionConfig, useFactory: getAccordionConfig }]
 })
 
@@ -33,7 +35,7 @@ export class SampleApp4Component implements OnInit {
   minDate: Date;
   maxDate: Date;
   modalRef: BsModalRef;
-  colorTheme = 'theme-green';
+  colorTheme = 'theme-greenß';
 
   nationalities = [
     { desc: "Chinese", value: "CNY" },
@@ -44,12 +46,12 @@ export class SampleApp4Component implements OnInit {
 
 
   status: any = {
-    isUsed: false,
+    isUsed: true,
     isOpen: false
   };
 
   constructor(
-    private registrationService: RegistrationService,
+    private registrationService: RegistrationService, 
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService
@@ -86,7 +88,7 @@ export class SampleApp4Component implements OnInit {
       });
   }
 
-  onChange(evt){
+  onChange(evt) {
     // TODO ...
   }
 
@@ -115,5 +117,47 @@ export class SampleApp4Component implements OnInit {
       pop.show();
     });
   }
+
+
+
+
+  public items:Array<string> = ['Amsterdam', 'Antwerp', 'Athens', 'Barcelona',
+  'Berlin', 'Birmingham', 'Bradford', 'Bremen', 'Brussels', 'Bucharest',
+  'Budapest', 'Cologne', 'Copenhagen', 'Dortmund', 'Dresden', 'Dublin',
+  'Düsseldorf', 'Essen', 'Frankfurt', 'Genoa', 'Glasgow', 'Gothenburg',
+  'Hamburg', 'Hannover', 'Helsinki', 'Kraków', 'Leeds', 'Leipzig', 'Lisbon',
+  'London', 'Madrid', 'Manchester', 'Marseille', 'Milan', 'Munich', 'Málaga',
+  'Naples', 'Palermo', 'Paris', 'Poznań', 'Prague', 'Riga', 'Rome',
+  'Rotterdam', 'Seville', 'Sheffield', 'Sofia', 'Stockholm', 'Stuttgart',
+  'The Hague', 'Turin', 'Valencia', 'Vienna', 'Vilnius', 'Warsaw', 'Wrocław',
+  'Zagreb', 'Zaragoza', 'Łódź'];
+
+private value:any = {};
+private _disabledV:string = '0';
+
+private get disabledV():string {
+  return this._disabledV;
+}
+
+private set disabledV(value:string) {
+  this._disabledV = value;
+  this.disabled = this._disabledV === '1';
+}
+
+public selected(value:any):void {
+  console.log('Selected value is: ', value);
+}
+
+public removed(value:any):void {
+  console.log('Removed value is: ', value);
+}
+
+public typed(value:any):void {
+  console.log('New search input: ', value);
+}
+
+public refreshValue(value:any):void {
+  this.value = value;
+}
 
 }
