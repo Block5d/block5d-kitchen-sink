@@ -30,20 +30,24 @@ export class UserListComponent implements OnInit {
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
   model = new SearchUsrCriteria('', '', this.currentPage, this.itemsPerPage);
   showSpinner = true;
+  config = {
+    animated: true,
+    keyboard: true,
+    backdrop: true,
+  };
 
   constructor(private registrationService: RegistrationService,
-    private toastyService:ToastyService, 
+    private toastyService:ToastyService,
     private toastyConfig: ToastyConfig,
-    private modalService: BsModalService) { 
-    this.users = this.registrationService.getAllUsers(this.model);
-  }
+    private modalService: BsModalService) {
+      this.users = this.registrationService.getAllUsers(this.model);
+    }
 
   ngOnInit() {
     this.users.subscribe((x) => {
       this.showSpinner = false;
       this.totalItems = x.length;
     });
-    
   }
 
   edit(user, template: TemplateRef<any>) {
@@ -52,30 +56,27 @@ export class UserListComponent implements OnInit {
     console.log(user.dateOfBirth);
     console.log(user.nationality);
     console.log(user.gender);
-    
     this.editUser.dateOfBirth = new Date(user.dateOfBirth);
     console.log(this.editUser.dateOfBirth);
     console.log(this.editUser);
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, Object.assign({}, this.config, { class: 'gray modal-lg' }));
   }
 
-  onEdit(){
-    console.log("Saving edit ...");
-    this.registrationService.updateUser(this.editUser as RegistrationUser).subscribe((user)=> user);
+  onEdit() {
+    console.log('Saving edit');
+    this.registrationService.updateUser(this.editUser as RegistrationUser).subscribe((user) => user);
     this.addSuccessToast('Successfully updated', `Saved ${this.editUser.fullname}`);
     this.modalRef.hide();
-    
   }
 
-  onCancel(){
+  onCancel() {
     this.modalRef.hide();
   }
 
-  onDelete(user){
+  onDelete(user) {
     this.registrationService.deleteUser(user as RegistrationUser).subscribe((user)=> user);
     this.users = this.registrationService.getAllUsers(this.model);
     this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
-    
   }
 
   addSuccessToast(title,msg) {
