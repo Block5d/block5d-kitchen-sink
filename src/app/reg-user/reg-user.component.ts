@@ -21,7 +21,6 @@ export class RegUserComponent implements OnInit {
   ){
 
   }
-
   onSubmit() {
     console.log("on submit ... " + this.submitted);
     console.log(`on submit ... ${this.submitted}`);
@@ -32,6 +31,8 @@ export class RegUserComponent implements OnInit {
         this.addSuccessToast('Successfully added', `Added ${this.model.fullname}`);
       });
   }
+
+
 
   onChange(evt){
     // TODO ...

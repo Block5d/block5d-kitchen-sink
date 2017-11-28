@@ -5,7 +5,8 @@ import { RegistrationCompany } from '../shared/reg-company'
 import { ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import { RegCompanyService } from '../services/reg-company.service';
 import { Observable } from 'rxjs/Observable';
-import { SearchCompany } from '../shared/search-company'
+import { SearchCompany } from '../shared/search-company';
+
 @Component({
   selector: 'app-companymanagement',
   templateUrl: './companymanagement.component.html',
@@ -69,18 +70,6 @@ export class CompanymanagementComponent implements OnInit {
       this.modalRef.hide();
     });
   }
-  // getAllUsers(keyword:string ):any;
-  // getAllUsers(keyword:null):any;
-  // getAllUsers(keyword):any{
-  //   if (typeof keyword == null){
-  //     console.log(keyword);
-  //     return  this.registrationService.getAllUsers(null);
-  //   }else 
-  //   if(typeof keyword == "string"){
-  //     console.log(keyword);
-  //     return this.registrationService.searchUsersByFullName(keyword,1);
-  //   }
-  // }
   getAllCompanies(keyword:string,value:string):any;
   getAllCompanies(keyword:null,value?:string):any;
   getAllCompanies(keyword,value?:string):any{
@@ -115,7 +104,7 @@ export class CompanymanagementComponent implements OnInit {
     .subscribe(company => {
       //console.log("DELETE >>>>>" + user);
       this.companies = this.getAllCompanies(null);
-      this.addSuccessToast('Delete successfully', `Delete ${company.company_name}`);
+      this.addSuccessToast('Delete successfully', `Delete ${company}`);
       //this.modalRef.hide();
     });
   }

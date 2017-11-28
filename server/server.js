@@ -17,6 +17,8 @@ app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 
 require('./routes')(app);
 require('./company')(app);
+require('./user-group')(app);
+
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);
 });

@@ -19,8 +19,10 @@ import { Sampleapp2Component } from './sampleapp2/sampleapp2.component';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
 import { RegCompanyService } from './services/reg-company.service';
-import { ProjectComponent } from './project/project.component';
-import {SelectModule} from 'ng-select';
+import { SelectModule} from 'ng-select';
+import { UserGroupService } from './services/user-group.service';
+import { UserGroupComponent } from './user-group/user-group.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import {SelectModule} from 'ng-select';
     SearchUserComponent,
     Sampleapp2Component,
     CompanymanagementComponent,
-    ProjectComponent,
+    UserGroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ import {SelectModule} from 'ng-select';
     CarouselModule.forRoot(),
     SelectModule
   ],
-  providers: [ RegistrationService, RegCompanyService ],
+  providers: [ RegistrationService, RegCompanyService, UserGroupService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

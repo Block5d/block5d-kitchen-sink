@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import   'rxjs/add/operator/map';
-import { RegistrationCompany } from '../shared/reg-company'
 import { Observable} from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { RegistrationCompany } from '../shared/reg-company';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -47,7 +47,7 @@ export class RegCompanyService {
       }
       console.log(" <<<<< " + JSON.stringify(getURL));
       return this.httpClient.get<RegistrationCompany[]>(getURL, httpOptions)
-      .pipe(catchError(this.handleError<RegistrationCompany[]>('getCompies')))
+      .pipe(catchError(this.handleError<RegistrationCompany[]>('getCompanies')))
     }
   
     private handleError<T> (operation = 'operation', result?: T) {

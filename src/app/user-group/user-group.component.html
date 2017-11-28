@@ -1,0 +1,146 @@
+<div class="container">
+<div class="jumbotron">
+  <form #searchUserForm="ngForm"  novalidate class="row">
+    <div class="input-group col-lg-9">
+
+      <input  id="keyword"  #keyword="ngModel" name="keyword" type="text" [(ngModel)]="searchcondition.keyword" placeholder="Adam Smith" 
+        class="form-control" #keyword="ngModel" required/>
+      <select class="form-control"   #condition="ngModel" id="condition" [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}"
+      (ngModelChange)="onChange($event)">
+      <option *ngFor="let condition of conditions" [ngValue]="condition.value">{{condition.desc}}</option>
+    </select>  
+    <div class="col-lg-1">
+      <button type="submit" id="searchBtn" class="btn btn-primary" id="search" (click)="onSearch(company)">Search</button>
+    </div>
+    <div class="col-lg-3">
+      <button type="button" id="addBtn" class="btn btn-primary" id="add" (click)="openModal(template)">Add</button>
+    </div>
+    </div>
+  </form>
+</div>
+
+
+<table *ngIf="( groups | async)?.length > 0" class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Project Id</th>
+      <th>Group Name</th>
+      <th>Members</th>
+      <th>Created Date</th>
+      <th>Updated Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let group of groups | async">
+      <th scope="row">{{group._id}}</th>
+      <td>{{group.project_id}}</td>
+      <td>{{group.group_name}}</td>
+      <td>{{group.members}}</td>
+      <td>{{group.createdAt  | date:medium}}</td>
+      <td>{{group.modifiedAt  | date:medium}}</td>
+      <td>
+        <button class="btn btn-primary" title="edit group"
+        (click)="edit(group, template1)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        <button class="btn btn-danger" title="delete group"
+              (click)="onDelete(group)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="(groups | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
+
+</div>
+
+<ng-template #template>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+            <br>
+        <h3>Project Detail</h3>
+        <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <label for="project_id">Project id </label>
+            <input id="project_id" #project_id ="ngModel" name="project_id" type="text" [(ngModel)]="model.project_id"  
+            class="form-control" #project_id ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="group_name">Group Name</label>
+            <input id="group_name" #group_name ="ngModel" name="group_name" type="text" [(ngModel)]="model.group_name" 
+            class="form-control" #group_name ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="group_name">Members</label>
+            <ng-select [(ngModel)]="model.members" [ngModelOptions]="{standalone: true}"
+            [options]="myOptions"
+            [multiple]="true">
+            
+            </ng-select>
+          </div>
+          <div class="form-group">
+            <hr/>
+            <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-danger" (click)="regForm.reset()">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</ng-template>
+
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Project Detail</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="container-fluid">
+          <form #editform="ngForm" novalidate>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+                <div class="form-group">
+                  <label for="project_id">Project Id</label>
+                  <input id="project_id" #project_id="ngModel" name="project_id" type="text" placeholder="Adam Smith" [(ngModel)]="editGroup.project_id" 
+                  class="form-control" required />
+                  <div *ngIf="project_id.errors && (project_id.touched || submitted)">
+                    <div [hidden]="!project_id.errors.required && project_id.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="group_name">Group Name</label>
+                  <input id="group_name" #group_name="ngModel" name="group_name" type="text" placeholder="Adam Smith" [(ngModel)]="editGroup.group_name" 
+                  class="form-control" required />
+                  <div *ngIf="group_name.errors && (group_name.touched || submitted)">
+                    <div [hidden]="!group_name.errors.required && group_name.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label for="members">Members</label>
+                  <ng-select [(ngModel)]="editGroup.members" [ngModelOptions]="{standalone: true}"
+                  [options]="myOptions"
+                  [multiple]="true">
+                  </ng-select>
+                  <!-- <div *ngIf="members.errors && (members.touched || submitted)">
+                    <div [hidden]="!members.errors.required && members.dirty" class="alert alert-danger"></div>
+                      Name is required
+                    </div> -->
+                  </div> 
+                <div class="form-group">
+                  <hr/>
+                  <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+                  <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+          </div>
+          </form>
+        </div>  
+  </div>
+</ng-template>

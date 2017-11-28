@@ -72,7 +72,7 @@ export class UserListComponent implements OnInit {
     .subscribe(user => {
       console.log("DELETE >>>>>" + user);
       this.users = this.getAllUsers();
-      this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
+      this.addSuccessToast('Delete successfully', `Delete ${user}`);
       //this.modalRef.hide();
     });
   }
