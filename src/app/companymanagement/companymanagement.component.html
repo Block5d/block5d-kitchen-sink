@@ -1,0 +1,292 @@
+<div class="container">
+<div class="jumbotron">
+  <form #searchUserForm="ngForm"  novalidate class="row">
+    <div class="input-group col-lg-11">
+     <input  id="keyword"  #keyword="ngModel" name="keyword" type="text" [(ngModel)]="searchcondition.keyword" placeholder="Adam Smith"
+        class="form-control" #keyword="ngModel" width="70%"  required/>
+      <select class="form-control"   #condition="ngModel" id="condition" [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}"
+      (ngModelChange)="onChange($event)"  >
+      <option *ngFor="let condition of conditions" [ngValue]="condition.value">{{condition.desc}}</option>
+    </select>
+    <div class="col-lg-1">
+      <button type="submit" id="searchBtn" class="btn btn-primary" id="search" (click)="onSearch(company)">Search</button>
+    </div>
+    <div class="col-lg-1">
+      <button type="button" id="addBtn" class="btn btn-primary" id="add" (click)="openModal(template)">Add</button>
+    </div>
+    </div>
+  </form>
+  
+</div>
+  <table *ngIf="(companies | async)?.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Registration No.</th>
+        <th>Type</th>
+        <th>Country</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies | async">
+        <th scope="row">{{company._id}}</th>
+        <td>{{company.company_name}}</td>
+        <td>{{company.company_reg_no}}</td>
+        <td>{{company.company_type}}</td>
+        <td>{{company.country_origin}}</td>
+        <td>{{company.created_date  | date:medium}}</td>
+        <td>{{company.modified_date  | date:medium}}</td>
+        <td>
+          <button class="btn btn-primary" title="edit company"
+          (click)="edit(company, template1)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+          <button class="btn btn-danger" title="delete company"
+                (click)="onDelete(company)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<div *ngIf="(companies | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
+</div>
+
+<ng-template #template>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+            <br>
+        <h3>Company Detail</h3>
+        <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <label for="company_name">Name </label>
+            <input id="company_name" #company_name ="ngModel" name="company_name" type="text" [(ngModel)]="model.company_name" placeholder="Adam Smith" 
+            class="form-control" #company_name ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="company_reg_no">Registration No.</label>
+            <input id="company_reg_no" #company_reg_no ="ngModel" name="company_reg_no" type="text" [(ngModel)]="model.company_reg_no" 
+            class="form-control" #company_reg_no ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="country_origin">Country</label>
+            <select class="form-control" #country_origin="ngModel" id="country_origin" [(ngModel)]="model.country_origin" 
+            [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+              <option *ngFor="let country_origin of country_origins" [ngValue]="country_origin.value">{{country_origin.desc}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="company_type">Type</label>
+            <select class="form-control" #company_type="ngModel" id="company_type" [(ngModel)]="model.company_type" 
+            [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+              <option *ngFor="let company_type of company_types" [ngValue]="company_type.value">{{company_type.desc}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="address_1">Address</label>
+            <input id="address_1" #address_1 ="ngModel" name="address_1" type="text" [(ngModel)]="model.address_1" 
+            class="form-control" #address_1 ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="address_2"></label>
+            <input id="address_2" #address_2 ="ngModel" name="address_2" type="text" [(ngModel)]="model.address_2" 
+            class="form-control" #address_2 ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="address_3"></label>
+            <input id="address_3" #address_3 ="ngModel" name="address_3" type="text" [(ngModel)]="model.address_3" 
+            class="form-control" #address_3 ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="postal_code">Postal Code</label>
+            <input id="postal_code" #postal_code ="ngModel" name="postal_code" type="text" [(ngModel)]="model.postal_code" 
+            class="form-control" #postal_code ="ngModel"  required/>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input id="city" #city ="ngModel" name="city" type="text" [(ngModel)]="model.city" 
+            class="form-control" #city ="ngModel"  required/>
+          </div>
+          <br>
+          <h4>Company Contact</h4>
+          <div class="form-group">
+            <label for="phone_no">Office Number</label>
+            <input id="phone_no" #phone_no ="ngModel" name="phone_no" type="text" [(ngModel)]="model.phone_no" 
+            class="form-control" #phone_no ="ngModel" pattern="[0-8]*" required/>
+          </div>
+
+          <div class="form-group">
+            <label for="company_email">Email</label>
+            <input id="company_email" #company_email ="ngModel" name="company_email" type="text" [(ngModel)]="model.company_email" 
+            class="form-control" #company_email ="ngModel" placeholder = "you@domain.com" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
+          </div>
+          <div class="form-group">
+            <label for="fax_no">Fax Number</label>
+            <input id="fax_no" #fax_no ="ngModel" name="fax_no" type="text" [(ngModel)]="model.fax_no" 
+            class="form-control" #fax_no ="ngModel" pattern="[0-8]*" required/>
+          </div>
+          <div class="form-group">
+            <hr/>
+            <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Submit</button>
+            <button type="reset" class="btn btn-danger" (click)="regForm.reset()">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</ng-template>
+
+
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit user</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="container-fluid">
+          <form #editform="ngForm" novalidate>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+                <div class="form-group">
+                  <label for="company_name">Name</label>
+                  <input id="company_name" #company_name="ngModel" name="company_name" type="text" placeholder="Adam Smith" [(ngModel)]="editCompany.company_name" 
+                  class="form-control" required />
+                  <div *ngIf="company_name.errors && (company_name.touched || submitted)">
+                    <div [hidden]="!company_name.errors.required && company_name.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="company_reg_no">Registration No.</label>
+                  <input id="company_reg_no" #company_reg_no="ngModel" name="company_reg_no" type="text"  
+                  [(ngModel)]="editCompany.company_reg_no" class="form-control" readonly="readonly" required />
+                  <div *ngIf="company_reg_no.errors && (company_reg_no.touched || submitted)">
+                    <div [hidden]="!company_reg_no.errors.required && company_reg_no.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="country_origins">Country</label>
+                  <select class="form-control" #country_origin="ngModel" id="country_origin" [(ngModel)]="editCompany.country_origin" 
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                    <option *ngFor="let country_origin of country_origins" [ngValue]="country_origin.value">{{country_origin.desc}}</option>
+                  </select>
+                  <div *ngIf="country_origin.errors && (country_origin.touched || submitted)">
+                    <div [hidden]="!country_origin.errors.required && country_origin.dirty" class="alert alert-danger">
+                      Nationality is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="company_type">Type</label>
+                  <select class="form-control" #company_type="ngModel" id="company_type" [(ngModel)]="editCompany.company_type" 
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                    <option *ngFor="let company_type of company_types" [ngValue]="company_type.value">{{company_type.desc}}</option>
+                  </select>
+                  <div *ngIf="company_type.errors && (company_type.touched || submitted)">
+                    <div [hidden]="!company_type.errors.required && company_type.dirty" class="alert alert-danger">
+                      Nationality is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="address_1">Address</label>
+                  <input id="address_1" #address_1="ngModel" name="address_1" type="text" placeholder="Adam Smith" 
+                  [(ngModel)]="editCompany.address_1" class="form-control" required />
+                  <div *ngIf="address_1.errors && (address_1.touched || submitted)">
+                    <div [hidden]="!address_1.errors.required && address_1.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="address_2"></label>
+                  <input id="address_2" #address_2="ngModel" name="address_2" type="text" placeholder="Adam Smith" 
+                  [(ngModel)]="editCompany.address_2" class="form-control" required />
+                  <div *ngIf="address_2.errors && (address_2.touched || submitted)">
+                    <div [hidden]="!address_2.errors.required && address_2.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="address_3"></label>
+                  <input id="address_3" #address_3="ngModel" name="address_3" type="text" placeholder="Adam Smith" 
+                  [(ngModel)]="editCompany.address_3" class="form-control" required />
+                  <div *ngIf="address_3.errors && (address_3.touched || submitted)">
+                    <div [hidden]="!address_3.errors.required && address_3.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="postal_code">Postal Code</label>
+                  <input id="postal_code" #postal_code="ngModel" name="postal_code" type="text"  
+                  [(ngModel)]="editCompany.postal_code" class="form-control" required />
+                  <div *ngIf="postal_code.errors && (postal_code.touched || submitted)">
+                    <div [hidden]="!postal_code.errors.required && postal_code.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input id="city" #city="ngModel" name="city" type="text" 
+                  [(ngModel)]="editCompany.city" class="form-control" required />
+                  <div *ngIf="city.errors && (city.touched || submitted)">
+                    <div [hidden]="!city.errors.required && city.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="phone_no">Phone No</label>
+                  <input id="phone_no" #phone_no="ngModel" name="phone_no" type="text" 
+                  [(ngModel)]="editCompany.phone_no" class="form-control" pattern="[0-8]*" required />
+                  <div *ngIf="phone_no.errors && (phone_no.touched || submitted)">
+                    <div [hidden]="!phone_no.errors.required && phone_no.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="company_email">Email</label>
+                  <input id="company_email" #company_email="ngModel" name="company_email" type="text" placeholder="you@domain.com" 
+                  [(ngModel)]="editCompany.company_email" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required />
+                  <div *ngIf="company_email.errors && (company_email.touched || submitted)">
+                    <div [hidden]="!company_email.errors.required && company_email.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="fax_no">Fax</label>
+                  <input id="fax_no" #fax_no="ngModel" name="fax_no" type="text" placeholder="Adam Smith" 
+                  [(ngModel)]="editCompany.fax_no" class="form-control" pattern="[0-8]*" required />
+                  <div *ngIf="fax_no.errors && (fax_no.touched || submitted)">
+                    <div [hidden]="!fax_no.errors.required && fax_no.dirty" class="alert alert-danger">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <hr/>
+                  <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+                  <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+        
+          </div>
+          </form>
+        </div>  
+  </div>
+</ng-template>

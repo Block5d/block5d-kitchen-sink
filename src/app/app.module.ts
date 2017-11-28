@@ -2,17 +2,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AccordionModule } from 'ngx-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { RegistrationService } from './services/registration-user.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { AppRoutingModule } from './app-routing.module';
-import {ToastyModule} from 'ng2-toasty';
+import { ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { TabsModule } from 'ngx-bootstrap';
+import { Sampleapp2Component } from './sampleapp2/sampleapp2.component';
+import { CarouselModule } from 'ngx-bootstrap';
+import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+import { RegCompanyService } from './services/reg-company.service';
+import { ProjectComponent } from './project/project.component';
+import {SelectModule} from 'ng-select';
 
 @NgModule({
   declarations: [
@@ -21,6 +29,9 @@ import { TabsModule } from 'ngx-bootstrap';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+    Sampleapp2Component,
+    CompanymanagementComponent,
+    ProjectComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +41,15 @@ import { TabsModule } from 'ngx-bootstrap';
     ToastyModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AccordionModule.forRoot(),
+    ButtonsModule.forRoot(),
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    CarouselModule.forRoot(),
+    SelectModule
   ],
-  providers: [ RegistrationService ],
+  providers: [ RegistrationService, RegCompanyService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
