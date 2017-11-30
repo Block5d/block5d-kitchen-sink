@@ -11,7 +11,7 @@ import { RegistrationUser } from '../shared/registration-user';
 })
 export class SearchUserComponent implements OnInit {
   sorts = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
-  keyword = [ { desc: "email", value: "1"}, {desc: "Descending", value: "-1"}];
+  keyword = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
   private users: Observable<RegistrationUser[]>;
   model = new SearchUsrCriteria('','');
 
