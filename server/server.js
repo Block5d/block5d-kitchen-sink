@@ -29,6 +29,9 @@ app.use(bodyParser.json({ limit: '50mb'}));
 app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 app.use('/static', express.static(path.join(__dirname, '/../upload_tmp/')))
 require('./routes')(app);
+require('./route')(app);
+require('./person-routes')(app);
+require('./project-routes')(app);
 
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);

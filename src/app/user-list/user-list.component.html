@@ -59,12 +59,14 @@
         
                 <div class="form-group">
                   <label for="dob">Date of Birth</label>
+
                   <div class="input-group">
                     <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
                     <span class="input-group-btn">
                         <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
                     </span>
                   </div>
+
                   <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
                     <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="help-block alert alert-danger">
                       Date of Birth is required

@@ -22,8 +22,8 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchUserComponent implements OnInit {
-  
   sorts = [ { desc: "Ascending", value: "1"}, {desc: "Descending", value: "-1"}];
+
   users: Observable<RegistrationUser[]>;
   result: RegistrationUser[] = [];
 

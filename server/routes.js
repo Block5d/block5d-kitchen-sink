@@ -81,7 +81,7 @@ module.exports = function(app){
         res.status(201).json(result);
       });
     }else{
-      console.log(error);
+      //console.log(error);
       assert.equal(error.errors['address'].message,
         'Address must be above 6 chars');
       res.status(500).json(error);
@@ -109,6 +109,7 @@ module.exports = function(app){
   //READ USER
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
+
     //console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
@@ -126,6 +127,7 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
+
     console.log(query);
     if(isAllRecord == 'all'){
       User.find({} ,function (err, users) {
@@ -178,15 +180,18 @@ module.exports = function(app){
         res.status(201).json(result);
       })
     }else{
-      console.log(error);
+      //console.log(error);
       assert.equal(error.errors['address'].message,
         'Address must be above 6 chars');
       res.status(500).json(error);
     }
   });
 
+  // DELETE USER
   app.delete(USERS_API_URL, (req, res)=>{
+
     var deleteUserId = req.query._id;
+
     User.findByIdAndRemove({_id: deleteUserId},(err,result)=>{
       if(err){
         res.status(500).send(err);

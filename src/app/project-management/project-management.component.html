@@ -1,0 +1,987 @@
+<!-- Main -->
+<div class="container">
+  <h1>Project Management</h1>
+  <div class="jumbotron">
+    <form #searchUPersonForm="ngForm" (ngSubmit)="onSearch()" novalidate class="row">
+      <div class="input-group col-lg-7">
+
+        <input id="keyword" #keyword="ngModel" name="keyword" type="text" [(ngModel)]="smodel.keyword" placeholder="Search Person"
+          class="form-control" #keyword="ngModel" required/>
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" [(ngModel)]="smodel.type" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
+          <option value="name">Name</option>
+          <option value="project_country">Country</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+        <button class="btn btn-success" title="add person" (click)="add(template1)">Add</button>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="card card-block card-header">
+    <div class="well well-lg">
+      <p></p>
+      <accordion>
+        <accordion-group *ngFor="let project of project | async" [heading]="project._id" + "project.name" [isOpen]="isOpen">
+          <p>ID:{{project}}</p>
+          <p>NAME:{{project}}</p>
+          <p>GENDER:{{project}}</p>
+          <p>Address:{{project}}</p>
+          <p>BIRTHDAY:{{project}}</p>
+          <button class="btn btn-primary" title="edit project" (click)="edit(project, template2)">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger" title="delete project" (click)="onDelete(project)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </button>
+        </accordion-group>
+      </accordion>
+    </div>
+  </div> -->
+  <table *ngIf="(projects | async)?.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Project Name</th>
+        <th>Country</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Created By</th>
+        <th>Updated By</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects | async">
+        <th scope="row">{{project._id}}</th>
+        <td>{{project.name}}</td>
+        <th>{{project.project_country}}</th>
+        <th>{{project.start_date}}</th>
+        <th>{{project.end_date}}</th>
+        <th>{{project.created_by}}</th>
+        <th>{{project.modified_by}}</th>
+        <th>{{project.created_date}}</th>
+        <th>{{project.modified_date}}</th>
+        <td>
+          <button class="btn btn-primary" title="edit project" (click)="edit(project, template3)">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger" title="delete project" (click)="onDelete(project)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div *ngIf="(persons | async)?.length==0">
+    <p class="font-weight-bold">No record found.</p>
+  </div>
+</div>
+<!-- Add Project -->
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Project</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form #addform="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+            <div class="form-group">
+              <label for="name">Name </label>
+              <input id="name" #name="ngModel" name="name" type="text" [(ngModel)]="model.name" placeholder="Name" class="form-control"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+              <div *ngIf="name.errors && (name.touched || submitted)">
+                <div [hidden]="!name.errors.required && name.dirty" class="alert alert-danger">
+                  Name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="start_date">Start Date</label>
+              <input id="start_date" name="start_date" type="text" #start_date="ngModel" class="form-control" [(ngModel)]="model.start_date "
+                #dp="bsDatepicker" bsDatepicker required/>
+              <div *ngIf="start_date.errors && (start_date.touched || submitted)">
+                <div [hidden]="!start_date.errors.required && start_date.dirty" class="alert alert-danger">
+                  Start Date is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="end_date">End Date</label>
+              <input id="end_date" name="end_date" type="text" #end_date="ngModel" class="form-control" [(ngModel)]="model.end_date" #dp="bsDatepicker"
+                bsDatepicker required/>
+              <div *ngIf="end_date.errors && (end_date.touched || submitted)">
+                <div [hidden]="!end_date.errors.required && end_date.dirty" class="alert alert-danger">
+                  End Date is required
+                </div>
+              </div>
+            </div>
+            <div>
+              <h5>Project Members</h5>
+
+              <div class="form-group">
+                <label for="client_company">Client Company</label>
+                <select class="form-control" #client_company="ngModel" id="client_company" [(ngModel)]="model.client_company" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let client_company of client_companies" [ngValue]="client_company.value">{{client_company.desc}}</option>
+                </select>
+                <div *ngIf="client_company.errors && (client_company.touched || submitted)">
+                  <div [hidden]="!client_company.errors.required && client_company.dirty" class="alert alert-danger">
+                    Client Company is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="project_manager_person">Project Manager Person</label>
+                <select class="form-control" #project_manager_person="ngModel" id="project_manager_person" [(ngModel)]="model.project_manager_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let project_manager_person of project_manager_persons" [ngValue]="project_manager_person.value">{{project_manager_person.desc}}</option>
+                </select>
+                <div *ngIf="project_manager_person.errors && (project_manager_person.touched || submitted)">
+                  <div [hidden]="!project_manager_person.errors.required && project_manager_person.dirty" class="alert alert-danger">
+                    Project Manager Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="architect_person">Architect Person</label>
+                <select class="form-control" #architect_person="ngModel" id="architect_person" [(ngModel)]="model.architect_person" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let architect_person of architect_persons" [ngValue]="architect_person.value">{{architect_person.desc}}</option>
+                </select>
+                <div *ngIf="architect_person.errors && (architect_person.touched || submitted)">
+                  <div [hidden]="!architect_person.errors.required && architect_person.dirty" class="alert alert-danger">
+                    Architect Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="design_architect_person">Design Architect Person</label>
+                <select class="form-control" #design_architect_person="ngModel" id="design_architect_person" [(ngModel)]="model.design_architect_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let design_architect_person of design_architect_persons" [ngValue]="design_architect_person.value">{{design_architect_person.desc}}</option>
+                </select>
+                <div *ngIf="design_architect_person.errors && (design_architect_person.touched || submitted)">
+                  <div [hidden]="!design_architect_person.errors.required && design_architect_person.dirty" class="alert alert-danger">
+                    Design Architect Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity_surveyor_person">Quantity Surveyor Person</label>
+                <select class="form-control" #quantity_surveyor_person="ngModel" id="quantity_surveyor_person" [(ngModel)]="model.quantity_surveyor_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [ngValue]="quantity_surveyor_person.value">{{quantity_surveyor_person.desc}}</option>
+                </select>
+                <div *ngIf="quantity_surveyor_person.errors && (quantity_surveyor_person.touched || submitted)">
+                  <div [hidden]="!quantity_surveyor_person.errors.required && quantity_surveyor_person.dirty" class="alert alert-danger">
+                    Quantity Surveyor Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="cs_engineer_person">Consultant Engineer Person</label>
+                <select class="form-control" #cs_engineer_person="ngModel" id="cs_engineer_person" [(ngModel)]="model.cs_engineer_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let cs_engineer_person of cs_engineer_persons" [ngValue]="cs_engineer_person.value">{{cs_engineer_person.desc}}</option>
+                </select>
+                <div *ngIf="cs_engineer_person.errors && (cs_engineer_person.touched || submitted)">
+                  <div [hidden]="!cs_engineer_person.errors.required && cs_engineer_person.dirty" class="alert alert-danger">
+                    Consultant Engineer Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="service_engineer_person">Service Engineer Person</label>
+                <select class="form-control" #service_engineer_person="ngModel" id="service_engineer_person" [(ngModel)]="model.service_engineer_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let service_engineer_person of service_engineer_persons" [ngValue]="service_engineer_person.value">{{service_engineer_person.desc}}</option>
+                </select>
+                <div *ngIf="service_engineer_person.errors && (service_engineer_person.touched || submitted)">
+                  <div [hidden]="!service_engineer_person.errors.required && service_engineer_person.dirty" class="alert alert-danger">
+                    Service Engineer Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="main_contractor_company">Main Contractor Company</label>
+                <select class="form-control" #main_contractor_company="ngModel" id="main_contractor_company" [(ngModel)]="model.main_contractor_company"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let main_contractor_company of main_contractor_companies" [ngValue]="main_contractor_company.value">{{main_contractor_company.desc}}</option>
+                </select>
+                <div *ngIf="main_contractor_company.errors && (main_contractor_company.touched || submitted)">
+                  <div [hidden]="!main_contractor_company.errors.required && main_contractor_company.dirty" class="alert alert-danger">
+                    Main Contractor Company is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Subcontractors</label>
+                <ng-select [(ngModel)]="model.subcontractors" #subcontractors="ngModel" [ngModelOptions]="{standalone: true}" [options]="subcontractorses"
+                  [multiple]="true" (ngModelChange)="onChange($event)" required>
+                </ng-select>
+                <div *ngIf="subcontractors.errors && (subcontractors.touched || submitted)">
+                  <div [hidden]="!subcontractors.errors.required && subcontractors.dirty" class="alert alert-danger">
+                    Subcontractors is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Suppliers</label>
+                <ng-select [(ngModel)]="model.suppliers" #suppliers="ngModel" [ngModelOptions]="{standalone: true}" [options]="supplierses"
+                  [multiple]="true" (ngModelChange)="onChange($event)" required>
+                </ng-select>
+                <div *ngIf="suppliers.errors && (suppliers.touched || submitted)">
+                  <div [hidden]="!suppliers.errors.required && suppliers.dirty" class="alert alert-danger">
+                    Suppliers is required.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div>
+              <h5>Contact</h5>
+
+              <div class="form-group">
+                <label for="contact_no">Contact Number</label>
+                <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="model.contact_no"
+                  pattern="[0-8]*" required/>
+                <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
+                  <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
+                    Contact no. is required.
+                  </div>
+                  <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
+                    Contact no. is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="company_email">Company Email Address </label>
+                <input id="company_email" #company_email="ngModel" name="company_email" type="text" [(ngModel)]="model.company_email" placeholder="you@domain.com"
+                  class="form-control" #company_email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
+                <div *ngIf="company_email.errors && (company_email.touched || submitted)">
+                  <div [hidden]="!company_email.errors.required && company_email.dirty" class="alert alert-danger">
+                    Company Email is required.
+                  </div>
+                  <span [hidden]="!company_email.errors.pattern" class="alert alert-danger">
+                    Company Email is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="fax_no">Fax Number</label>
+                <input id="fax_no" #fax_no="ngModel" name="fax_no" type="number" class="form-control" [(ngModel)]="model.fax_no" pattern="[0-8]*"
+                  required/>
+                <div *ngIf="fax_no.errors && (fax_no.touched || submitted)">
+                  <div [hidden]="!fax_no.errors.required && fax_no.dirty" class="alert alert-danger">
+                    Fax no. is required.
+                  </div>
+                  <span [hidden]="!fax_no.errors.pattern" class="alert alert-danger">
+                    Fax no. is invalid.
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label for="project_country">Project Country</label>
+              <select class="form-control" #project_country="ngModel" id="project_country" [(ngModel)]="model.project_country" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let project_country of project_countries" [ngValue]="project_country.value">{{project_country.desc}}</option>
+              </select>
+              <div *ngIf="project_country.errors && (project_country.touched || submitted)">
+                <div [hidden]="!project_country.errors.required && project_country.dirty" class="alert alert-danger">
+                  Project Country is required.
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h5>Project Progress</h5>
+
+              <div class="form-group">
+                <label for="site_possession">Site Possession</label>
+                <input id="site_possession" #site_possession="ngModel" name="site_possession" type="text" [(ngModel)]="model.site_possession"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+                <div *ngIf="site_possession.errors && (site_possession.touched || submitted)">
+                  <div [hidden]="!site_possession.errors.required && site_possession.dirty" class="alert alert-danger">
+                    Site Possession is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="completion_date">Completion Date</label>
+                <input id="completion_date" name="completion_date" type="text" #completion_date="ngModel" class="form-control" [(ngModel)]="model.completion_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="completion_date.errors && (completion_date.touched || submitted)">
+                  <div [hidden]="!completion_date.errors.required && completion_date.dirty" class="alert alert-danger">
+                    Completion Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_currency">Contract Currency</label>
+                <select class="form-control" #contract_currency="ngModel" id="contract_currency" [(ngModel)]="model.contract_currency" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let contract_currency of contract_currencies" [ngValue]="contract_currency.value">{{contract_currency.desc}}</option>
+                </select>
+                <div *ngIf="contract_currency.errors && (contract_currency.touched || submitted)">
+                  <div [hidden]="!contract_currency.errors.required && contract_currency.dirty" class="alert alert-danger">
+                    Contract Currency is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_sum">Contract Sum</label>
+                <input id="contract_sum" #contract_sum="ngModel" name="contract_sum" type="number" class="form-control" [(ngModel)]="model.contract_sum"
+                  pattern="[0-8]*" required/>
+                <div *ngIf="contract_sum.errors && (contract_sum.touched || submitted)">
+                  <div [hidden]="!contract_sum.errors.required && contract_sum.dirty" class="alert alert-danger">
+                    Contract Sum is required.
+                  </div>
+                  <span [hidden]="!contract_sum.errors.pattern" class="alert alert-danger">
+                    Contract Sum is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_duration_base">Contract Duration Base</label>
+                <input id="contract_duration_base" name="contract_duration_base" type="text" #contract_duration_base="ngModel" class="form-control"
+                  [(ngModel)]="model.contract_duration_base" #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="contract_duration_base.errors && (contract_duration_base.touched || submitted)">
+                  <div [hidden]="!contract_duration_base.errors.required && contract_duration_base.dirty" class="alert alert-danger">
+                    Contract Duration Base is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_duration_remaining">Contract Duration Remaining</label>
+                <input id="contract_duration_remaining" name="contract_duration_remaining" type="text" #contract_duration_remaining="ngModel"
+                  class="form-control" [(ngModel)]="model.contract_duration_remaining" #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="contract_duration_remaining.errors && (contract_duration_remaining.touched || submitted)">
+                  <div [hidden]="!contract_duration_remaining.errors.required && contract_duration_remaining.dirty" class="alert alert-danger">
+                    Contract Duration Remaining is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_work_done">Percentage Work Done</label>
+                <input id="pct_work_done" #pct_work_done="ngModel" name="pct_work_done" type="number" class="form-control" [(ngModel)]="model.pct_work_done"
+                  pattern=".*" required/>
+                <div *ngIf="pct_work_done.errors && (pct_work_done.touched || submitted)">
+                  <div [hidden]="!pct_work_done.errors.required && pct_work_done.dirty" class="alert alert-danger">
+                    Percentage Work Done is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="remarks">Project Progress Remarks</label>
+                <textarea id="remarks" #remarks="ngModel" name="remarks" type="text" [(ngModel)]="model.remarks" placeholder="Remarks" class="form-control"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="site_issues">Site Issues</label>
+                <input id="site_issues" #site_issues="ngModel" name="site_issues" type="text" [(ngModel)]="model.site_issues" placeholder="Site Issues"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+              </div>
+
+            </div>
+
+            <div>
+              <h5>Project Monitoring</h5>
+
+              <div class="form-group">
+                <label for="desc">Description</label>
+                <input id="desc" #desc="ngModel" name="desc" type="text" [(ngModel)]="model.desc" placeholder="Description" class="form-control"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+                <div *ngIf="desc.errors && (desc.touched || submitted)">
+                  <div [hidden]="!desc.errors.required && desc.dirty" class="alert alert-danger">
+                    Description is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="planned_start_date">Planned Start_date</label>
+                <input id="planned_start_date" name="planned_start_date" type="text" #planned_start_date="ngModel" class="form-control" [(ngModel)]="model.planned_start_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="planned_start_date.errors && (planned_start_date.touched || submitted)">
+                  <div [hidden]="!planned_start_date.errors.required && planned_start_date.dirty" class="alert alert-danger">
+                    Planned Start Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="actual_start_date">Actual Start Date</label>
+                <input id="actual_start_date" name="actual_start_date" type="text" #actual_start_date="ngModel" class="form-control" [(ngModel)]="model.actual_start_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="actual_start_date.errors && (actual_start_date.touched || submitted)">
+                  <div [hidden]="!actual_start_date.errors.required && actual_start_date.dirty" class="alert alert-danger">
+                    Actual Start Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="planned_end_date">Planned End Date</label>
+                <input id="planned_end_date" name="planned_end_date" type="text" #planned_end_date="ngModel" class="form-control" [(ngModel)]="model.planned_end_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="planned_end_date.errors && (planned_end_date.touched || submitted)">
+                  <div [hidden]="!planned_end_date.errors.required && planned_end_date.dirty" class="alert alert-danger">
+                    Planned End Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="actual_end_date">Actual End Date</label>
+                <input id="actual_end_date" name="actual_end_date" type="text" #actual_end_date="ngModel" class="form-control" [(ngModel)]="model.actual_end_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="actual_end_date.errors && (actual_end_date.touched || submitted)">
+                  <div [hidden]="!actual_end_date.errors.required && actual_end_date.dirty" class="alert alert-danger">
+                    Actual End Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_planned">Percentage Completed Planned</label>
+                <input id="pct_completed_planned" #pct_completed_planned="ngModel" name="pct_completed_planned" type="number" class="form-control"
+                  [(ngModel)]="model.pct_completed_planned" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_planned.errors && (pct_completed_planned.touched || submitted)">
+                  <div [hidden]="!pct_completed_planned.errors.required && pct_completed_planned.dirty" class="alert alert-danger">
+                    Percentage Completed Planned is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_actual">Persontage Completed Actual</label>
+                <input id="pct_completed_actual" #pct_completed_actual="ngModel" name="pct_completed_actual" type="number" class="form-control"
+                  [(ngModel)]="model.pct_completed_actual" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_actual.errors && (pct_completed_actual.touched || submitted)">
+                  <div [hidden]="!pct_completed_actual.errors.required && pct_completed_actual.dirty" class="alert alert-danger">
+                    Percentage Completed Actual is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_1wktarget">Percentage Completed One Week Target</label>
+                <input id="pct_completed_1wktarget" #pct_completed_1wktarget="ngModel" name="pct_completed_1wktarget" type="number" class="form-control"
+                  [(ngModel)]="model.pct_completed_1wktarget" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_1wktarget.errors && (pct_completed_1wktarget.touched || submitted)">
+                  <div [hidden]="!pct_completed_1wktarget.errors.required && pct_completed_1wktarget.dirty" class="alert alert-danger">
+                    Percentage Completed One Week Target is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="remark">Monitoring Remarks</label>
+                <textarea id="remark" #remark="ngModel" name="remark" type="text" [(ngModel)]="model.remark" placeholder="Remarks" class="form-control"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <hr/>
+              <button type="submit" [disabled]="!addform.form.valid" class="btn btn-success" (click)="onSubmit()" novalidation>Submit</button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #template3>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Project</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form #editform="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+            <div class="form-group">
+              <label for="name">Name </label>
+              <input id="name" #name="ngModel" name="name" type="text" [(ngModel)]="editProject.name" placeholder="Name" class="form-control"
+                [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+              <div *ngIf="name.errors && (name.touched || submitted)">
+                <div [hidden]="!name.errors.required && name.dirty" class="alert alert-danger">
+                  Name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="start_date">Start Date</label>
+              <input id="start_date" name="start_date" type="text" #start_date="ngModel" class="form-control" [(ngModel)]="editProject.start_date"
+                #dp="bsDatepicker" bsDatepicker required/>
+              <div *ngIf="start_date.errors && (start_date.touched || submitted)">
+                <div [hidden]="!start_date.errors.required && start_date.dirty" class="alert alert-danger">
+                  Start Date is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="end_date">End Date</label>
+              <input id="end_date" name="end_date" type="text" #end_date="ngModel" class="form-control" [(ngModel)]="editProject.end_date"
+                #dp="bsDatepicker" bsDatepicker required/>
+              <div *ngIf="end_date.errors && (end_date.touched || submitted)">
+                <div [hidden]="!end_date.errors.required && end_date.dirty" class="alert alert-danger">
+                  End Date is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h5>Project Members</h5>
+
+              <div class="form-group">
+                <label for="client_company">Client Company</label>
+                <select class="form-control" #client_company="ngModel" id="client_company" [(ngModel)]="editProject.client_company" [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let client_company of client_companies" [ngValue]="client_company.value">{{client_company.desc}}</option>
+                </select>
+                <div *ngIf="client_company.errors && (client_company.touched || submitted)">
+                  <div [hidden]="!client_company.errors.required && client_company.dirty" class="alert alert-danger">
+                    Client Company is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="project_manager_person">Project Manager Person</label>
+                <select class="form-control" #project_manager_person="ngModel" id="project_manager_person" [(ngModel)]="editProject.project_manager_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let project_manager_person of project_manager_persons" [ngValue]="project_manager_person.value">{{project_manager_person.desc}}</option>
+                </select>
+                <div *ngIf="project_manager_person.errors && (project_manager_person.touched || submitted)">
+                  <div [hidden]="!project_manager_person.errors.required && project_manager_person.dirty" class="alert alert-danger">
+                    Project Manager Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="architect_person">Architect Person</label>
+                <select class="form-control" #architect_person="ngModel" id="architect_person" [(ngModel)]="editProject.architect_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let architect_person of architect_persons" [ngValue]="architect_person.value">{{architect_person.desc}}</option>
+                </select>
+                <div *ngIf="architect_person.errors && (architect_person.touched || submitted)">
+                  <div [hidden]="!architect_person.errors.required && architect_person.dirty" class="alert alert-danger">
+                    Architect Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="design_architect_person">Design Architect Person</label>
+                <select class="form-control" #design_architect_person="ngModel" id="design_architect_person" [(ngModel)]="editProject.design_architect_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let design_architect_person of design_architect_persons" [ngValue]="design_architect_person.value">{{design_architect_person.desc}}</option>
+                </select>
+                <div *ngIf="design_architect_person.errors && (design_architect_person.touched || submitted)">
+                  <div [hidden]="!design_architect_person.errors.required && design_architect_person.dirty" class="alert alert-danger">
+                    Design Architect Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity_surveyor_person">Quantity Surveyor Person</label>
+                <select class="form-control" #quantity_surveyor_person="ngModel" id="quantity_surveyor_person" [(ngModel)]="editProject.quantity_surveyor_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [ngValue]="quantity_surveyor_person.value">{{quantity_surveyor_person.desc}}</option>
+                </select>
+                <div *ngIf="quantity_surveyor_person.errors && (quantity_surveyor_person.touched || submitted)">
+                  <div [hidden]="!quantity_surveyor_person.errors.required && quantity_surveyor_person.dirty" class="alert alert-danger">
+                    Quantity Surveyor Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="cs_engineer_person">Consultant Engineer Person</label>
+                <select class="form-control" #cs_engineer_person="ngModel" id="cs_engineer_person" [(ngModel)]="editProject.cs_engineer_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let cs_engineer_person of cs_engineer_persons" [ngValue]="cs_engineer_person.value">{{cs_engineer_person.desc}}</option>
+                </select>
+                <div *ngIf="cs_engineer_person.errors && (cs_engineer_person.touched || submitted)">
+                  <div [hidden]="!cs_engineer_person.errors.required && cs_engineer_person.dirty" class="alert alert-danger">
+                    Consultant Engineer Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="service_engineer_person">Service Engineer Person</label>
+                <select class="form-control" #service_engineer_person="ngModel" id="service_engineer_person" [(ngModel)]="editProject.service_engineer_person"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let service_engineer_person of service_engineer_persons" [ngValue]="service_engineer_person.value">{{service_engineer_person.desc}}</option>
+                </select>
+                <div *ngIf="service_engineer_person.errors && (service_engineer_person.touched || submitted)">
+                  <div [hidden]="!service_engineer_person.errors.required && service_engineer_person.dirty" class="alert alert-danger">
+                    Service Engineer Person is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="main_contractor_company">Main Contractor Company</label>
+                <select class="form-control" #main_contractor_company="ngModel" id="main_contractor_company" [(ngModel)]="editProject.main_contractor_company"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let main_contractor_company of main_contractor_companies" [ngValue]="main_contractor_company.value">{{main_contractor_company.desc}}</option>
+                </select>
+                <div *ngIf="main_contractor_company.errors && (main_contractor_company.touched || submitted)">
+                  <div [hidden]="!main_contractor_company.errors.required && main_contractor_company.dirty" class="alert alert-danger">
+                    Main Contractor Company is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Subcontractors</label>
+                <ng-select [(ngModel)]="editProject.subcontractors" #subcontractors="ngModel" [ngModelOptions]="{standalone: true}" [options]="subcontractorses"
+                  [multiple]="true" (ngModelChange)="onChange($event)" required>
+                </ng-select>
+                <div *ngIf="subcontractors.errors && (subcontractors.touched || submitted)">
+                  <div [hidden]="!subcontractors.errors.required && subcontractors.dirty" class="alert alert-danger">
+                    Subcontractors is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Suppliers</label>
+                <ng-select [(ngModel)]="editProject.suppliers" #suppliers="ngModel" [ngModelOptions]="{standalone: true}" [options]="supplierses"
+                  [multiple]="true" (ngModelChange)="onChange($event)" required>
+                </ng-select>
+                <div *ngIf="suppliers.errors && (suppliers.touched || submitted)">
+                  <div [hidden]="!suppliers.errors.required && suppliers.dirty" class="alert alert-danger">
+                    Suppliers is required.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div>
+              <h5>Contact</h5>
+
+              <div class="form-group">
+                <label for="contact_no">Contact Number</label>
+                <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="editProject.contact_no"
+                  pattern="[0-8]*" required/>
+                <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
+                  <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
+                    Contact no. is required.
+                  </div>
+                  <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
+                    Contact no. is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="company_email">Company Email Address </label>
+                <input id="company_email" #company_email="ngModel" name="company_email" type="text" [(ngModel)]="editProject.company_email"
+                  placeholder="you@domain.com" class="form-control" #company_email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  required/>
+                <div *ngIf="company_email.errors && (company_email.touched || submitted)">
+                  <div [hidden]="!company_email.errors.required && company_email.dirty" class="alert alert-danger">
+                    Company Email is required.
+                  </div>
+                  <span [hidden]="!company_email.errors.pattern" class="alert alert-danger">
+                    Company Email is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="fax_no">Fax Number</label>
+                <input id="fax_no" #fax_no="ngModel" name="fax_no" type="number" class="form-control" [(ngModel)]="editProject.fax_no" pattern="[0-8]*"
+                  required/>
+                <div *ngIf="fax_no.errors && (fax_no.touched || submitted)">
+                  <div [hidden]="!fax_no.errors.required && fax_no.dirty" class="alert alert-danger">
+                    Fax no. is required.
+                  </div>
+                  <span [hidden]="!fax_no.errors.pattern" class="alert alert-danger">
+                    Fax no. is invalid.
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label for="project_country">Project Country</label>
+              <select class="form-control" #project_country="ngModel" id="project_country" [(ngModel)]="editProject.project_country" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let project_country of project_countries" [ngValue]="project_country.value">{{project_country.desc}}</option>
+              </select>
+              <div *ngIf="project_country.errors && (project_country.touched || submitted)">
+                <div [hidden]="!project_country.errors.required && project_country.dirty" class="alert alert-danger">
+                  Project Country is required.
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h5>Project Progress</h5>
+
+              <div class="form-group">
+                <label for="site_possession">Site Possession</label>
+                <input id="site_possession" #site_possession="ngModel" name="site_possession" type="text" [(ngModel)]="editProject.site_possession"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+                <div *ngIf="site_possession.errors && (site_possession.touched || submitted)">
+                  <div [hidden]="!site_possession.errors.required && site_possession.dirty" class="alert alert-danger">
+                    Site Possession is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="completion_date">Completion Date</label>
+                <input id="completion_date" name="completion_date" type="text" #completion_date="ngModel" class="form-control" [(ngModel)]="editProject.completion_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="completion_date.errors && (completion_date.touched || submitted)">
+                  <div [hidden]="!completion_date.errors.required && completion_date.dirty" class="alert alert-danger">
+                    Completion Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_currency">Contract Currency</label>
+                <select class="form-control" #contract_currency="ngModel" id="contract_currency" [(ngModel)]="editProject.contract_currency"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
+                  <option *ngFor="let contract_currency of contract_currencies" [ngValue]="contract_currency.value">{{contract_currency.desc}}</option>
+                </select>
+                <div *ngIf="contract_currency.errors && (contract_currency.touched || submitted)">
+                  <div [hidden]="!contract_currency.errors.required && contract_currency.dirty" class="alert alert-danger">
+                    Contract Currency is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_sum">Contract Sum</label>
+                <input id="contract_sum" #contract_sum="ngModel" name="contract_sum" type="number" class="form-control" [(ngModel)]="editProject.contract_sum"
+                  pattern="[0-8]*" required/>
+                <div *ngIf="contract_sum.errors && (contract_sum.touched || submitted)">
+                  <div [hidden]="!contract_sum.errors.required && contract_sum.dirty" class="alert alert-danger">
+                    Contract Sum is required.
+                  </div>
+                  <span [hidden]="!contract_sum.errors.pattern" class="alert alert-danger">
+                    Contract Sum is invalid.
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_duration_base">Contract Duration Base</label>
+                <input id="contract_duration_base" name="contract_duration_base" type="text" #contract_duration_base="ngModel" class="form-control"
+                  [(ngModel)]="editProject.contract_duration_base" #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="contract_duration_base.errors && (contract_duration_base.touched || submitted)">
+                  <div [hidden]="!contract_duration_base.errors.required && contract_duration_base.dirty" class="alert alert-danger">
+                    Contract Duration Base is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contract_duration_remaining">Contract Duration Remaining</label>
+                <input id="contract_duration_remaining" name="contract_duration_remaining" type="text" #contract_duration_remaining="ngModel"
+                  class="form-control" [(ngModel)]="editProject.contract_duration_remaining" #dp="bsDatepicker" bsDatepicker
+                  required/>
+                <div *ngIf="contract_duration_remaining.errors && (contract_duration_remaining.touched || submitted)">
+                  <div [hidden]="!contract_duration_remaining.errors.required && contract_duration_remaining.dirty" class="alert alert-danger">
+                    Contract Duration Remaining is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_work_done">Percentage Work Done</label>
+                <input id="pct_work_done" #pct_work_done="ngModel" name="pct_work_done" type="number" class="form-control" [(ngModel)]="editProject.pct_work_done"
+                  pattern=".*" required/>
+                <div *ngIf="pct_work_done.errors && (pct_work_done.touched || submitted)">
+                  <div [hidden]="!pct_work_done.errors.required && pct_work_done.dirty" class="alert alert-danger">
+                    Percentage Work Done is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="remarks">Project Progress Remarks</label>
+                <textarea id="remarks" #remarks="ngModel" name="remarks" type="text" [(ngModel)]="editProject.remarks" placeholder="Remarks"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="site_issues">Site Issues</label>
+                <input id="site_issues" #site_issues="ngModel" name="site_issues" type="text" [(ngModel)]="editProject.site_issues" placeholder="Site Issues"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+              </div>
+
+            </div>
+
+            <div>
+              <h5>Project Monitoring</h5>
+
+              <div class="form-group">
+                <label for="desc">Description</label>
+                <input id="desc" #desc="ngModel" name="desc" type="text" [(ngModel)]="editProject.desc" placeholder="Description" class="form-control"
+                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+                <div *ngIf="desc.errors && (desc.touched || submitted)">
+                  <div [hidden]="!desc.errors.required && desc.dirty" class="alert alert-danger">
+                    Description is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="planned_start_date">Planned Start_date</label>
+                <input id="planned_start_date" name="planned_start_date" type="text" #planned_start_date="ngModel" class="form-control" [(ngModel)]="editProject.planned_start_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="planned_start_date.errors && (planned_start_date.touched || submitted)">
+                  <div [hidden]="!planned_start_date.errors.required && planned_start_date.dirty" class="alert alert-danger">
+                    Planned Start Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="actual_start_date">Actual Start Date</label>
+                <input id="actual_start_date" name="actual_start_date" type="text" #actual_start_date="ngModel" class="form-control" [(ngModel)]="editProject.actual_start_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="actual_start_date.errors && (actual_start_date.touched || submitted)">
+                  <div [hidden]="!actual_start_date.errors.required && actual_start_date.dirty" class="alert alert-danger">
+                    Actual Start Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="planned_end_date">Planned End Date</label>
+                <input id="planned_end_date" name="planned_end_date" type="text" #planned_end_date="ngModel" class="form-control" [(ngModel)]="editProject.planned_end_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="planned_end_date.errors && (planned_end_date.touched || submitted)">
+                  <div [hidden]="!planned_end_date.errors.required && planned_end_date.dirty" class="alert alert-danger">
+                    Planned End Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="actual_end_date">Actual End Date</label>
+                <input id="actual_end_date" name="actual_end_date" type="text" #actual_end_date="ngModel" class="form-control" [(ngModel)]="editProject.actual_end_date"
+                  #dp="bsDatepicker" bsDatepicker required/>
+                <div *ngIf="actual_end_date.errors && (actual_end_date.touched || submitted)">
+                  <div [hidden]="!actual_end_date.errors.required && actual_end_date.dirty" class="alert alert-danger">
+                    Actual End Date is required
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_planned">Percentage Completed Planned</label>
+                <input id="pct_completed_planned" #pct_completed_planned="ngModel" name="pct_completed_planned" type="number" class="form-control"
+                  [(ngModel)]="editProject.pct_completed_planned" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_planned.errors && (pct_completed_planned.touched || submitted)">
+                  <div [hidden]="!pct_completed_planned.errors.required && pct_completed_planned.dirty" class="alert alert-danger">
+                    Percentage Completed Planned is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_actual">Persontage Completed Actual</label>
+                <input id="pct_completed_actual" #pct_completed_actual="ngModel" name="pct_completed_actual" type="number" class="form-control"
+                  [(ngModel)]="editProject.pct_completed_actual" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_actual.errors && (pct_completed_actual.touched || submitted)">
+                  <div [hidden]="!pct_completed_actual.errors.required && pct_completed_actual.dirty" class="alert alert-danger">
+                    Percentage Completed Actual is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="pct_completed_1wktarget">Percentage Completed One Week Target</label>
+                <input id="pct_completed_1wktarget" #pct_completed_1wktarget="ngModel" name="pct_completed_1wktarget" type="number" class="form-control"
+                  [(ngModel)]="editProject.pct_completed_1wktarget" pattern="[0-8]*" required/>
+                <div *ngIf="pct_completed_1wktarget.errors && (pct_completed_1wktarget.touched || submitted)">
+                  <div [hidden]="!pct_completed_1wktarget.errors.required && pct_completed_1wktarget.dirty" class="alert alert-danger">
+                    Percentage Completed One Week Target is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="remark">Monitoring Remarks</label>
+                <textarea id="remark" #remark="ngModel" name="remark" type="text" [(ngModel)]="editProject.remark" placeholder="Remarks"
+                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <hr/>
+              <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+              <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
