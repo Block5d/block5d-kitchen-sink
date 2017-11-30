@@ -14,11 +14,11 @@ import { PersonManagementService } from '../services/person-management.service';
 export class PersonManagementComponent implements OnInit {
 
   private persons: Observable<PersonManagement[]>;
-  private addPerson: PersonManagement;
   private editPerson: PersonManagement;
   model = new PersonManagement('', '', '', null, '', null, '',null,'','','','', new Date(), new Date(),'','');
   smodel = new SearchPerson('', "first_name");
   modalRef: BsModalRef;
+  bsValue: Date = new Date();
   isCollapsed: boolean = true;
   submitted: boolean = false;
 

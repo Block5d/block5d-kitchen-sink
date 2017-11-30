@@ -1,4 +1,4 @@
-export class AddProject{
+export class ProjectManagement{
     constructor(
         public name:string,
         public start_date:Date,
@@ -21,14 +21,14 @@ export class AddProject{
         public completion_date:Date,
         public contract_currency:string,
         public contract_sum:number,
-        public contract_duration_base:string,
-        public contract_duration_remaining:string,
+        public contract_duration_base:Date,
+        public contract_duration_remaining:Date,
         public pct_work_done:number,
-        public remarks:Array<string>,
-        public site_issues:Array<string>,   
+        public remarks:string,
+        public site_issues:string,   
         public desc:string,
         public planned_start_date:Date,
-        public actual_start:Date,
+        public actual_start_date:Date,
         public planned_end_date:Date,
         public actual_end_date:Date,
         public pct_completed_planned: number,
@@ -40,6 +40,15 @@ export class AddProject{
         public created_by:string,
         public modified_by:string
 
+    ){
+
+    }
+}
+
+export class SearchProject {
+    constructor(
+        public keyword: string,
+        public type:string
     ){
 
     }

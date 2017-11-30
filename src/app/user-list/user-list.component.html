@@ -59,7 +59,7 @@
         
                 <div class="form-group">
                   <label for="dob">Date of Birth</label>
-                  <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
+                  <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/> 
                   <span class="input-group-btn">
                       <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
                   </span>

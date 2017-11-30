@@ -14,7 +14,7 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
 import { PopoverModule } from 'ngx-bootstrap';
-import { SelectModule } from 'ng2-select';
+import { SelectModule } from 'ng-select';
 import { AgmCoreModule } from '@agm/core';
 
 // Components
@@ -32,6 +32,7 @@ import { VoteUserComponent } from './vote-user/vote-user.component';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
+import { ProjectManagementComponent } from './project-management/project-management.component';
 
 //Services
 import { RegistrationService } from './services/registration-user.service';
@@ -40,8 +41,7 @@ import { ProjectSubmissionComponent } from './project-submission/project-submiss
 import { ProjectSubmissionService } from './services/project-submission.service';
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { PersonManagementService } from './services/person-management.service';
-import { AddProjectComponent } from './add-project/add-project.component';
-import { AddProjectService } from './services/add-project.service';
+import { ProjectManagementService } from './services/project-management.service';
 
 
 @NgModule({
@@ -62,7 +62,7 @@ import { AddProjectService } from './services/add-project.service';
     UploadtoFireStoreComponent,
     ProjectSubmissionComponent,
     PersonManagementComponent,
-    AddProjectComponent,
+    ProjectManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +87,7 @@ import { AddProjectService } from './services/add-project.service';
       libraries: ["places"]
     })
   ],
-  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, AddProjectService ],
+  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

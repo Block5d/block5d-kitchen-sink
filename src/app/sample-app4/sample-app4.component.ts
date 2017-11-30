@@ -7,8 +7,6 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { RegUserComponent } from '../reg-user/reg-user.component';
-import { SelectComponent } from 'ng2-select';
 
 
 // export function getAccordionConfig(): AccordionConfig {

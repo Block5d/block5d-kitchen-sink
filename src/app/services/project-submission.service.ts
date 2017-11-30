@@ -23,7 +23,7 @@ export class ProjectSubmissionService {
 
   public saveProjectSubmission(prosub){
     return this.httpClient.post(this.prosubsURL, prosub, httpOptions)
-      .pipe(catchError(this.handleError<ProjectSubmission>('addUser')))
+      .pipe(catchError(this.handleError<ProjectSubmission>('addProsub')))
   };
 
   private handleError<T> (operation = 'operation', result?: T) {

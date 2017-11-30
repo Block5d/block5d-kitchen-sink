@@ -8,6 +8,7 @@ import { ParentComponentComponent } from './parent-component/parent-component.co
 import { VoteUserComponent } from './vote-user/vote-user.component';
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
 import { PersonManagementComponent } from './person-management/person-management.component';
+import { ProjectManagementComponent } from './project-management/project-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user-list', pathMatch: 'full' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'c-input', component: ParentComponentComponent },
   { path: 'vote-user', component: VoteUserComponent },
   { path: 'pro-sub', component:ProjectSubmissionComponent },
-  { path: 'per-mana',component:PersonManagementComponent }
+  { path: 'per-mana',component:PersonManagementComponent },
+  { path: 'pro-mana',component:ProjectManagementComponent }
 ];
 
 @NgModule({

@@ -44,7 +44,7 @@ module.exports = function(app){
     var query = {};
     var keyword = req.query.keyword;
     var type = req.query.type;
-    console.log(keyword);
+    //console.log(keyword);
     //console.log(type);
     if(typeof keyword == 'undefined'){
       keyword = "";
@@ -65,7 +65,7 @@ module.exports = function(app){
     //   query = `{${type}:$regex:.*${keyword}.*}}`
     //   query = { fullname: {$regex: '.*' + keyword + '.*'}};
     // } 
-    console.log(typeof(keyword))
+    //console.log(typeof(keyword))
 
     Person.find(query ,(err, persons) =>{
 

@@ -136,8 +136,8 @@
 
             <div class="form-group">
               <label for="city">City</label>
-              <select class="form-control" #city="ngModel" id="city" [(ngModel)]="model.city" [ngModelOptions]="{standalone: true}"
-                (ngModelChange)="onChange($event)" required>
+              <select class="form-control" #city="ngModel" id="city" [(ngModel)]="model.city" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)"
+                required>
                 <option *ngFor="let city of cities" [ngValue]="city.value">{{city.desc}}</option>
               </select>
               <div *ngIf="city.errors && (city.touched || submitted)">
@@ -265,41 +265,41 @@
             </div>
 
             <div class="form-group">
-                <label for="postal_code">Postal Code</label>
-                <input id="postal_code" #postal_code="ngModel" name="postal_code" type="number" class="form-control" [(ngModel)]="editPerson.postal_code"
-                  pattern="[0-8]*" required/>
-                <div *ngIf="postal_code.errors && (postal_code.touched || submitted)">
-                  <div [hidden]="!postal_code.errors.required && postal_code.dirty" class="alert alert-danger">
-                    Postal Code is required.
-                  </div>
-                  <span [hidden]="!postal_code.errors.pattern" class="alert alert-danger">
-                    Postal Code is invalid.
-                  </span>
+              <label for="postal_code">Postal Code</label>
+              <input id="postal_code" #postal_code="ngModel" name="postal_code" type="number" class="form-control" [(ngModel)]="editPerson.postal_code"
+                pattern="[0-8]*" required/>
+              <div *ngIf="postal_code.errors && (postal_code.touched || submitted)">
+                <div [hidden]="!postal_code.errors.required && postal_code.dirty" class="alert alert-danger">
+                  Postal Code is required.
+                </div>
+                <span [hidden]="!postal_code.errors.pattern" class="alert alert-danger">
+                  Postal Code is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editPerson.address" required/>
+              <div *ngIf="address.errors && (address.touched || submitted)">
+                <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                  Address is required
                 </div>
               </div>
-  
-              <div class="form-group">
-                <label for="address">Address</label>
-                <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editPerson.address" required/>
-                <div *ngIf="address.errors && (address.touched || submitted)">
-                  <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
-                    Address is required
-                  </div>
+            </div>
+
+            <div class="form-group">
+              <label for="city">City</label>
+              <select class="form-control" #city="ngModel" id="city" [(ngModel)]="editPerson.city" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let city of cities" [ngValue]="city.value">{{city.desc}}</option>
+              </select>
+              <div *ngIf="city.errors && (city.touched || submitted)">
+                <div [hidden]="!city.errors.required && city.dirty" class="alert alert-danger">
+                  City is required.
                 </div>
               </div>
-  
-              <div class="form-group">
-                <label for="city">City</label>
-                <select class="form-control" #city="ngModel" id="city" [(ngModel)]="editPerson.city" [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let city of cities" [ngValue]="city.value">{{city.desc}}</option>
-                </select>
-                <div *ngIf="city.errors && (city.touched || submitted)">
-                  <div [hidden]="!city.errors.required && city.dirty" class="alert alert-danger">
-                    City is required.
-                  </div>
-                </div>
-              </div>
+            </div>
 
             <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" popover="How to contact" triggers="mouseenter:mouseleave"
               placement="right">Contact</button>

@@ -35,10 +35,6 @@ export class RegistrationService {
     return this.getAllUsers(this.usersURL + '?keyword=' + keyword + '&sortBy=' + sortBy);
   }
 
-  public searchUsersByFullName1(keyword){
-    return this.getAllUsers(this.usersURL + '?keyword=' + keyword );
-  }
-
   public getAllUsers(url){
     var getURL = this.usersURL;
     if(url){
