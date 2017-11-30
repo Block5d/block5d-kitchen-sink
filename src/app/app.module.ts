@@ -22,6 +22,7 @@ import { RegCompanyService } from './services/reg-company.service';
 import { SelectModule} from 'ng-select';
 import { UserGroupService } from './services/user-group.service';
 import { UserGroupComponent } from './user-group/user-group.component';
+import { WorkflowComponent } from './workflow/workflow.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { UserGroupComponent } from './user-group/user-group.component';
     Sampleapp2Component,
     CompanymanagementComponent,
     UserGroupComponent,
+    WorkflowComponent
   ],
   imports: [
     BrowserModule,
