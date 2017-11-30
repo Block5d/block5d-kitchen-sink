@@ -3,10 +3,13 @@ import { AccordionConfig } from 'ngx-bootstrap/accordion';
 import { RegistrationService } from '../services/registration-user.service';
 import { RegistrationUser } from '../shared/registration-user'
 import { Observable } from 'rxjs/Observable';
+
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import * as _ from 'lodash';
+
 
 
 // export function getAccordionConfig(): AccordionConfig {
@@ -23,6 +26,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 export class SampleApp4Component implements OnInit {
   private users: Observable<RegistrationUser[]>;
+
   private editUser: RegistrationUser;
   disabled: boolean = false;
   myInterval: number = 1500;
@@ -54,12 +58,14 @@ export class SampleApp4Component implements OnInit {
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService
   ) {
+
     this.users = this.getAllUsers();
     this.minDate = new Date();
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 36500);
     this.maxDate.setDate(this.maxDate.getDate());
   }
+
 
   ngOnInit() {
   }

@@ -18,17 +18,29 @@
     </div>
     <p></p>
     <accordion>
-      <accordion-group *ngFor="let user of users | async" [heading]="user.fullname" [isDisabled]="status.isUsed" [isOpen]="status.isOpen">
-        <p>ID:{{user._id}}</p>
-        <p>NAME:{{user.fullname}}</p>
-        <p>GENDER:{{user.gender}}</p>
-        <p>Address:{{user.address}}</p>
-        <p>BIRTHDAY:{{user.dateOfBirth|date:medium}}</p>
-        <button class="btn btn-primary" title="edit user" (click)="edit(user, template2)">
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-        </button>
-        <button class="btn btn-danger" title="delete user" (click)="onDelete(user)">
-          <i class="fa fa-trash-o" aria-hidden="true"></i>
+
+      <accordion-group heading="Dispalying Users' Id" [isOpen]="status.isFirstOpen" [isDisabled]="status.isFirstDisabled">
+        <table>
+          <tr *ngFor="let user of users">
+            <td>{{user._id}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+      </accordion-group>
+      <accordion-group *ngFor="let group of groups" [heading]="group.title">
+        <table>
+          <tr *ngFor="let user of users">
+            <td>{{user.email}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+        <!-- {{ group?.content }} -->
+      </accordion-group>
+      <accordion-group heading="Dynamic Body Content">
+        <p>The body of the accordion group grows to fit the contents</p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">Add Item
         </button>
       </accordion-group>
     </accordion>

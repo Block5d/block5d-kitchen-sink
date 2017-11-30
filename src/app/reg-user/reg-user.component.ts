@@ -26,7 +26,7 @@ export class RegUserComponent implements OnInit {
     console.log("on submit ... " + this.submitted);
     console.log(`on submit ... ${this.submitted}`);
     console.log(this.model);
-    this.registrationService.saveRegisteredUser(this.model as RegistrationUser)
+    this.registrationService.saveRegisteredUser(this.model)
       .subscribe(user => {
         console.log(user);
         this.addSuccessToast('Successfully added', `Added ${this.model.fullname}`);

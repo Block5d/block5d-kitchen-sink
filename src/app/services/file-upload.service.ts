@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'multipart/form-data'})
+  //headers: new HttpHeaders({'Content-Type': 'multipart/form-data'})
 };
 
 @Injectable()
@@ -26,15 +26,8 @@ export class FileUploadService {
 
   }
 
-  public getImages(){
-    return this.httpClient.get<Fileupload[]>(this.getImagesURL, httpOptions)
-    .pipe(catchError(this.handleError<Fileupload[]>('getImages')))
-  }
-
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(" why not catching ? " + error); // log to console instead
-      JSON.stringify(error);
       this.addErrorToast("Error", error.error);
       return Observable.throw(error  || 'backend server error');
     };
