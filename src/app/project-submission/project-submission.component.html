@@ -1,0 +1,113 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+      <h1>Project Submission</h1>
+      <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="description">Description </label>
+          <input id="description" #description="ngModel" name="description" type="text" [(ngModel)]="model.description" placeholder="Description" class="form-control" 
+          [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
+          <div *ngIf="description.errors && (description.touched || submitted)">
+            <div [hidden]="!description.errors.required && description.dirty" class="alert alert-danger">
+              Description is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="authority">Authority</label>
+          <select class="form-control" #authority="ngModel" id="authority" [(ngModel)]="model.authority" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="onChange($event)" required>
+            <option *ngFor="let authority of authorities" [ngValue]="authority.value">{{authority.desc}}</option>
+          </select>
+          <div *ngIf="authority.errors && (authority.touched || submitted)">
+            <div [hidden]="!authority.errors.required && authority.dirty" class="alert alert-danger">
+              Authority is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="project_id">Project_id</label>
+          <select class="form-control" #project_id="ngModel" id="project_id" [(ngModel)]="model.project_id" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="onChange($event)" required>
+            <option *ngFor="let project_id of project_ids" [ngValue]="project_id.value">{{project_id.desc}}</option>
+          </select>
+          <p *ngIf="project_ids.length > 3">{{ 'There are many project_ids!' | uppercase}} </p>
+          <div *ngIf="project_id.errors && (project_id.touched || submitted)">
+            <div [hidden]="!project_id.errors.required && project_id.dirty" class="alert alert-danger">
+              Project_id is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ps">Planned Submission Date</label>
+          <input id="ps" name="ps" type="date" #planned_submission_date="ngModel" class="form-control" [(ngModel)]="model.planned_submission_date" value="{{ model.planned_submission_date }}"
+            required/>
+          <div *ngIf="planned_submission_date.errors && (planned_submission_date.touched || submitted)">
+            <div [hidden]="!planned_submission_date.errors.required && planned_submission_date.dirty" class="alert alert-danger">
+              Planned Submission Date is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fs">First Submission Date</label>
+          <input id="fs" name="fs" type="date" #first_submission_date="ngModel" class="form-control" [(ngModel)]="model.first_submission_date" value="{{ model.first_submission_date }}"
+            required/>
+          <div *ngIf="first_submission_date.errors && (first_submission_date.touched || submitted)">
+            <div [hidden]="!first_submission_date.errors.required && first_submission_date.dirty" class="alert alert-danger">
+              First Submission Date is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ss">Second Submission Date</label>
+          <input id="ss" name="ss" type="date" #second_submission_date="ngModel" class="form-control" [(ngModel)]="model.second_submission_date" value="{{ model.second_submission_date }}"
+            required/>
+          <div *ngIf="second_submission_date.errors && (second_submission_date.touched || submitted)">
+            <div [hidden]="!second_submission_date.errors.required && second_submission_date.dirty" class="alert alert-danger">
+              Second Submission Date is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select class="form-control" #type="ngModel" id="type" [(ngModel)]="model.type" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="onChange($event)" required>
+            <option *ngFor="let type of types" [ngValue]="type.value">{{type.desc}}</option>
+          </select>
+          <div *ngIf="type.errors && (type.touched || submitted)">
+            <div [hidden]="!type.errors.required && type.dirty" class="alert alert-danger">
+              Type is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select class="form-control" #status="ngModel" id="status" [(ngModel)]="model.status" [ngModelOptions]="{standalone: true}"
+            (ngModelChange)="onChange($event)" required>
+            <option *ngFor="let status of statuses" [ngValue]="status.value">{{status.desc}}</option>
+          </select>
+          <div *ngIf="status.errors && (status.touched || submitted)">
+            <div [hidden]="!status.errors.required && status.dirty" class="alert alert-danger">
+              Status is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <hr/>
+          <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Submit</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

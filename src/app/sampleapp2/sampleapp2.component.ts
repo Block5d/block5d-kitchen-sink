@@ -21,7 +21,7 @@ export function getAccordionConfig(): AccordionConfig {
 export class Sampleapp2Component implements OnInit {
   private users : Observable<RegistrationUser>[];
   private user: Observable<RegistrationUser>;
-  model = new SearchUsrCriteria('', '');
+  model = new SearchUsrCriteria('', '',null,null);
   minDate: Date;
   maxDate: Date;
   constructor(private registrationService: RegistrationService,private modalService: BsModalService) { 
@@ -54,7 +54,8 @@ export class Sampleapp2Component implements OnInit {
     }else 
     if(typeof keyword == "string"){
       console.log(keyword);
-      return this.registrationService.searchUsersByFullName(keyword,1);
+      return
+      //return this.registrationService.searchUsersByFullName(keyword,1);
     }
   }
   oneAtATime: boolean = true;

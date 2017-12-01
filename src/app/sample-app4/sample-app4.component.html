@@ -1,0 +1,216 @@
+<!-- Disabled Buttons -->
+<div>
+  <button type="button" class="btn btn-warning" (click)="disabled = !disabled" popover="Click me to forbid all buttons" triggers="mouseenter:mouseleave">Enable/Disable Button</button>
+</div>
+<hr>
+<!-- Accordion -->
+<hr>
+<button type="button" class="btn btn-primary" (click)="isCollapsedAccordion = !isCollapsedAccordion" [disabled]="disabled"
+  popover="Let me show the users!" triggers="mouseenter:mouseleave" placement="right">Users
+
+</button>
+<hr>
+<div [collapse]="isCollapsedAccordion" class="card card-block card-header">
+  <div class="well well-lg">
+    <div>
+      <button type="button" class="btn btn-primary btn-sm" (click)="status.isUsed = !status.isUsed" [disabled]="disabled">Enable/Disable Details</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="status.isOpen = !status.isOpen" [disabled]="disabled">Display All</button>
+    </div>
+    <p></p>
+    <accordion>
+
+      <accordion-group heading="Dispalying Users' Id" [isOpen]="status.isFirstOpen" [isDisabled]="status.isFirstDisabled">
+        <table>
+          <tr *ngFor="let user of users">
+            <td>{{user._id}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+      </accordion-group>
+      <accordion-group *ngFor="let group of groups" [heading]="group.title">
+        <table>
+          <tr *ngFor="let user of users">
+            <td>{{user.email}}</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>{{user.fullname}}</td>
+          </tr>
+        </table>
+        <!-- {{ group?.content }} -->
+      </accordion-group>
+      <accordion-group heading="Dynamic Body Content">
+        <p>The body of the accordion group grows to fit the contents</p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">Add Item
+        </button>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
+<!-- Carousel -->
+<hr>
+<button type="button" class="btn btn-primary" (click)="isCollapsedCarousel = !isCollapsedCarousel" [disabled]="disabled">Carousel
+</button>
+<hr>
+<div [collapse]="isCollapsedCarousel" class="card card-block card-header">
+  <div class="well well-lg">
+    <carousel [interval]="myInterval">
+      <slide>
+        <img src="assets/images/pic/1.jpg" alt="First slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pic/2.jpg" alt="Second slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>Second slide label</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pic/3.jpg" alt="Third slide" style="display: block; width: 100%;">
+        <div class="carousel-caption">
+          <h3>Third slide label</h3>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+        </div>
+      </slide>
+    </carousel>
+    <p></p>
+  </div>
+</div>
+<!-- ng2-select -->
+<div style="width: 300px; margin-bottom: 20px;">
+  <h3>Select a single city</h3>
+  <p></p>
+  <pre>{{value.text}}</pre>
+  <div>
+    <button type="button" class="btn btn-primary"
+            [(ngModel)]="disabledV" btnCheckbox
+            btnCheckboxTrue="1" btnCheckboxFalse="0">
+      {{disabled === '1' ? 'Enable' : 'Disable'}}
+    </button>
+  </div>
+</div>
+<!-- Edit -->
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit user</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form #editform="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+
+            <div class="form-group">
+              <label for="fullname">Full Name</label>
+              <input id="fullname" #fullname="ngModel" name="fullname" type="text" placeholder="Adam Smith" [(ngModel)]="editUser.fullname"
+                class="form-control" required />
+              <div *ngIf="fullname.errors && (fullname.touched || submitted)">
+                <alert type="danger" [hidden]="!fullname.errors.required && fullname.dirty">
+                  Full Name is required
+                </alert>
+                <!-- <div [hidden]="!fullname.errors.required && fullname.dirty" class="alert alert-danger">
+                        Full Name is required
+                      </div> -->
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <br/>
+              <input id="gender" name="gender" type="radio" [(ngModel)]="editUser.gender" value="M" />Male
+              <br/>
+              <input id="gender" name="gender" type="radio" [(ngModel)]="editUser.gender" value="F" />Female
+
+            </div>
+
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" [minDate]="minDate"
+                [maxDate]="maxDate" #dp="bsDatepicker" bsDatepicker [bsConfig]="bsConfig" [(bsValue)]="bsValue" required/>
+              <span class="input-group-btn">
+                <select name='color' class="custom-select form-control " [(ngModel)]="colorTheme" (ngModelChange)="applyTheme(dp);">
+                  <option value="theme-default">Default</option>
+                  <option value="theme-green">Green</option>
+                  <option value="theme-blue">Blue</option>
+                  <option value="theme-dark-blue">Dark-Blue</option>
+                  <option value="theme-red">Red</option>
+                  <option value="theme-orange">Orange</option>
+                </select>
+                <button class="btn btn-success" (click)="dp.toggle()">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </span>
+              <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
+                <alert type="danger" [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty">
+                  Date of Birth is required
+                </alert>
+                <!-- <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
+                  Date of Birth is required
+                </div> -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editUser.address" required/>
+              <div *ngIf="address.errors && (address.touched || submitted)">
+                <alert type="danger" [hidden]="!address.errors.required && address.dirty">
+                  Address is required
+                </alert>
+                <!-- <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                  Address is required
+                </div> -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="nationality">Nationality</label>
+              <select class="form-control" #nationality="ngModel" id="nationality" [(ngModel)]="editUser.nationality" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let nationality of nationalities" [ngValue]="nationality.value">{{nationality.desc}}</option>
+              </select>
+              <div *ngIf="nationality.errors && (nationality.touched || submitted)">
+                <alert type="danger" [hidden]="!nationality.errors.required && nationality.dirty">
+                  Nationality is required
+                </alert>
+                <!-- <div [hidden]="!nationality.errors.required && nationality.dirty" class="alert alert-danger">
+                  Nationality is required.
+                </div> -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contactNumber">Contact Number</label>
+              <input id="contactNumber" #contactNumber="ngModel" name="contactNumber" type="number" class="form-control" [(ngModel)]="editUser.contactNumber"
+                pattern="[0-8]*" required/>
+              <div *ngIf="contactNumber.errors && (contactNumber.touched || submitted)">
+                  <alert type="danger" [hidden]="!contactNumber.errors.required && contactNumber.dirty">
+                      Contact no. is required.
+                  </alert>
+                <!-- <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="alert alert-danger">
+                  Contact no. is required.
+                </div> -->
+                <span [hidden]="!contactNumber.errors.pattern" class="alert alert-danger">
+                  Contact no. is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <hr/>
+              <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+              <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

@@ -1,22 +1,18 @@
-
-
-  <div class="jumbotron">
-    <form #searchUserForm="ngForm"  novalidate class="row">
-      <div class="input-group col-lg-9">
-  
-        <!-- <input  id="keyword"  #keyword="ngModel" name="keyword" type="text" [(ngModel)]="searchcondition.keyword" placeholder="Adam Smith" 
-          class="form-control" #keyword="ngModel" required/>
-        <select class="form-control"   #condition="ngModel" id="condition" [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}"
-        (ngModelChange)="onChange($event)">
-        <option *ngFor="let condition of conditions" [ngValue]="condition.value">{{condition.desc}}</option>
-      </select>   -->
-      <div class="col-lg-1">
-        <button type="submit" id="searchBtn" class="btn btn-primary" id="search" (click)="onSearch(company)">Search</button>
-      </div>
-      <div class="col-lg-3">
-        <button type="button" id="addBtn" class="btn btn-primary" id="add" (click)="openModal(template)">Add</button>
-      </div>
-      </div>
-    </form>
+<div  class="workflow container">
+  <div  class="workflow col-xl-5">
+      <h3>Setting Up Workflow</h3>
+      <form #searchUserForm="ngForm"  novalidate class="row">
+        <div class="select-group col-xl-2">
+          <label for="project_id">Project Id</label>
+          <select class="form-control"   #project_id="ngModel" id="project_id" [(ngModel)]="model.project_id" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="onChange($event)">
+          <option *ngFor="let project_id of project_ids" [ngValue]="project_id.value">{{project_id.desc}}</option>
+          </select>
+        </div>
+      </form>
+    
   </div>
-  
+  <div  clas="workflow col-xl-7">
+      <h3>Add New Status</h3>
+  </div>
+</div>

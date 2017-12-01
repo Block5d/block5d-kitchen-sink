@@ -1,0 +1,346 @@
+<!-- Main -->
+<div class="container">
+  <h1>Person Management</h1>
+  <div class="jumbotron">
+    <form #searchUPersonForm="ngForm" (ngSubmit)="onSearch()" novalidate class="row">
+      <div class="input-group col-lg-7">
+
+        <input id="keyword" #keyword="ngModel" name="keyword" type="text" [(ngModel)]="smodel.keyword" placeholder="Search Person"
+          class="form-control" #keyword="ngModel" required/>
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" [(ngModel)]="smodel.type" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
+          <option value="first_name">First Name</option>
+          <option value="last_name">Last Name</option>
+          <option value="email">Email</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
+        <button class="btn btn-success" title="add person" (click)="add(template6)">Add</button>
+      </div>
+    </form>
+  </div>
+  <table *ngIf="(persons | async)?.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Job Title</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+        <th>Created Date</th>
+        <th>Updated Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of persons | async">
+        <th scope="row">{{person._id}}</th>
+        <td>{{person.first_name}} {{person.last_name}}</td>
+        <td>{{person.job_title}}</td>
+        <td>{{person.contact.email}}</td>
+        <td>{{person.contact.contact_no}}</td>
+        <td>{{person.created_date}}</td>
+        <td>{{person.modified_date}}</td>
+        <td>
+          <button class="btn btn-primary" title="edit person" (click)="edit(person, template2)">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-danger" title="delete person" (click)="onDelete(person)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div *ngIf="(persons | async)?.length==0">
+    <p class="font-weight-bold">No record found.</p>
+  </div>
+</div>
+
+<!-- Add Template -->
+<ng-template #template6>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add person</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form #addform="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+            <div class="form-group">
+              <label for="first_name">First Names </label>
+              <input id="first_name" #first_name="ngModel" name="first_name" type="text" [(ngModel)]="model.first_name" placeholder="First Name"
+                class="form-control" required/>
+              <div *ngIf="first_name.errors && (first_name.touched || submitted)">
+                <div [hidden]="!first_name.errors.required && first_name.dirty" class="alert alert-danger">
+                  First Name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="last_name">Last Names </label>
+              <input id="last_name" #last_name="ngModel" name="last_name" type="text" [(ngModel)]="model.last_name" placeholder="Last Name"
+                class="form-control" required/>
+              <div *ngIf="last_name.errors && (last_name.touched || submitted)">
+                <div [hidden]="!last_name.errors.required && last_name.dirty" class="alert alert-danger">
+                  Last Name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="job_title">Job Title</label>
+              <input id="job_title" #job_title="ngModel" name="job_title" type="text" [(ngModel)]="model.job_title" placeholder="Job Title"
+                class="form-control" required/>
+              <div *ngIf="job_title.errors && (job_title.touched || submitted)">
+                <div [hidden]="!job_title.errors.required && job_title.dirty" class="alert alert-danger">
+                  Job Title is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="postal_code">Postal Code</label>
+              <input id="postal_code" #postal_code="ngModel" name="postal_code" type="number" class="form-control" [(ngModel)]="model.postal_code"
+                pattern="[0-8]*" required/>
+              <div *ngIf="postal_code.errors && (postal_code.touched || submitted)">
+                <div [hidden]="!postal_code.errors.required && postal_code.dirty" class="alert alert-danger">
+                  Postal Code is required.
+                </div>
+                <span [hidden]="!postal_code.errors.pattern" class="alert alert-danger">
+                  Postal Code is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="model.address" required/>
+              <div *ngIf="address.errors && (address.touched || submitted)">
+                <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                  Address is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="city">City</label>
+              <select class="form-control" #city="ngModel" id="city" [(ngModel)]="model.city" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)"
+                required>
+                <option *ngFor="let city of cities" [ngValue]="city.value">{{city.desc}}</option>
+              </select>
+              <div *ngIf="city.errors && (city.touched || submitted)">
+                <div [hidden]="!city.errors.required && city.dirty" class="alert alert-danger">
+                  City is required.
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" popover="How to contact" triggers="mouseenter:mouseleave"
+              placement="right">Contact</button>
+
+            <div class="form-group" [collapse]="isCollapsed">
+              <label for="contact_no">Contact Number</label>
+              <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="model.contact_no"
+                pattern="[0-8]*" required/>
+              <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
+                <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
+                  Contact no. is required.
+                </div>
+                <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
+                  Contact no. is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group" [collapse]="isCollapsed">
+              <label for="email">Email Address </label>
+              <input id="email" #email="ngModel" name="email" type="text" [(ngModel)]="model.email" placeholder="you@domain.com" class="form-control"
+                #email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
+              <div *ngIf="email.errors && (email.touched || submitted)">
+                <div [hidden]="!email.errors.required && email.dirty" class="alert alert-danger">
+                  Email is required.
+                </div>
+                <span [hidden]="!email.errors.pattern" class="alert alert-danger">
+                  Email is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="dateOfBirth">Date of Birth</label>
+              <input id="dateOfBirth" name="dateOfBirth" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="model.dateOfBirth"
+                #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
+              <span class="input-group-btn">
+                <button class="btn btn-success" (click)="dp.toggle()">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </span>
+              <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
+                <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
+                  Date of Birth is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="provider_type">Provider Type</label>
+              <select class="form-control" #provider_type="ngModel" id="provider_type" [(ngModel)]="model.provider_type" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let provider_type of provider_types" [ngValue]="provider_type.value">{{provider_type.desc}}</option>
+              </select>
+              <div *ngIf="provider_type.errors && (provider_type.touched || submitted)">
+                <div [hidden]="!provider_type.errors.required && provider_type.dirty" class="alert alert-danger">
+                  Provider Type is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <br/>
+              <input id="gender" name="gender" type="radio" [(ngModel)]="model.gender" value="M" />Male
+              <br/>
+              <input id="gender" name="gender" type="radio" [(ngModel)]="model.gender" value="F" />Female
+            </div>
+
+            <div class="form-group">
+              <hr/>
+              <button type="submit" [disabled]="!addform.form.valid" (click)="onSubmit()" class="btn btn-success">Save</button>
+              <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Update Person -->
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit person</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <form #editform="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input id="first_name" #first_name="ngModel" name="first_name" type="text" [(ngModel)]="editPerson.first_name" class="form-control"
+                required />
+              <div *ngIf="first_name.errors && (first_name.touched || submitted)">
+                <div [hidden]="!first_name.errors.required && first_name.dirty" class="alert alert-danger">
+                  First Name is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input id="last_name" #last_name="ngModel" name="last_name" type="text" [(ngModel)]="editPerson.last_name" class="form-control"
+                required />
+              <div *ngIf="last_name.errors && (last_name.touched || submitted)">
+                <div [hidden]="!last_name.errors.required && last_name.dirty" class="alert alert-danger">
+                  Last Name is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="postal_code">Postal Code</label>
+              <input id="postal_code" #postal_code="ngModel" name="postal_code" type="number" class="form-control" [(ngModel)]="editPerson.postal_code"
+                pattern="[0-8]*" required/>
+              <div *ngIf="postal_code.errors && (postal_code.touched || submitted)">
+                <div [hidden]="!postal_code.errors.required && postal_code.dirty" class="alert alert-danger">
+                  Postal Code is required.
+                </div>
+                <span [hidden]="!postal_code.errors.pattern" class="alert alert-danger">
+                  Postal Code is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editPerson.address" required/>
+              <div *ngIf="address.errors && (address.touched || submitted)">
+                <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                  Address is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="city">City</label>
+              <select class="form-control" #city="ngModel" id="city" [(ngModel)]="editPerson.city" [ngModelOptions]="{standalone: true}"
+                (ngModelChange)="onChange($event)" required>
+                <option *ngFor="let city of cities" [ngValue]="city.value">{{city.desc}}</option>
+              </select>
+              <div *ngIf="city.errors && (city.touched || submitted)">
+                <div [hidden]="!city.errors.required && city.dirty" class="alert alert-danger">
+                  City is required.
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed" popover="How to contact" triggers="mouseenter:mouseleave"
+              placement="right">Contact</button>
+
+            <div class="form-group" [collapse]="isCollapsed">
+              <label for="contact_no">Contact Number</label>
+              <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="editPerson.contact_no"
+                pattern="[0-8]*" required/>
+              <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
+                <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
+                  Contact no. is required.
+                </div>
+                <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
+                  Contact no. is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group" [collapse]="isCollapsed">
+              <label for="email">Email Address </label>
+              <input id="email" #email="ngModel" name="email" type="text" [(ngModel)]="editPerson.email" placeholder="you@domain.com" class="form-control"
+                #email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
+              <div *ngIf="email.errors && (email.touched || submitted)">
+                <div [hidden]="!email.errors.required && email.dirty" class="alert alert-danger">
+                  Email is required.
+                </div>
+                <span [hidden]="!email.errors.pattern" class="alert alert-danger">
+                  Email is invalid.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <hr/>
+              <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+              <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
