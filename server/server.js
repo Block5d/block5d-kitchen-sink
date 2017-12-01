@@ -18,6 +18,7 @@ app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 require('./routes')(app);
 require('./LDH')(app);
 require('./codemana')(app);
+require('./orgchart')(app);
 
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);

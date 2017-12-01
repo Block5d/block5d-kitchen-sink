@@ -19,51 +19,51 @@ export class RegistrationService {
     private toastyConfig: ToastyConfig) {
 
   }
-  public saveRegisteredUser(user){
+  public saveRegisteredUser(user) {
     console.log(user);
     return this.httpClient.post(this.usersURL, user, httpOptions)
-      .pipe(catchError(this.handleError<RegistrationUser>('addUser')))
-  };
+      .pipe(catchError(this.handleError<RegistrationUser>('addUser')));
+  }
 
-  public updateUser(user){
+  public updateUser(user) {
     console.log(user);
     return this.httpClient.put(this.usersURL, user, httpOptions)
-      .pipe(catchError(this.handleError<RegistrationUser>('updateUser')))
-  };
+      .pipe(catchError(this.handleError<RegistrationUser>('updateUser')));
+  }
 
-  public searchUsersByFullName(keyword, sortBy){
+  public searchUsersByFullName(keyword, sortBy) {
     return this.getAllUsers(this.usersURL + '?keyword=' + keyword + '&sortBy=' + sortBy);
   }
 
-  public getAllUsers(url){
-    console.log(" >>>> " + url);
-    var getURL = this.usersURL;
-    if(url){
+  public getAllUsers(url) {
+    console.log(' >>>> ' + url);
+    let getURL = this.usersURL;
+    if (url) {
       getURL = url;
     }
-    console.log(" <<<<< " + JSON.stringify(getURL));
+    console.log(' <<<<< ' + JSON.stringify(getURL));
     return this.httpClient.get<RegistrationUser[]>(getURL, httpOptions)
-    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')))
+    .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')));
   }
 
-  public deleteUser(user){
+  public deleteUser(user) {
     console.log(user);
     let deleteParams = new HttpParams().set('_id', user._id);
     return this.httpClient.delete<RegistrationUser>(this.usersURL, {params: deleteParams})
-    .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')))
+    .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')));
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(" why not catching ? " + error); // log to console instead
+      console.error(' why not catching ? ' + error); // log to console instead
       JSON.stringify(error);
-      this.addErrorToast("Error", error.error);
+      this.addErrorToast('Error', error.error);
       return Observable.throw(error  || 'backend server error');
     };
   }
 
   addErrorToast(title, msg) {
-    var toastOptions: ToastOptions = {
+    let toastOptions: ToastOptions = {
         title: title,
         msg: msg,
         showClose: true,

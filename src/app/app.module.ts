@@ -7,6 +7,8 @@ import { AlertModule} from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
+import { SelectModule } from 'ng-select';
+import { OrgChartModule } from 'ng-org-chart';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -23,6 +25,8 @@ import { TabsModule } from 'ngx-bootstrap';
 import { SampleApp1Component } from './sample-app1/sample-app1.component';
 import { LdhMember } from './shared/ldh-member';
 import { CodeManagementComponent } from './code-management/code-management.component';
+import { OrgChartComponent } from './org-chart/org-chart.component';
+import { OrgChartService } from './services/org-chart.service';
 
 @NgModule({
   declarations: [
@@ -33,9 +37,12 @@ import { CodeManagementComponent } from './code-management/code-management.compo
     SearchUserComponent,
     SampleApp1Component,
     CodeManagementComponent,
+    OrgChartComponent,
   ],
   imports: [
     BrowserModule,
+    SelectModule,
+    OrgChartModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -49,7 +56,7 @@ import { CodeManagementComponent } from './code-management/code-management.compo
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
   ],
-  providers: [ RegistrationService, LdhMemberService, CodeManaService],
+  providers: [ RegistrationService, LdhMemberService, CodeManaService, OrgChartService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

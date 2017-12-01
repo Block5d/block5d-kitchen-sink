@@ -33,7 +33,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let result of resultcode | async">
-        <!--<tr *ngFor="let user of users | async">-->
         <th scope="row">{{result._id}}</th>
         <td>{{result.code_details.code_desc}}</td>
         <td>{{result.code_details.code}}</td>

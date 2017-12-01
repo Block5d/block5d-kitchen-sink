@@ -33,6 +33,7 @@ module.exports = function (app) {
         code.findByIdAndRemove({ _id: req.query._id }, (err, result) => {
             if (err) {
                 res.status(500).send(err);
+                return;
             }
             res.status(200).json(result);
         })
