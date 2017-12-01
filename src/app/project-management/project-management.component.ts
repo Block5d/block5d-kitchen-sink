@@ -21,7 +21,7 @@ export class ProjectManagementComponent implements OnInit {
   submitted = false;
   isopen = false;
   smodel = new SearchProject('', "name");
-  model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, '', '', null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
 
   client_companies = [{ desc: "Blizzard", value: "blz" },
   { desc: "Tencent", value: "QQ" }, { desc: "LemoTech", value: "Lemo" },
