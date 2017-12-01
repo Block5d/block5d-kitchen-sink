@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  ApiUrl: 'http://localhost:4201',
+  itemPerPage: 20
 };

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationUser } from '../shared/registration-user';
 import { RegistrationService } from '../services/registration-user.service';
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 @Component({
   selector: 'app-reg-user',
@@ -12,7 +12,7 @@ export class RegUserComponent implements OnInit {
 
   submitted = false;
   nationalities = [ { desc: "Chinese", value: "CNY"}, {desc: "Malaysian", value: "MY"}, {desc: "Singaporean", value: "SG"}, {desc: "Vietnam", value: "VN"}];
-  model = new RegistrationUser('','','','','',null, '', '', '');
+  model = new RegistrationUser('','','','','',null, '', '', '', 0);
 
   constructor(
     private registrationService: RegistrationService,
@@ -21,17 +21,18 @@ export class RegUserComponent implements OnInit {
   ){
 
   }
-
   onSubmit() {
     console.log("on submit ... " + this.submitted);
     console.log(`on submit ... ${this.submitted}`);
     console.log(this.model);
-    this.registrationService.saveRegisteredUser(this.model as RegistrationUser)
+    this.registrationService.saveRegisteredUser(this.model)
       .subscribe(user => {
         console.log(user);
         this.addSuccessToast('Successfully added', `Added ${this.model.fullname}`);
       });
   }
+
+
 
   onChange(evt){
     // TODO ...

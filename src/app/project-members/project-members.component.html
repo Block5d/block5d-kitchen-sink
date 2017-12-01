@@ -1,0 +1,125 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Add Project</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <form #addform="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+
+          <div class="form-group">
+            <label>Project ID</label>
+            <ng-select [(ngModel)]="model.project_id" #project_id="ngModel" [ngModelOptions]="{standalone: true}" [options]="project_ids"
+              (ngModelChange)="onChange($event)" required>
+            </ng-select>
+            <div *ngIf="project_id.errors && (project_id.touched || submitted)">
+              <div [hidden]="!project_id.errors.required && project_id.dirty" class="alert alert-danger">
+                Project ID is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Person ID</label>
+            <ng-select [(ngModel)]="model.person_id" #person_id="ngModel" [ngModelOptions]="{standalone: true}" [options]="person_ids"
+              (ngModelChange)="onChange($event)" required>
+            </ng-select>
+            <div *ngIf="person_id.errors && (person_id.touched || submitted)">
+              <div [hidden]="!person_id.errors.required && person_id.dirty" class="alert alert-danger">
+                Person ID is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <!-- <hr/> -->
+            <button type="submit" [disabled]="!addform.form.valid" class="btn btn-success" (click)="onSubmit()" novalidation>Submit</button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Project ID</th>
+          <th>Company</th>
+          <th>Country</th>
+          <th>Created Date</th>
+          <th>Updated Date</th>
+          <th>isEnabled</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let promem of promems | async">
+          <th scope="row">{{promem._id}}</th>
+          <td>{{promem.person_id}}</td>
+          <th>{{promem.project_id}}</th>
+          <th>{{promem.company_id}}</th>
+          <th>{{promem.isEnabled}}</th>
+          <th>{{promem.created_date}}</th>
+          <th>{{promem.modified_date}}</th>
+          <td>
+            <button class="btn btn-warning" title="enable promem" [(ngModel)]="model.isEnabled" btnCheckbox (click)="onEnable(promem)">isEnabled</button>
+          </td>
+          <td>
+            <button class="btn btn-primary" title="edit promem" (click)="edit(promem, template1)">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-danger" title="delete promem" (click)="onDelete(promem)">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+  
+      </tbody>
+    </table>
+  </div>
+
+<ng-template #template1>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Edit Project</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container-fluid">
+        <form #editform="ngForm" novalidate>
+          <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+  
+                <div class="form-group">
+                    <label>Project ID</label>
+                    <ng-select [(ngModel)]="editPromem.project_id" #project_id="ngModel" [ngModelOptions]="{standalone: true}" [options]="project_ids"
+                      (ngModelChange)="onChange($event)" required>
+                    </ng-select>
+                    <div *ngIf="project_id.errors && (project_id.touched || submitted)">
+                      <div [hidden]="!project_id.errors.required && project_id.dirty" class="alert alert-danger">
+                        Project ID is required.
+                      </div>
+                    </div>
+                  </div>
+  
+              <div class="form-group">
+                <hr/>
+                <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
+                <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+              </div>
+  
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>

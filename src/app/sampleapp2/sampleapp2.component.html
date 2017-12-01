@@ -1,0 +1,143 @@
+<div class="container">
+    <div class="jumbotron">
+      <form #searchUserForm="ngForm" (ngSubmit)="onSearch()" novalidate class="row">
+        <div class="input-group col-lg-7">
+         <input id="keyword" #keyword="ngModel" name="keyword" 
+         type="text" [(ngModel)]="model.keyword" placeholder="you@domain.com"
+            class="form-control" #keyword="ngModel" required/>
+          <span class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </span>
+        </div>
+        <div class="col-lg-2">
+          <button type="submit" id="searchBtn" class="btn btn-primary" id="search"  [disabled]="disabled">Search</button>
+          <button type="button" class="btn btn-warning" (click)="disabled = !disabled = openModal(template)">Enable/Disable</button>
+          <br><br>
+          <pre>{{message}}</pre>
+          <ng-template #template>
+            <div class="modal-body text-center">
+              <p>Do you want to confirm?</p>
+              <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+              <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+            </div>
+          </ng-template>
+        </div>
+      </form>
+    </div>
+    <!-- <table *ngIf="(users | async)?.length > 0" class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users | async"> 
+            <th scope="row">{{user._id}}</th>
+            <td>{{user.fullname}}</td>
+            <td>{{user.dateOfBirth | date:medium}}</td>
+            <td>
+              <button class="btn btn-primary" title="edit user"
+              (click)="edit(user, template2)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+              <button class="btn btn-danger" title="delete user"
+                    (click)="onDelete(user)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            </td>
+          </tr>
+        </tbody>
+    </table>
+    <div *ngIf="(users | async)?.length==0"><p class="font-weight-bold">No record found.</p></div> -->
+    
+        <button type="button" class="btn btn-primary btn-sm" (click)="status.isFirstDisabled = ! status.isFirstDisabled">
+          Enable / Disable first panel
+        </button>
+        <div class="checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="oneAtATime">
+              Open only one at a time
+            </label>
+          </div>
+          
+          <div class="row">
+            <div class="col-xs-4 col-4 col-md-3 col-lg-2 form-group">
+              <select
+                class="custom-select form-control "
+                [(ngModel)]="locale" (ngModelChange)="applyLocale(dp);">
+                <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
+              </select>
+            </div>
+            <div class="col-xs-6 col-6 col-md-4 col-lg-3 form-group">
+              <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="bsConfig">
+            </div>
+            <div class="col-xs-12 col-12 col-md-4 col-lg-4 form-group">
+              <input type="button"
+                     class="btn btn-success"
+                     value="Date Picker"
+                     (click)="dp.show()" />
+            </div>
+          </div>
+          <br>
+           
+          <div class="row">
+            <div class="col-xs-4 col-4 col-md-3 col-lg-2 form-group">
+              <select
+                class="custom-select form-control "
+                [(ngModel)]="locale" (ngModelChange)="applyLocale(dpr);">
+                <option *ngFor="let loc of locales" [value]="loc">{{ loc }}</option>
+              </select>
+            </div>
+            <div class="col-xs-6 col-6 col-md-4 col-lg-3 form-group">
+              <input placeholder="Daterangepicker" type="text" class="form-control" bsDaterangepicker #dpr="bsDaterangepicker" [bsConfig]="bsConfig">
+            </div>
+            <div class="col-xs-12 col-12 col-md-4 col-lg-4 form-group">
+              <input type="button"
+                     class="btn btn-success"
+                     value="Date Range Picker" (click)="dpr.show()"/>
+            </div>
+          </div>
+           
+
+    <accordion  [closeOthers]="oneAtATime">
+        <accordion-group heading="Static Header, initially expanded"
+                         [isOpen]="status.isFirstOpen"
+                         [isDisabled]="status.isFirstDisabled">
+                         This content is straight in the template.
+        </accordion-group> 
+        <accordion-group heading="fullname" 
+        *ngFor="let user of users | async">
+        <p>{{user.fullname}}</p>
+        </accordion-group>
+    </accordion>
+</div>
+
+<carousel [interval]="myInterval" [noWrap]="noWrapSlides" [(activeSlide)]="activeSlideIndex">
+    <slide *ngFor="let slide of slides; let index=index">
+      <img [src]="slide.image" alt="image slide" style="display: block; width: 100%;">
+   
+      <div class="carousel-caption">
+        <h4>Slide {{index}}</h4>
+        <p>{{slide.text}}</p>
+      </div>
+    </slide>
+  </carousel>
+  <br/>
+  <div>
+    <button type="button" class="btn btn-info"
+            (click)="addSlide()">Add Slide
+    </button>
+    <button type="button" class="btn btn-info"
+            (click)="removeSlide()">Remove Current
+    </button>
+    <button type="button" class="btn btn-info"
+            (click)="removeSlide(2)">Remove #3
+    </button>
+  </div>
+  <div>
+    <div class="checkbox">
+      <label><input type="checkbox" [(ngModel)]="noWrapSlides">Disable Slide Looping</label>
+    </div>
+   
+    <span>Interval, in milliseconds (Enter a negative number or 0 to stop the interval.): </span>
+    <input type="number" class="form-control" [(ngModel)]="myInterval">
+  </div>

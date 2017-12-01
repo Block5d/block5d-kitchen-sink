@@ -1,0 +1,31 @@
+
+<div class="container">
+  <div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="{{randomPictures}}" alt="Card image cap">
+    <div class="card-block">
+      <h4 class="card-title">Mini Tinder</h4>
+      <p class="card-text">Do you like me or not ?</p>
+      <select class="form-control dropdown" #voteUser="ngModel" id="voteUser" [(ngModel)]="model.voteUser" [ngModelOptions]="{standalone: true}"
+      (ngModelChange)="onChange($event)">
+      <option *ngFor="let user of users | async" [ngValue]="user.fullname">{{user.fullname}}</option>
+      </select>
+
+      <br>
+      <div class="row justify-content-md-center">
+      <app-like-user (onlikeItEvt)="onlikeItEvt($event)"></app-like-user>
+      <app-dislike-user (onDislikeEvt)="onDislikeEvt($event)"></app-dislike-user>
+      </div>
+      <br>
+    </div>
+  </div>
+  <div *ngFor="let result of votedUsers">
+    <div *ngIf="result.like" class="bg-success text-white">
+      <p>{{result.name}}</p>
+      <p *ngIf="result.like">Like !</p>
+    </div>
+    <div *ngIf="result.dislike" class="bg-danger text-white">
+        <p>{{result.name}}</p>
+        <p *ngIf="result.dislike">Dislike !</p>
+      </div>
+  </div>
+</div>

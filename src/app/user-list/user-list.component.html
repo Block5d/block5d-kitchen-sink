@@ -43,7 +43,7 @@
                   <label for="fullname">Full Name</label>
                   <input id="fullname" #fullname="ngModel" name="fullname" type="text" placeholder="Adam Smith" [(ngModel)]="editUser.fullname" class="form-control" required />
                   <div *ngIf="fullname.errors && (fullname.touched || submitted)">
-                    <div [hidden]="!fullname.errors.required && fullname.dirty" class="alert alert-danger">
+                    <div [hidden]="!fullname.errors.required && fullname.dirty" class="help-block alert alert-danger">
                       Full Name is required
                     </div>
                   </div>
@@ -59,12 +59,16 @@
         
                 <div class="form-group">
                   <label for="dob">Date of Birth</label>
-                  <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
-                  <span class="input-group-btn">
-                      <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                  </span>
+
+                  <div class="input-group">
+                    <input id="dob" name="dob" type="text" #dateOfBirth="ngModel" class="form-control" [(ngModel)]="editUser.dateOfBirth" #dp="bsDatepicker" bsDatepicker [(bsValue)]="bsValue" required/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" (click)="dp.toggle()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </span>
+                  </div>
+
                   <div *ngIf="dateOfBirth.errors && (dateOfBirth.touched || submitted)">
-                    <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="alert alert-danger">
+                    <div [hidden]="!dateOfBirth.errors.required && dateOfBirth.dirty" class="help-block alert alert-danger">
                       Date of Birth is required
                     </div>
                   </div>
@@ -74,7 +78,7 @@
                   <label for="address">Address</label>
                   <input id="address" name="address" #address="ngModel" type="text" class="form-control" [(ngModel)]="editUser.address" required/>
                   <div *ngIf="address.errors && (address.touched || submitted)">
-                    <div [hidden]="!address.errors.required && address.dirty" class="alert alert-danger">
+                    <div [hidden]="!address.errors.required && address.dirty" class="help-block alert alert-danger">
                       Address is required
                     </div>
                   </div>
@@ -86,7 +90,7 @@
                     <option *ngFor="let nationality of nationalities" [ngValue]="nationality.value">{{nationality.desc}}</option>
                   </select>
                   <div *ngIf="nationality.errors && (nationality.touched || submitted)">
-                    <div [hidden]="!nationality.errors.required && nationality.dirty" class="alert alert-danger">
+                    <div [hidden]="!nationality.errors.required && nationality.dirty" class="help-block alert alert-danger">
                       Nationality is required.
                     </div>
                   </div>
@@ -94,14 +98,21 @@
         
                 <div class="form-group">
                   <label for="contactNumber">Contact Number</label>
-                  <input id="contactNumber"  #contactNumber="ngModel" name="contactNumber" type="number" class="form-control"  [(ngModel)]="editUser.contactNumber" pattern="[0-8]*" required/>
+                  <input id="contactNumber"  #contactNumber="ngModel" name="contactNumber" type="text" class="form-control"  [(ngModel)]="editUser.contactNumber" minlength="8" maxlength="8" pattern="[0-9]*" required/>
                   <div *ngIf="contactNumber.errors && (contactNumber.touched || submitted)">
-                    <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="alert alert-danger">
+                    <div [hidden]="!contactNumber.errors.required && contactNumber.dirty" class="help-block alert alert-danger">
                       Contact no. is required.
                     </div>
-                            <span [hidden]="!contactNumber.errors.pattern" class="alert alert-danger">
-                              Contact no. is invalid.
-                            </span>
+                    <div [hidden]="!contactNumber.errors.pattern" class="help-block alert alert-danger">
+                      <span [hidden]="!contactNumber.errors.pattern" class="help-block alert alert-danger">
+                        Contact no. is invalid.
+                      </span>
+                    </div>
+                    <div [hidden]="!contactNumber.errors.minlength" class="help-block alert alert-danger">
+                      <span [hidden]="!contactNumber.errors.minlength" class="help-block alert alert-danger">
+                        Contact no. must be at least 8 digit long.
+                      </span>
+                    </div> 
                   </div>
                 </div>
         
@@ -117,4 +128,3 @@
         </div>  
   </div>
 </ng-template>
-  

@@ -20,7 +20,26 @@
       </div>
     </form>
   </div>
-  <table *ngIf="(users | async)?.length > 0" class="table">
+  <div *ngIf="(result)?.length > 0" class="row">
+      <div class="col-xs-12 col-12 col-md-6">
+        <pagination
+          class="pagination-sm"
+          [boundaryLinks]="true"
+          [rotate]="false"
+          [totalItems]="totalItems"
+          [(ngModel)]="currentPage"
+          [itemsPerPage]="itemsPerPage"
+          [maxSize]="maxSize"
+          (pageChanged)="pageChanged($event)"
+          (numPages)="numPages = $event">
+        </pagination>
+      </div>
+    </div>
+     
+  <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+  <hr>
+  <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner>
+  <table *ngIf="(result)?.length > 0" class="table">
         <thead>
           <tr>
             <th>#</th>
@@ -30,7 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of users | async"> <!--<tr *ngFor="let user of users | async">-->
+          <tr *ngFor="let user of result">
             <th scope="row">{{user._id}}</th>
             <td>{{user.fullname}}</td>
             <td>{{user.dateOfBirth | date:medium}}</td>
@@ -44,5 +63,6 @@
           
         </tbody>
     </table>
-    <div *ngIf="(users | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
+    <div *ngIf="(result)?.length==0"><p class="font-weight-bold">No record found.</p></div>
 </div>
+

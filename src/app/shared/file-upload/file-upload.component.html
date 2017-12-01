@@ -1,0 +1,22 @@
+<div draggable="true" id="dropZone" ngClass="{{dragAreaClass}} area">
+  <div class="row">
+    <div class="col-md-12 text center">
+      <a href="javascript:void(0)" (click)="file.click()" >
+        Click to browser
+      </a>
+      or Drag & Drop to upload files
+
+      <input type="file"
+        #file
+        [multiple]="(maxFiles > 1)"
+        (change) = "onFileChange($event)"
+        style="display:none"/>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12 text center">{{progressPct}}
+          <progressbar class="progress progress-success" [value]="progressPct" [max]="100" type="success"><b>{{progressPct}}%</b></progressbar>
+      </div>
+  </div>
+</div>
+
