@@ -13,8 +13,8 @@ const httpOptions = {
 
 @Injectable()
 export class RegistrationService {
-  
-  private usersURL = `${environment.ApiUrl}/api/v1/users`;
+
+   private usersURL = `${environment.ApiUrl}/api/v1/users`;
 
   constructor(private httpClient:HttpClient, 
         private toastyService:ToastyService, 
@@ -41,12 +41,15 @@ export class RegistrationService {
     var getURL = `${this.usersURL}?keyword=${model.keyword}&sortBy=${model.sortBy}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`;
     return this.httpClient.get<RegistrationUser[]>(getURL, httpOptions)
       .pipe(catchError(this.handleError<RegistrationUser[]>('getUsers')));
+
   }
 
-  public deleteUser(user){
+  public deleteUser(user) {
     console.log(user);
     let deleteParams = new HttpParams().set('_id', user._id);
+
     return this.httpClient.delete(this.usersURL, {params: deleteParams})
+
     .pipe(catchError(this.handleError<RegistrationUser>('deleteUser')));
   }
 
@@ -57,17 +60,17 @@ export class RegistrationService {
     };
   }
 
-  addErrorToast(title,msg) {
-    var toastOptions:ToastOptions = {
+  addErrorToast(title, msg) {
+    let toastOptions: ToastOptions = {
         title: title,
         msg: msg,
         showClose: true,
         timeout: 3500,
         theme: 'bootstrap',
-        onAdd: (toast:ToastData) => {
+        onAdd: (toast: ToastData) => {
             console.log('Toast ' + toast.id + ' has been added!');
         },
-        onRemove: function(toast:ToastData) {
+        onRemove: function(toast: ToastData) {
             console.log('Toast ' + toast.id + ' has been removed!');
         }
     };

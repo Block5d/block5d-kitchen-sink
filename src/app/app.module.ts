@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+import { OrgChartModule } from 'ng-org-chart';
+import { LdhMemberService } from './services/ldh-member.service';
+import { CodeManaService } from './services/code-mana.service'
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
@@ -21,6 +25,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
+
+import { SampleApp1Component } from './sample-app1/sample-app1.component';
+import { LdhMember } from './shared/ldh-member';
+import { CodeManagementComponent } from './code-management/code-management.component';
+import { OrgChartComponent } from './org-chart/org-chart.component';
+import { OrgChartService } from './services/org-chart.service';
 import { Sampleapp2Component } from './sampleapp2/sampleapp2.component';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
@@ -63,6 +73,11 @@ import { ProjectMembersService } from './services/project-members.service';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+
+    SampleApp1Component,
+    CodeManagementComponent,
+    OrgChartComponent,
+
     Sampleapp2Component,
     CompanymanagementComponent,
     UserGroupComponent,
@@ -82,9 +97,12 @@ import { ProjectMembersService } from './services/project-members.service';
     PaginationComponent,
     LoadingSpinnerComponent,
     ProjectMembersComponent,
+
   ],
   imports: [
     BrowserModule,
+    SelectModule,
+    OrgChartModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
@@ -92,7 +110,6 @@ import { ProjectMembersService } from './services/project-members.service';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
- 
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -108,7 +125,7 @@ import { ProjectMembersService } from './services/project-members.service';
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService, ProjectMembersService  ],
+  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService, ProjectMembersService, LdhMemberService, CodeManaService, OrgChartService  ],
   
 bootstrap: [ AppComponent ]
 

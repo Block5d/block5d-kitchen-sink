@@ -37,6 +37,7 @@
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.4",
+    "ng-org-chart": "^1.2.0",
     "ng-select": "^1.0.0-rc.3",
     "ng2-select": "^2.0.0",
     "mongoose-timestamp": "^0.6.0",

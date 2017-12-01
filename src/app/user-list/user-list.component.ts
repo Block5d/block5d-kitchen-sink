@@ -37,6 +37,7 @@ export class UserListComponent implements OnInit {
   };
 
   constructor(private registrationService: RegistrationService,
+
     private toastyService:ToastyService,
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService) {
@@ -48,6 +49,7 @@ export class UserListComponent implements OnInit {
       this.showSpinner = false;
       this.totalItems = x.length;
     });
+
   }
 
   edit(user, template: TemplateRef<any>) {

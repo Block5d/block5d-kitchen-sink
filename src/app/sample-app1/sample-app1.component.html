@@ -1,0 +1,39 @@
+<button type="button" class="btn btn-primary" (click)="ExileShow = !ExileShow">
+  工地本部
+</button>
+<hr>
+<div [collapse]="ExileShow" class="card card-block card-header">
+  <carousel>
+    <slide *ngFor="let member of Exile | async" style="margin:0 auto； float：none；" >
+      <img src="http://cf.m.ex-m.jp/images/artist/thumb/20160907/thumb-member{{member.url}}.jpg" alt="" style="margin-left: auto;margin-right: auto;display: block;">
+    </slide>
+  </carousel>
+  <div class="checkbox">
+    <label>
+      <input id='multiple' type="checkbox" [(ngModel)]="oneAtATime" style="display:none">
+      <label for="multiple" class="btn btn-primary">多开神器</label>
+    </label>
+  </div>
+
+  <accordion [closeOthers]="oneAtATime">
+    <accordion-group *ngFor="let member of Exile | async" [heading]="member.name">
+      {{ member?.content }}
+    </accordion-group>
+  </accordion>
+  <button type="button" class="btn btn-primary" (click)="addShow = !addShow">
+    工头招人
+  </button>
+  <div [collapse]="addShow" class="card card-block card-header">
+    <form class="form-inline" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">&nbsp;&nbsp;门把名字&nbsp;&nbsp;</label>
+        <input id="name" name="name"type="text" class="form-control" [(ngModel)]="addmember.name">
+      </div>
+      <div class="form-group">
+        <label for="content">&nbsp;&nbsp;介绍一下&nbsp;&nbsp;</label>
+        <input id="content" name="content" type="text" class="form-control" [(ngModel)]="addmember.content">
+      </div>
+      &nbsp;&nbsp;<button type="submit" class="btn btn-primary">交给海螺接管</button>
+    </form>
+  </div>
+</div>

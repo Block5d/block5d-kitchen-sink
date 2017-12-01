@@ -169,7 +169,6 @@ module.exports = function(app){
   //READ USER
   app.get(USERS_API_URL, (req, res)=>{
     var query = {};
-
     //console.log(req);
     var keyword = req.query.keyword;
     var sortBy = req.query.sortBy;
@@ -187,6 +186,9 @@ module.exports = function(app){
     if(typeof keyword != ''){ 
       query = { fullname: {$regex: '.*' + keyword + '.*'}};
     }
+
+    User.find(query ,function (err, users) {
+
 
     console.log(query);
     if(isAllRecord == 'all'){

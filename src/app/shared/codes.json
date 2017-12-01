@@ -1,0 +1,56 @@
+[
+{
+  "_id": 1,
+  "code_details": {
+     "code_desc": "",
+     "code": ""
+  },
+  "category_details": {
+     "categoryDesc": "Countries",
+     "categoryCode": "CTY",
+     "is_category" : true	
+  },
+  
+  "modified_date": "1980-01-02T00:00:00.000Z",
+  "created_date": "1980-01-02T00:00:00.000Z",
+  "created_by": "Kenneth",
+  "modified_by": "Kenneth",
+  "parent_id": ""
+},
+{
+  "_id": 2,
+  "code_details": {
+     "code_desc": "Malaysia",
+     "code": "MY"
+  },
+  "category_details": {
+     "categoryDesc": "",
+     "categoryCode": "",
+     "is_category" : false	
+  },
+  
+  "modified_date": "1980-01-02T00:00:00.000Z",
+  "created_date": "1980-01-02T00:00:00.000Z",
+  "created_by": "Kenneth",
+  "modified_by": "Kenneth",
+  "parent_id": "1"
+},
+{
+  "_id": 3,
+  "code_details": {
+     "code_desc": "Singapore",
+     "code": "SG"
+  },
+  "category_details": {
+     "categoryDesc": "",
+     "categoryCode": "",
+     "is_category" : false	
+  },
+  
+  "modified_date": "1980-01-02T00:00:00.000Z",
+  "created_date": "1980-01-02T00:00:00.000Z",
+  "created_by": "Kenneth",
+  "modified_by": "Kenneth",
+  "parent_id": "1"
+}
+]

@@ -3,6 +3,7 @@
 </h1>
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 <div>
+
     <tabset>
         <tab>
             <ng-template tabHeading>
@@ -89,6 +90,22 @@
             <a class="routing_link" routerLink="/workflow">Workflow</a>
         </ng-template>
     </tab>
+  <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/codeManagement">code Management</a>
+          </ng-template>
+      </tab>
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/org-chart">org-chart</a>
+          </ng-template>
+      </tab>   
+      <tab>
+          <ng-template tabHeading>
+              <a class="routing_link" routerLink="/sampleApp1">Sample App 1</a>
+          </ng-template>
+      </tab>
+
   </tabset>
 </div>
 <hr>

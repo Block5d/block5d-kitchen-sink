@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+.oc-name {
+	font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+	white-space: nowrap;
+}
+
+.oc-designation {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-style: italic;
+	white-space: nowrap;
+}
