@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegistrationUser } from '../shared/registration-user';
 import { RegistrationService } from '../services/registration-user.service';
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 @Component({
   selector: 'app-reg-user',
@@ -21,7 +21,6 @@ export class RegUserComponent implements OnInit {
   ){
 
   }
-
   onSubmit() {
     console.log("on submit ... " + this.submitted);
     console.log(`on submit ... ${this.submitted}`);
@@ -32,6 +31,8 @@ export class RegUserComponent implements OnInit {
         this.addSuccessToast('Successfully added', `Added ${this.model.fullname}`);
       });
   }
+
+
 
   onChange(evt){
     // TODO ...

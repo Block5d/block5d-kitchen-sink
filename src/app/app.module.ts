@@ -3,30 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app-routing.module';
-import {ToastyModule} from 'ng2-toasty';
-import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
-import { TabsModule } from 'ngx-bootstrap';
-
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap';
-import { CarouselModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
 import { PopoverModule } from 'ngx-bootstrap';
-import { SelectModule } from 'ng-select';
 import { AgmCoreModule } from '@agm/core';
-
 import { ProgressbarModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
-
-
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
+import { AppRoutingModule } from './app-routing.module';
+import { ToastyModule} from 'ng2-toasty';
+import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap';
+import { Sampleapp2Component } from './sampleapp2/sampleapp2.component';
+import { CarouselModule } from 'ngx-bootstrap';
+import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+import { RegCompanyService } from './services/reg-company.service';
+import { SelectModule} from 'ng-select';
+import { UserGroupService } from './services/user-group.service';
+import { UserGroupComponent } from './user-group/user-group.component';
+import { WorkflowComponent } from './workflow/workflow.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { SampleApp4Component } from './sample-app4/sample-app4.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
@@ -61,6 +63,10 @@ import { ProjectMembersService } from './services/project-members.service';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
+    Sampleapp2Component,
+    CompanymanagementComponent,
+    UserGroupComponent,
+    WorkflowComponent,
     SampleApp4Component,
     ParentComponentComponent,
     ChildComponentComponent,
@@ -86,7 +92,7 @@ import { ProjectMembersService } from './services/project-members.service';
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
-    AlertModule.forRoot(),
+ 
     AccordionModule.forRoot(),
     AlertModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -102,7 +108,9 @@ import { ProjectMembersService } from './services/project-members.service';
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, ProjectMembersService ],
-  bootstrap: [ AppComponent ]
+  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService, ProjectMembersService  ],
+  
+bootstrap: [ AppComponent ]
+
 })
 export class AppModule { }

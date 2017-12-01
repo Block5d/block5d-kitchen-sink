@@ -1,0 +1,18 @@
+<div  class="workflow container">
+  <div  class="workflow col-xl-5">
+      <h3>Setting Up Workflow</h3>
+      <form #searchUserForm="ngForm"  novalidate class="row">
+        <div class="select-group col-xl-2">
+          <label for="project_id">Project Id</label>
+          <select class="form-control"   #project_id="ngModel" id="project_id" [(ngModel)]="model.project_id" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="onChange($event)">
+          <option *ngFor="let project_id of project_ids" [ngValue]="project_id.value">{{project_id.desc}}</option>
+          </select>
+        </div>
+      </form>
+    
+  </div>
+  <div  clas="workflow col-xl-7">
+      <h3>Add New Status</h3>
+  </div>
+</div>

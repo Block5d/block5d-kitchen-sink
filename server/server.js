@@ -31,6 +31,8 @@ app.use('/static', express.static(path.join(__dirname, '/../upload_tmp/')))
 require('./routes')(app);
 require('./prosub-routes')(app);
 require('./promem-routes')(app);
+require('./company')(app);
+require('./user-group')(app);
 require('./person-routes')(app);
 require('./project-routes')(app);
 

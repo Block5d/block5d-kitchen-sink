@@ -60,6 +60,66 @@ var uploadS3 = new multer({
 
 
 module.exports = function(app){
+  //新建公司
+  // app.post(COMPANYS_API_URL,(req, res)=>{
+  //   var company = req.body;
+  //   var newCompany = new Company();
+  //   newCompany.company_name  = company.company_name;
+  //   newCompany.company_reg_no  = company.company_reg_no;
+  //   newCompany.company_type  = company.company_type;
+  //   newCompany.contact.phone_no  = company.phone_no;
+  //   newCompany.contact.company_email  = company.company_email;
+  //   newCompany.contact.fax_no  = company.fax_no;
+  //   newCompany.address_1  = company.address_1;
+  //   newCompany.address_2  = company.address_2;
+  //   newCompany.address_3  = company.address_3;
+  //   newCompany.postal_code  = company.postal_code;
+  //   newCompany.country_origin  = company.country_origin;
+  //   newCompany.city  = company.city;
+  //   newCompany.created_date  = new Date();
+  //   console.log(newCompany.contact);
+  //   var error = newCompany.validateSync();
+  //   if(!error){
+  //     newCompany.save(function(err, result) {
+  //       res.status(201).json(result);
+  //     });
+  //   }else{
+  //     console.log(error);
+  //     res.status(500).json(error);
+  //   }
+  // })
+  //READ COMPANY
+  // app.get(COMPANYS_API_URL, (req, res)=>{
+  //   var query = {};
+   
+  //   var keyword = req.query.keyword;
+  //   var value = req.query.value;
+  //   console.log(req.query);
+  //   console.log("111"+keyword + value);
+  //   if(typeof keyword == 'undefined' ){
+  //     keyword = "";
+  //     console.log(123);
+  //   }
+  //   if(typeof value == 'undefined' || typeof value != ''){
+  //     value = 'company_name';
+  //     console.log(111);
+  //   }
+  //   switch(value)
+  //   {
+  //   case "company_reg_no":
+  //   query = { company_reg_no: {$regex: '.*' + keyword + '.*'}};
+  //     break;
+  //   case "company_type":
+  //   query = { company_type: {$regex: '.*' + keyword + '.*'}};
+  //     break;
+  //   case "country_origin":
+  //   query = { country_origin: {$regex: '.*' + keyword + '.*'}};
+  //     break;
+  //   default:
+  //   query = { company_name: {$regex: '.*' + keyword + '.*'}};
+  //   }
+ 
+  //   Company.find(query ,function (err, companies) {
 
     //CREATE USER
   app.post(USERS_API_URL, (req, res)=>{
@@ -87,7 +147,7 @@ module.exports = function(app){
       res.status(500).json(error);
     }
       
-  });
+   });
 
   /** count all users */
   app.get(`${USERS_API_URL}/count`, (req, res)=>{
