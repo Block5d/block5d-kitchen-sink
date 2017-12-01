@@ -52,6 +52,8 @@ import { ProjectSubmissionService } from './services/project-submission.service'
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
+import { ProjectMembersComponent } from './project-members/project-members.component';
+import { ProjectMembersService } from './services/project-members.service';
 
 
 @NgModule({
@@ -79,6 +81,7 @@ import { ProjectManagementService } from './services/project-management.service'
     ProjectManagementComponent,
     PaginationComponent,
     LoadingSpinnerComponent,
+    ProjectMembersComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,8 +108,9 @@ import { ProjectManagementService } from './services/project-management.service'
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService  ],
+  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService, ProjectMembersService  ],
   
 bootstrap: [ AppComponent ]
+
 })
 export class AppModule { }

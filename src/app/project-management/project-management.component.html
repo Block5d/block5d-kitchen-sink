@@ -81,7 +81,7 @@
 
     </tbody>
   </table>
-  <div *ngIf="(persons | async)?.length==0">
+  <div *ngIf="(projects | async)?.length==0">
     <p class="font-weight-bold">No record found.</p>
   </div>
 </div>
@@ -561,7 +561,7 @@
             <div class="form-group">
               <label for="start_date">Start Date</label>
               <input id="start_date" name="start_date" type="text" #start_date="ngModel" class="form-control" [(ngModel)]="editProject.start_date"
-                #dp="bsDatepicker" bsDatepicker required/>
+                #dp="bsDatepicker" bsDatepicker  required/>
               <div *ngIf="start_date.errors && (start_date.touched || submitted)">
                 <div [hidden]="!start_date.errors.required && start_date.dirty" class="alert alert-danger">
                   Start Date is required
@@ -572,7 +572,7 @@
             <div class="form-group">
               <label for="end_date">End Date</label>
               <input id="end_date" name="end_date" type="text" #end_date="ngModel" class="form-control" [(ngModel)]="editProject.end_date"
-                #dp="bsDatepicker" bsDatepicker required/>
+                #dp="bsDatepicker" bsDatepicker [minDate]="minDate" required/>
               <div *ngIf="end_date.errors && (end_date.touched || submitted)">
                 <div [hidden]="!end_date.errors.required && end_date.dirty" class="alert alert-danger">
                   End Date is required

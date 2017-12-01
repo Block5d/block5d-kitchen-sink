@@ -13,6 +13,7 @@ import { VoteUserComponent } from './vote-user/vote-user.component';
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
+import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component'
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 
@@ -32,8 +33,9 @@ const routes: Routes = [
   { path: 'pro-sub', component:ProjectSubmissionComponent },
   { path: 'per-mana',component:PersonManagementComponent },
   { path: 'pro-mana',component:ProjectManagementComponent },
+  { path: 'pro-mem',component:ProjectMembersComponent },
   { path: 'upload-firebase', component: UploadtoFireStoreComponent },
-  { path: 'upload-s3', component: UploadtoS3Component },
+  { path: 'upload-s3', component: UploadtoS3Component }
 ];
 
 @NgModule({

@@ -18,6 +18,7 @@ export class ProjectManagementComponent implements OnInit {
   private editProject: ProjectManagement;
   private projects: Observable<ProjectManagement[]>;
   modalRef: BsModalRef;
+  minDate: Date;
   submitted = false;
   isopen = false;
   smodel = new SearchProject('', "name");
@@ -77,7 +78,8 @@ export class ProjectManagementComponent implements OnInit {
     private modalService: BsModalService,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
   }
@@ -152,6 +154,7 @@ export class ProjectManagementComponent implements OnInit {
     this.projectManagementService.saveProject(this.model as ProjectManagement)
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
+        this.projects = this.getAll();
       });
   }
 
