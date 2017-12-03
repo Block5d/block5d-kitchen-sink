@@ -54,6 +54,7 @@ export class ProjectMembersComponent implements OnInit {
       .subscribe(promem => {
         this.addSuccessToast('Successfully added', `Added ${this.model.person_id}`);
         this.promems = this.getAllPromems();
+        this.model = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');
       });
   }
 
@@ -81,7 +82,7 @@ export class ProjectMembersComponent implements OnInit {
   }
 
   onEnable(promem) {
-    
+
     this.editPromem = promem;
     this.editPromem.isEnabled = !this.editPromem.isEnabled;
     //this.editPromem.isEnabled = this.checkModel.isEnabled

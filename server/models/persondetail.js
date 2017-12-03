@@ -10,5 +10,5 @@ module.exports = mongoose.model('persondetail', {
     modified_date: Date,
     created_date: Date,
     created_by: String,
-    modified_by: String,
+    modified_by: String
 });

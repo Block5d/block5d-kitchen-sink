@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('prosub', {
+module.exports = mongoose.model('projectSubmissions', {
     description: String,
     authority: String,
     project_id: String,

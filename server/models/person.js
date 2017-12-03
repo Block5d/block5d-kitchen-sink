@@ -18,7 +18,7 @@ module.exports = mongoose.model('person', {
             return v.length > 6;
           },
           message: '{VALUE} must be more than 6 chars!'
-        },
+        }
       },
     city: String,
     provider_type: String,

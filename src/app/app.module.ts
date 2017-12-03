@@ -26,12 +26,9 @@ import { ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
 
-import { SampleApp1Component } from './sample-app1/sample-app1.component';
-import { LdhMember } from './shared/ldh-member';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { OrgChartService } from './services/org-chart.service';
-import { Sampleapp2Component } from './sampleapp2/sampleapp2.component';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
 import { RegCompanyService } from './services/reg-company.service';
@@ -40,7 +37,6 @@ import { UserGroupService } from './services/user-group.service';
 import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { SearchUserComponent } from './search-user/search-user.component';
-import { SampleApp4Component } from './sample-app4/sample-app4.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { ChildComponentComponent } from './child-component/child-component.component';
 import { LikeUserComponent } from './like-user/like-user.component';
@@ -73,16 +69,11 @@ import { ProjectMembersService } from './services/project-members.service';
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
-
-    SampleApp1Component,
     CodeManagementComponent,
     OrgChartComponent,
-
-    Sampleapp2Component,
     CompanymanagementComponent,
     UserGroupComponent,
     WorkflowComponent,
-    SampleApp4Component,
     ParentComponentComponent,
     ChildComponentComponent,
     LikeUserComponent,

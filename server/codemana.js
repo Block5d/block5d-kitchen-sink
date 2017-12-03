@@ -1,5 +1,5 @@
 var code = require('./models/code');
-var categroy = require('./models/categroy');
+var categroy = require('./models/category');
 
 const addcodeurl = '/api/codemana';
 const addcategory = '/api/category';

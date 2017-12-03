@@ -14,7 +14,7 @@ var userSchema = new Schema({
         return v.length > 6;
       },
       message: '{VALUE} must be more than 6 chars!'
-    },
+    }
   },
   gender: String,
   nationality: String,

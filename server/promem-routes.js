@@ -1,4 +1,4 @@
-var Promem = require('./models/promem');
+var Promem = require('./models/projectMembers');
 
 const PROMEMS_API_URL = '/api/v1/promems';
 
@@ -11,7 +11,7 @@ module.exports = function (app) {
         newPromem.project_id = promem.project_id;
         newPromem.person_id = promem.person_id;
         newPromem.company_id = promem.company_id;
-        newPromem.isEnabled = promem.isEnabled;
+        newPromem.isEnabled = true;
         newPromem.modified_date = promem.modified_date;
         newPromem.created_date = promem.created_date;
         newPromem.created_by = promem.created_by;

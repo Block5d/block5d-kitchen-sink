@@ -78,7 +78,7 @@ export class ProjectManagementComponent implements OnInit {
     private modalService: BsModalService,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -144,6 +144,7 @@ export class ProjectManagementComponent implements OnInit {
     this.projectManagementService.updateProject(this.editProject as ProjectManagement)
       .subscribe(project => {
         this.addSuccessToast('Successfully updated', `Saved ${this.editProject.name}`);
+        this.modalRef.hide();
         this.projects = this.getAll();
         this.modalRef.hide();
       });
@@ -155,6 +156,7 @@ export class ProjectManagementComponent implements OnInit {
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
         this.projects = this.getAll();
+        this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
       });
   }
 

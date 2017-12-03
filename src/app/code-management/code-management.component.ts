@@ -34,7 +34,7 @@ export class CodeManagementComponent implements OnInit {
   codenumber() {
     this.codemanaservice.searchcode(null).subscribe(result => {
       let number: any = result[result.length - 1]._id;
-      this.codenum = number + 1;
+      this.codenum = 1;
     });
   }
   getcategory() {

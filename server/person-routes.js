@@ -32,7 +32,7 @@ module.exports = function(app){
         res.status(201).json(result);
       });
     }else{
-      //console.log(error);
+      console.log(error);
       res.status(500).json(error);
     }
       
@@ -117,4 +117,4 @@ module.exports = function(app){
      })
     });
 
-}
+};

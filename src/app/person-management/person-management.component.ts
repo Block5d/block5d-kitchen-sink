@@ -61,6 +61,7 @@ export class PersonManagementComponent implements OnInit {
         this.addSuccessToast('Successfully added', `Added ${this.model.first_name}`);
         this.modalRef.hide();
         this.persons = this.getAllPersons();
+        this.model = new PersonManagement('', '', '', null, '', null, '',null,'','','','', new Date(), new Date(),'','');
       });
   }
 

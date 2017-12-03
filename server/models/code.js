@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 module.exports = mongoose.model('CodeManagement', {
-    _id: Number,
+    // _id: Number,
     code_details: {
         code_desc: String,
         code: String

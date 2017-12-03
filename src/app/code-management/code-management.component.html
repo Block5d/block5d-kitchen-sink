@@ -121,15 +121,15 @@
           <option *ngFor="let cate of category | async" [ngValue]="cate.categoryDesc">{{cate.categoryDesc}}</option>
         </select>
       </div>
-      <div class="form-group" *ngIf="addcode.categoryDesc">
-        <label for="categorycode">Category Code</label>
-        <input type="text" class="form-control" id="categorycode" [(ngModel)]="addcode.categoryCode" name="categorycode">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" [(ngModel)]="addcode.is_category" name="checkbox">Is Category
-          </label>
-        </div>
-      </div>
+      <!--<div class="form-group" *ngIf="addcode.categoryDesc">-->
+        <!--<label for="categorycode">Category Code</label>-->
+        <!--<input type="text" class="form-control" id="categorycode" [(ngModel)]="addcode.categoryCode" name="categorycode">-->
+        <!--<div class="checkbox">-->
+          <!--<label>-->
+            <!--<input type="checkbox" [(ngModel)]="addcode.is_category" name="checkbox">Is Category-->
+          <!--</label>-->
+        <!--</div>-->
+      <!--</div>-->
       <button type="submit" class="btn" (click)="saveaddcode()">Save</button>
       <button type="reset" class="btn">Reset</button>
     </form>

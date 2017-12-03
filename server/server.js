@@ -27,9 +27,8 @@ app.use(bodyParser.urlencoded({ limit: '50mb' , extended:true}));
 app.use(bodyParser.json({ limit: '50mb'}));
 
 app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
-app.use('/static', express.static(path.join(__dirname, '/../upload_tmp/')))
+app.use('/static', express.static(path.join(__dirname, '/../upload_tmp/')));
 require('./routes')(app);
-require('./LDH')(app);
 require('./codemana')(app);
 require('./orgchart')(app);
 require('./prosub-routes')(app);
