@@ -11,6 +11,7 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty
   templateUrl: './code-management.component.html',
   styleUrls: ['./code-management.component.css']
 })
+
 export class CodeManagementComponent implements OnInit {
   searchcode = new SearchCodeMana('', 'Code');
   modalRef: BsModalRef;
@@ -34,7 +35,7 @@ export class CodeManagementComponent implements OnInit {
   codenumber() {
     this.codemanaservice.searchcode(null).subscribe(result => {
       let number: any = result[result.length - 1]._id;
-      this.codenum = 1;
+      // this.codenum = 1;
     });
   }
   getcategory() {
