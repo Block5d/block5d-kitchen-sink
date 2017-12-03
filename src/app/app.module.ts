@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
-import { CodeManaService } from './services/code-mana.service'
+import { CodeManaService } from './services/code-mana.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap';
@@ -25,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToastyModule} from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
@@ -110,14 +112,25 @@ import { ProjectMembersService } from './services/project-members.service';
     PopoverModule.forRoot(),
     SelectModule,
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyDcUr3um3aXl67B1kWg_Q3Cos4EjC-X2uo",
+      apiKey: environment.AGM_API_KEY,
       libraries: ["places"]
     }),
+    NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  providers: [ RegistrationService, FileUploadService, ProjectSubmissionService, PersonManagementService, ProjectManagementService, RegCompanyService, UserGroupService, ProjectMembersService, LdhMemberService, CodeManaService, OrgChartService  ],
-  
+  providers: [ RegistrationService,
+               FileUploadService,
+               ProjectSubmissionService,
+               PersonManagementService,
+               ProjectManagementService,
+               RegCompanyService,
+               UserGroupService,
+               ProjectMembersService,
+               LdhMemberService,
+               CodeManaService,
+               OrgChartService  ],
+
 bootstrap: [ AppComponent ]
 
 })

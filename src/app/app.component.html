@@ -1,104 +1,54 @@
-<h1>
-    Block5D Kitchen Sink AngularJS
-</h1>
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
-<div>
-
-    <tabset>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/reg-user">Registration</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/user-list">list of users</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/search-user">Search by full name</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/upload-s3">Upload to AWS S3</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/firechat">Firebase Chat App</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/pic-gallery">Photo Gallery (FireStore)</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/c-input">Component Interaction (@Input)</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/vote-user">like & Dislike User (@Output)</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/pro-sub">Project Submission</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/per-mana">Person Management</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/pro-mana">Project Management</a>
-            </ng-template>
-        </tab>
-        <tab>
-            <ng-template tabHeading>
-                <a class="routing_link" routerLink="/pro-mem">Project Members</a>
-            </ng-template>
-        </tab>
-        <tab>
-      <ng-template tabHeading>
-          <a class="routing_link" routerLink="/company-management">Company Management</a>
-      </ng-template>
-  </tab>
-  <tab>
-      <ng-template tabHeading>
-          <a class="routing_link" routerLink="/user-group">User Group</a>
-      </ng-template>
-  </tab>
-  <tab>
-      <ng-template tabHeading>
-            <a class="routing_link" routerLink="/workflow">Workflow</a>
-        </ng-template>
-    </tab>
-  <tab>
-          <ng-template tabHeading>
-              <a class="routing_link" routerLink="/codeManagement">Code Management</a>
-          </ng-template>
-      </tab>
-      <tab>
-          <ng-template tabHeading>
-              <a class="routing_link" routerLink="/org-chart">org-chart</a>
-          </ng-template>
-      </tab>
-
-  </tabset>
-</div>
-<hr>
-<div class="col-lg-12">
-    <router-outlet></router-outlet>
-</div>
+<nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="250">
+      <div class="logo">
+      </div>
+      <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+        <li nz-submenu>
+          <span title><i class="anticon anticon-user"></i><span class="nav-text">Project Setup</span></span>
+          <ul>
+            <li nz-menu-item><a class="routing_link" routerLink="/reg-user">Registration</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/user-list">list of users</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/search-user">Search by full name</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pro-sub">Project Submission</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/per-mana">Person Management</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pro-mana">Project Management</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/company-management">Company Management</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/user-group">User Group</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/workflow">Workflow</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/codeManagement">Code Management</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/org-chart">org-chart</a></li>
+          </ul>
+        </li>
+        <li nz-submenu>
+          <span title><i class="anticon anticon-team"></i><span class="nav-text">Configuration</span></span>
+          <ul>
+            <li nz-menu-item><a class="routing_link" routerLink="/upload-s3">Upload to AWS S3</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/firechat">Firebase Chat App</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pic-gallery">Photo Gallery (FireStore)</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/c-input">Component Interaction (@Input)</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/vote-user">like & Dislike User (@Output)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-layout>
+      <nz-header style="background: #fff; padding:0;">
+        <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+      </nz-header>
+      <nz-content style="margin:0 16px;">
+        <nz-breadcrumb style="margin:12px 0;">
+          <nz-breadcrumb-item>Project Setup</nz-breadcrumb-item>
+          <nz-breadcrumb-item>Registration</nz-breadcrumb-item>
+        </nz-breadcrumb>
+        <div style="padding:24px; background: #fff; min-height: 360px;">
+           <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+      <nz-footer style="text-align: center;">Nimbus ©2017 power by Angular</nz-footer>
+    </nz-layout>
+  </nz-layout>

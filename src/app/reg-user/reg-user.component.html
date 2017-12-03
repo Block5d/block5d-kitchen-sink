@@ -6,7 +6,9 @@
       <app-header></app-header>
       <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="form-group">
-          <label for="email">Email Address </label>
+          <div nz-form-label nz-col [nzSpan]="5">
+              <label for="email">Email Address </label>
+          </div>
           <input id="email" #email="ngModel" name="email" type="text" [(ngModel)]="model.email" placeholder="you@domain.com" class="form-control" #email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
           <div *ngIf="email.errors && (email.touched || submitted)">
             <div [hidden]="!email.errors.required && email.dirty" class="help-block alert alert-danger">
@@ -20,7 +22,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <div nz-form-label nz-col [nzSpan]="5">
+              <label for="password">Password</label>
+          </div>
           <input id="password" #password="ngModel" name="password" type="password" [(ngModel)]="model.password" minlength="8" placeholder="something secret" class="form-control" pattern="^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$" required/>
           <div *ngIf="password.errors && (password.touched || submitted)">
             <div [hidden]="!password.errors.required && password.dirty" class="help-block alert alert-danger">
@@ -39,7 +43,9 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="confirmpassword">Confirm Password</label>
+          <div nz-form-label nz-col [nzSpan]="5">
+              <label for="confirmpassword">Confirm Password</label>
+          </div>
           <input id="confirmpassword" #confirmpassword="ngModel" name="confirmpassword" [(ngModel)]="model.confirmPassword" type="password" placeholder="something secret"  class="form-control" required [required]="model.password"/>
           <div *ngIf="confirmpassword.errors && (confirmpassword.touched || submitted)">
             <div [hidden]="!confirmpassword.errors.required && confirmpassword.dirty" class="help-block alert alert-danger">

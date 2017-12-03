@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   ApiUrl: 'http://localhost:4201',
-  itemPerPage: 10
+  itemPerPage: 10,
+  AGM_API_KEY: 'AIzaSyDcUr3um3aXl67B1kWg_Q3Cos4EjC-X2uo',
 };
