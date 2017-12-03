@@ -4,8 +4,7 @@ h1, nav {
 }
 
 :host ::ng-deep .logo {
-  height: 32px;
-  background: #333;
+  height: 120px;
   border-radius: 6px;
   margin: 16px;
 }
