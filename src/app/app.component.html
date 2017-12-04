@@ -18,7 +18,6 @@
             <li nz-menu-item><a class="routing_link" routerLink="/per-mana">Person Management</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-mana">Project Management</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
-            <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/company-management">Company Management</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/user-group">User Group</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/workflow">Workflow</a></li>
@@ -30,7 +29,6 @@
           <span title><i class="anticon anticon-team"></i><span class="nav-text">Configuration</span></span>
           <ul>
             <li nz-menu-item><a class="routing_link" routerLink="/upload-s3">Upload to AWS S3</a></li>
-            <li nz-menu-item><a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/upload-firebase">Upload to Firebase Storage</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/firechat">Firebase Chat App</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pic-gallery">Photo Gallery (FireStore)</a></li>
@@ -45,10 +43,11 @@
         <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
       </nz-header>
       <nz-content style="margin:0 16px;">
-        <nz-breadcrumb style="margin:12px 0;">
-          <nz-breadcrumb-item>Project Setup</nz-breadcrumb-item>
-          <nz-breadcrumb-item>Registration</nz-breadcrumb-item>
-        </nz-breadcrumb>
+        <!--<nz-breadcrumb style="margin:12px 0;">-->
+          <!--<nz-breadcrumb-item>Project Setup</nz-breadcrumb-item>-->
+          <!--<nz-breadcrumb-item>Registration</nz-breadcrumb-item>-->
+        <!--</nz-breadcrumb>-->
+        <app-breadcrumb></app-breadcrumb>
         <div style="padding:24px; background: #fff; min-height: 360px;">
            <router-outlet></router-outlet>
         </div>

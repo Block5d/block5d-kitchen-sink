@@ -18,23 +18,122 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user-list', pathMatch: 'full' },
-  { path: 'reg-user', component: RegUserComponent },
-  { path: 'user-list', component: UserListComponent },
-  { path: 'search-user', component: SearchUserComponent },
-  { path: 'codeManagement', component: CodeManagementComponent },
-  { path: 'org-chart', component: OrgChartComponent },
-  { path: 'company-management', component: CompanymanagementComponent},
-  { path: 'user-group', component:UserGroupComponent },
-  { path: 'workflow', component:WorkflowComponent },
-  { path: 'c-input', component: ParentComponentComponent },
-  { path: 'vote-user', component: VoteUserComponent },
-  { path: 'pro-sub', component:ProjectSubmissionComponent },
-  { path: 'per-mana',component:PersonManagementComponent },
-  { path: 'pro-mana',component:ProjectManagementComponent },
-  { path: 'pro-mem',component:ProjectMembersComponent },
-  { path: 'upload-firebase', component: UploadtoFireStoreComponent },
-  { path: 'upload-s3', component: UploadtoS3Component }
+  {
+    path: '',
+    // component: AppComponent,
+    children: [
+      {
+        path: 'reg-user',
+        component: RegUserComponent,
+        data: {
+          breadcrumb: "Registration"
+        }
+      },
+      {
+        path: 'user-list',
+        component: UserListComponent,
+        data: {
+          breadcrumb: "list of users"
+        }
+      },
+      {
+        path: 'search-user', component: SearchUserComponent,
+        data: {
+          breadcrumb: "Search by full name"
+        }
+      },
+      {
+        path: 'codeManagement',
+        component: CodeManagementComponent,
+        data: {
+          breadcrumb: "Code Management"
+        }
+      },
+      {
+        path: 'org-chart',
+        component: OrgChartComponent,
+        data: {
+          breadcrumb: "org-chart"
+        }
+      },
+      {
+        path: 'company-management',
+        component: CompanymanagementComponent,
+        data: {
+          breadcrumb: "Company Management"
+        }
+      },
+      {
+        path: 'user-group',
+        component:UserGroupComponent,
+        data: {
+          breadcrumb: "User Group"
+        }
+      },
+      {
+        path: 'workflow',
+        component:WorkflowComponent,
+        data: {
+          breadcrumb: "Workflow"
+        }
+      },
+      {
+        path: 'c-input',
+        component: ParentComponentComponent,
+        data: {
+          breadcrumb: "Component Interaction (@Input)"
+        }
+      },
+      {
+        path: 'vote-user',
+        component: VoteUserComponent,
+        data: {
+          breadcrumb: "like & Dislike User (@Output)"
+        }
+      },
+      {
+        path: 'pro-sub',
+        component:ProjectSubmissionComponent,
+        data: {
+          breadcrumb: "Project Submission"
+        }
+      },
+      {
+        path: 'per-mana',
+        component:PersonManagementComponent,
+        data: {
+          breadcrumb: "Person Management"
+        }
+      },
+      {
+        path: 'pro-mana',
+        component:ProjectManagementComponent,
+        data: {
+          breadcrumb: "Project Management"
+        }
+      },
+      {
+        path: 'pro-mem',
+        component:ProjectMembersComponent,
+        data: {
+          breadcrumb: "Project Members"
+        }
+      },
+      {
+        path: 'upload-firebase',
+        component: UploadtoFireStoreComponent,
+        data: {
+          breadcrumb: "Upload to Firebase Storage"
+        }
+      },
+      {
+        path: 'upload-s3', component: UploadtoS3Component,
+        data: {
+          breadcrumb: "Upload to AWS S3"
+        }
+      }
+    ]},
+
 ];
 
 @NgModule({
