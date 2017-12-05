@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
-
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
 import { CodeManaService } from './services/code-mana.service';
@@ -17,6 +16,9 @@ import { PopoverModule } from 'ngx-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { ProgressbarModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -62,6 +64,7 @@ import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
+import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
 
 
 @NgModule({
@@ -90,6 +93,7 @@ import { ProjectMembersService } from './services/project-members.service';
     PaginationComponent,
     LoadingSpinnerComponent,
     ProjectMembersComponent,
+    ProjectManagementV2Component,
 
   ],
   imports: [
@@ -117,7 +121,9 @@ import { ProjectMembersService } from './services/project-members.service';
     }),
     NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),
-    PaginationModule.forRoot()
+    BrowserAnimationsModule,
+    PaginationModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [ RegistrationService,
                FileUploadService,

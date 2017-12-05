@@ -23,26 +23,7 @@
       </div>
     </form>
   </div>
-  <!-- <div class="card card-block card-header">
-    <div class="well well-lg">
-      <p></p>
-      <accordion>
-        <accordion-group *ngFor="let project of project | async" [heading]="project._id" + "project.name" [isOpen]="isOpen">
-          <p>ID:{{project}}</p>
-          <p>NAME:{{project}}</p>
-          <p>GENDER:{{project}}</p>
-          <p>Address:{{project}}</p>
-          <p>BIRTHDAY:{{project}}</p>
-          <button class="btn btn-primary" title="edit project" (click)="edit(project, template2)">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-danger" title="delete project" (click)="onDelete(project)">
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
-          </button>
-        </accordion-group>
-      </accordion>
-    </div>
-  </div> -->
+ 
   <table *ngIf="(projects | async)?.length > 0" class="table">
     <thead>
       <tr>
@@ -543,7 +524,7 @@
   </div>
   <div class="modal-body">
     <div class="container-fluid">
-      <form #editform="ngForm" novalidate>
+      <form #editform="ngForm" novalidate >
         <div class="row">
           <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
 

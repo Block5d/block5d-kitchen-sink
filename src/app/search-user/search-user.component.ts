@@ -83,7 +83,6 @@ export class SearchUserComponent implements OnInit {
         console.log(numPages);
         if(numPages > 1 && this.model.currentPerPage > 1){
           console.log(result);
-          
           var startIndex  = (this.indexOnPage - this.itemsPerPage);
           var endIndex = this.indexOnPage - 1;
           console.log("<<" + startIndex);

@@ -1,0 +1,149 @@
+<!-- Main -->
+<div class="container">
+  <div class="jumbotron">
+    <div nz-row>
+      <h1>Project Management</h1>
+      <div nz-col [nzSpan]="12">
+        <nz-input [nzPlaceHolder]="'Input Search Text'" [(ngModel)]="smodel.keyword" [nzType]="'inputValue'" name="keyword"></nz-input>
+      </div>
+      <div nz-col [nzSpan]="4">
+        <nz-select [(ngModel)]="selectedTypes" nzAllowClear>
+          <nz-option *ngFor="let type of types" [nzLabel]="type.label" [nzValue]="type">
+          </nz-option>
+        </nz-select>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <button nz-button [nzType]="'primary'" (click)="onSearch()">
+          <span>Search</span>
+        </button>
+        <button nz-button [nzType]="'dashed'" (click)="showModal()">
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="(result)?.length > 0" class="row">
+      <div class="col-xs-12 col-12 col-md-6">
+        <pagination class="pagination-sm" [boundaryLinks]="true" [rotate]="false" [totalItems]="totalItems" [(ngModel)]="currentPage"
+          [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" (pageChanged)="pageChanged($event)" (numPages)="numPages = $event">
+        </pagination>
+      </div>
+    </div>
+
+    <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+  </div>
+  <nz-table *ngIf="(result)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>#</span>
+        </th>
+        <th nz-th>
+          <span>Project Name</span>
+        </th>
+        <th nz-th>
+          <span>Country</span>
+        </th>
+        <th nz-th>
+          <span>Start Date</span>
+        </th>
+        <th nz-th>
+          <span>End Date</span>
+        </th>
+        <th nz-th>
+          <span>Created By</span>
+        </th>
+        <th nz-th>
+          <span>Updated By</span>
+        </th>
+        <th nz-th>
+          <span>Created Date</span>
+        </th>
+        <th nz-th>
+          <span>Updated Date</span>
+        </th>
+        <th nz-th>
+          <span>Actions</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let project of result">
+        <td nz-td>{{project._id}}</td>
+        <td nz-td>{{project.name}}</td>
+        <td nz-td>{{project.project_country}}</td>
+        <td nz-td>{{project.start_date}}</td>
+        <td nz-td>{{project.end_date}}</td>
+        <td nz-td>{{project.created_by}}</td>
+        <td nz-td>{{project.modified_by}}</td>
+        <td nz-td>{{project.created_date}}</td>
+        <td nz-td>{{project.modified_date}}</td>
+        <td nz-td>
+          <button nz-button [nzType]="'primary'" (click)="edit(project)">
+            <i class="anticon anticon-edit"></i>
+          </button>
+          <button nz-button [nzType]="'danger'" (click)="onDelete(editProjectModal)">
+            <i class="anticon anticon-delete"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <div *ngIf="(projects | async)?.length==0">
+    <p>No record found.</p>
+  </div>
+</div>
+
+<nz-modal [nzVisible]="editProjectModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="handleCancel($event)">
+  <ng-template #modalTitle>
+    Edit Project
+  </ng-template>
+  <ng-template #modalContent>
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label nz-form-item-required>Name</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.name">
+          <nz-input formControlName="name" [(ngModel)]="editProject.name" [nzPlaceHolder]="'Project Name'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="validateForm.controls.name.dirty&&validateForm.controls.name.hasError('required')">Please input your name!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label nz-form-item-required>Start Date</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.start_date">
+          <nz-datepicker formControlName="start_date" [(ngModel)]="editProject.start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Start Date'"
+            style="width:100%;">
+          </nz-datepicker>
+          <div nz-form-explain *ngIf="validateForm.controls.start_date.dirty&&validateForm.controls.start_date.hasError('required')">Please input your Start Date!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+          <div nz-form-label>
+            <label nz-form-item-required>End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.end_date">
+            <nz-datepicker formControlName="end_date" [(ngModel)]="editProject.end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.end_date.dirty&&validateForm.controls.end_date.hasError('required')">Please input your End Date!</div>
+          </div>
+        </div>
+
+    </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      Cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="handleOk($event,validateForm.value)"
+      [nzLoading]="isConfirmLoading">
+      Save
+    </button>
+  </ng-template>
+</nz-modal>

@@ -16,6 +16,7 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component'
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
+import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/user-list', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'pro-sub', component:ProjectSubmissionComponent },
   { path: 'per-mana',component:PersonManagementComponent },
   { path: 'pro-mana',component:ProjectManagementComponent },
+  { path: 'pro-mana-2',component:ProjectManagementV2Component },
   { path: 'pro-mem',component:ProjectMembersComponent },
   { path: 'upload-firebase', component: UploadtoFireStoreComponent },
   { path: 'upload-s3', component: UploadtoS3Component }

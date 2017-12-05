@@ -7,6 +7,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { IOption } from 'ng-select';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-project-management',
@@ -21,8 +23,13 @@ export class ProjectManagementComponent implements OnInit {
   minDate: Date;
   submitted = false;
   isopen = false;
-  smodel = new SearchProject('', "name");
+  inputValue: string;
   model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  types = [];
+  selectedTypes;
+  smodel = new SearchProject('', "name",null, null);
+  validateForm: FormGroup;
+
 
   client_companies = [{ desc: "Blizzard", value: "blz" },
   { desc: "Tencent", value: "QQ" }, { desc: "LemoTech", value: "Lemo" },
@@ -76,17 +83,19 @@ export class ProjectManagementComponent implements OnInit {
   constructor(
     private projectManagementService: ProjectManagementService,
     private modalService: BsModalService,
+    private fb: FormBuilder,
+    private nzmodalService: NzModalService,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
   }
 
-  ngOnInit() {
-  }
+
 
   onSearch() {
     this.projects = this.getAllProjects(this.smodel.keyword, this.smodel.type);
   }
+  
 
   getAll() {
     return this.projectManagementService.getAllProjects(null);
@@ -144,7 +153,6 @@ export class ProjectManagementComponent implements OnInit {
     this.projectManagementService.updateProject(this.editProject as ProjectManagement)
       .subscribe(project => {
         this.addSuccessToast('Successfully updated', `Saved ${this.editProject.name}`);
-        this.modalRef.hide();
         this.projects = this.getAll();
         this.modalRef.hide();
       });
@@ -157,6 +165,7 @@ export class ProjectManagementComponent implements OnInit {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
         this.projects = this.getAll();
         this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+        this.modalRef.hide();
       });
   }
 
@@ -192,6 +201,21 @@ export class ProjectManagementComponent implements OnInit {
       }
     };
     this.toastyService.success(toastOptions);
+  }
+
+  ngOnInit() {
+    this.types = [
+      { value: 'name', label: 'Name' },
+      { value: 'project_country', label: 'Country' }
+    ];
+    this.selectedTypes = this.types[0];
+
+    this.validateForm = this.fb.group({
+      userName: [ null, [ Validators.required ] ],
+      password: [ null, [ Validators.required ] ],
+      remember: [ true ],
+    });
+    
   }
 
 }

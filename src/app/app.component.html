@@ -1,5 +1,5 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
-<nz-layout>
+<nz-layout style="height:100%">
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="250">
       <div class="logo">
             <a class="navbar-brand center" href="#" style="max-width: 50%;">
@@ -17,7 +17,7 @@
             <li nz-menu-item><a class="routing_link" routerLink="/pro-sub">Project Submission</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/per-mana">Person Management</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-mana">Project Management</a></li>
-            <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
+            <li nz-menu-item><a class="routing_link" routerLink="/pro-mana-2">Project Management 2</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-mem">Project Members</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/company-management">Company Management</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/user-group">User Group</a></li>
@@ -40,7 +40,7 @@
         </li>
       </ul>
     </nz-sider>
-    <nz-layout>
+    <nz-layout style="height:100%">
       <nz-header style="background: #fff; padding:0;">
         <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
       </nz-header>
@@ -55,4 +55,4 @@
       </nz-content>
       <nz-footer style="text-align: center;">Nimbus ©2017 power by Angular</nz-footer>
     </nz-layout>
-  </nz-layout>
+</nz-layout>
