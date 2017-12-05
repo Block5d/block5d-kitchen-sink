@@ -62,6 +62,7 @@ import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { ProjectMembersService } from './services/project-members.service';
     PaginationComponent,
     LoadingSpinnerComponent,
     ProjectMembersComponent,
+    BreadcrumbComponent,
 
   ],
   imports: [
