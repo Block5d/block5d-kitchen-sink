@@ -1,17 +1,18 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 <nz-layout style="height: 100%;">
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="250">
-      <div class="logo">
-            <a class="navbar-brand center" href="#" style="max-width: 50%;">
-                <img src="../assets/images/logo2.png" height="220" width="220" class="img-fluid">
-            </a>
-
-      </div>
+      <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+                <div class="logo">
+                    <a class="navbar-brand center" href="#" style="max-width: 50%;">
+                    <img src="../assets/images/logo2.png" height="220" width="220" class="img-fluid">
+                    </a>
+                </div>
+      </ul>
       <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
         <li nz-submenu>
           <span title><i class="anticon anticon-user"></i><span class="nav-text">Project Setup</span></span>
           <ul>
-            <li nz-menu-item><a class="routing_link" routerLink="/reg-user">Registration</a></li>
+            <li nz-menu-item (click)="onClickCurrentParentCrumb('Project Setup')"><a class="routing_link" routerLink="/reg-user">Registration</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/user-list">list of users</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/search-user">Search by full name</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-sub">Project Submission</a></li>
@@ -48,11 +49,11 @@
           <!--<nz-breadcrumb-item>Project Setup</nz-breadcrumb-item>-->
           <!--<nz-breadcrumb-item>Registration</nz-breadcrumb-item>-->
         <!--</nz-breadcrumb>-->
-        <app-breadcrumb></app-breadcrumb>
+        <app-breadcrumb [parentCrumb]="parentCrumb"></app-breadcrumb>
         <div style="padding:24px; background: #fff; min-height: 360px;">
            <router-outlet></router-outlet>
         </div>
       </nz-content>
       <nz-footer style="text-align: center;">Nimbus ©2017 power by Angular</nz-footer>
     </nz-layout>
-  </nz-layout>
+</nz-layout>
