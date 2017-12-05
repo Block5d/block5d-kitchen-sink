@@ -1,6 +1,6 @@
 <div class="edit-margin">
   <nz-breadcrumb>
-    <nz-breadcrumb-item routerLink="">Project Setup</nz-breadcrumb-item>
+    <nz-breadcrumb-item routerLink="">{{parentCrumb}}</nz-breadcrumb-item>
     <nz-breadcrumb-item
       *ngFor="let breadcrumb of breadcrumbs"
       [routerLink]="[breadcrumb.url, breadcrumb.params]">

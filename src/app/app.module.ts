@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
@@ -119,7 +120,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     }),
     NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [ RegistrationService,
                FileUploadService,

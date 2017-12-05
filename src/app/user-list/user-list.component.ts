@@ -38,7 +38,7 @@ export class UserListComponent implements OnInit {
 
   constructor(private registrationService: RegistrationService,
 
-    private toastyService:ToastyService,
+    private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
     private modalService: BsModalService) {
       this.users = this.registrationService.getAllUsers(this.model);
@@ -76,13 +76,13 @@ export class UserListComponent implements OnInit {
   }
 
   onDelete(user) {
-    this.registrationService.deleteUser(user as RegistrationUser).subscribe((user)=> user);
+    this.registrationService.deleteUser(user as RegistrationUser).subscribe(( user ) => user);
     this.users = this.registrationService.getAllUsers(this.model);
     this.addSuccessToast('Delete successfully', `Delete ${user.fullname}`);
   }
 
-  addSuccessToast(title,msg) {
-    var toastOptions:ToastOptions = {
+  addSuccessToast(title, msg) {
+    let toastOptions: ToastOptions = {
         title: title,
         msg: msg,
         showClose: true,
@@ -91,7 +91,7 @@ export class UserListComponent implements OnInit {
         onAdd: (toast:ToastData) => {
             console.log('Toast ' + toast.id + ' has been added!');
         },
-        onRemove: function(toast:ToastData) {
+        onRemove: function(toast: ToastData) {
             console.log('Toast ' + toast.id + ' has been removed!');
         }
     };

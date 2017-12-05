@@ -12,7 +12,7 @@
         <li nz-submenu>
           <span title><i class="anticon anticon-user"></i><span class="nav-text">Project Setup</span></span>
           <ul>
-            <li nz-menu-item><a class="routing_link" routerLink="/reg-user">Registration</a></li>
+            <li nz-menu-item (click)="onClickCurrentParentCrumb('Project Setup')"><a class="routing_link" routerLink="/reg-user">Registration</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/user-list">list of users</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/search-user">Search by full name</a></li>
             <li nz-menu-item><a class="routing_link" routerLink="/pro-sub">Project Submission</a></li>
@@ -48,7 +48,7 @@
           <!--<nz-breadcrumb-item>Project Setup</nz-breadcrumb-item>-->
           <!--<nz-breadcrumb-item>Registration</nz-breadcrumb-item>-->
         <!--</nz-breadcrumb>-->
-        <app-breadcrumb></app-breadcrumb>
+        <app-breadcrumb [parentCrumb]="parentCrumb"></app-breadcrumb>
         <div style="padding:24px; background: #fff; min-height: 360px;">
            <router-outlet></router-outlet>
         </div>
