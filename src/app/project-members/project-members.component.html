@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Add Project</h4>
+  <h4 class="modal-title pull-left">Add Project Members</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -81,7 +81,7 @@
             </button>
           </td>
         </tr>
-  
+
       </tbody>
     </table>
   </div>
@@ -98,7 +98,7 @@
         <form #editform="ngForm" novalidate>
           <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
-  
+
                 <div class="form-group">
                     <label>Project ID</label>
                     <ng-select [(ngModel)]="editPromem.project_id" #project_id="ngModel" [ngModelOptions]="{standalone: true}" [options]="project_ids"
@@ -110,13 +110,13 @@
                       </div>
                     </div>
                   </div>
-  
+
               <div class="form-group">
                 <hr/>
                 <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
                 <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
               </div>
-  
+
             </div>
           </div>
         </form>

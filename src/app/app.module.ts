@@ -52,6 +52,7 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
 
 
 //Services
@@ -64,7 +65,7 @@ import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
-import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { ProjectManagementV2Component } from './project-management-v2/project-ma
     LoadingSpinnerComponent,
     ProjectMembersComponent,
     ProjectManagementV2Component,
+    BreadcrumbComponent,
 
   ],
   imports: [
