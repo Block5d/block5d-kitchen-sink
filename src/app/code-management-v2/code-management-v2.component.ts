@@ -74,9 +74,11 @@ export class CodeManagementV2Component implements OnInit {
   }
   savecategory() {
     console.log(this.addcategory);
-    this.codemanaservice.addcategory(this.addcategory).subscribe();
-    this.categorymodel = false;
-    this.addcategory = new AddCategory('', '', true);
+    this.codemanaservice.addcategory(this.addcategory).subscribe(result => {
+      console.log(result);
+      this.categorymodel = false;
+      this.addcategory = new AddCategory('', '', true);
+    });
   }
   saveaddcode() {
     console.log(this.addcode);

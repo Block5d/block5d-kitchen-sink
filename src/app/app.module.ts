@@ -53,7 +53,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { PaginationComponent } from './pagination/pagination.component';
 
 
-//Services
+// Services
 import { RegistrationService } from './services/registration-user.service';
 import { FileUploadService } from './services/file-upload.service';
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
@@ -64,6 +64,7 @@ import { ProjectManagementService } from './services/project-management.service'
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { CodeManagementV2Component } from './code-management-v2/code-management-
     LoadingSpinnerComponent,
     ProjectMembersComponent,
     CodeManagementV2Component,
+    BreadcrumbComponent,
 
   ],
   imports: [
@@ -116,7 +118,7 @@ import { CodeManagementV2Component } from './code-management-v2/code-management-
     SelectModule,
     AgmCoreModule.forRoot({
       apiKey: environment.AGM_API_KEY,
-      libraries: ["places"]
+      libraries: ['places']
     }),
     NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),

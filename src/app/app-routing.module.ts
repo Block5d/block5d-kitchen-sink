@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
-import { CodeManagementComponent} from './code-management/code-management.component';
+import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
-import { UserGroupComponent} from './user-group/user-group.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -19,28 +19,134 @@ import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user-list', pathMatch: 'full' },
-  { path: 'reg-user', component: RegUserComponent },
-  { path: 'user-list', component: UserListComponent },
-  { path: 'search-user', component: SearchUserComponent },
-  { path: 'codeManagement', component: CodeManagementComponent },
-  { path: 'codeManagementV2', component: CodeManagementV2Component },
-  { path: 'org-chart', component: OrgChartComponent },
-  { path: 'company-management', component: CompanymanagementComponent},
-  { path: 'user-group', component: UserGroupComponent },
-  { path: 'workflow', component: WorkflowComponent },
-  { path: 'c-input', component: ParentComponentComponent },
-  { path: 'vote-user', component: VoteUserComponent },
-  { path: 'pro-sub', component: ProjectSubmissionComponent },
-  { path: 'per-mana', component: PersonManagementComponent },
-  { path: 'pro-mana', component: ProjectManagementComponent },
-  { path: 'pro-mem', component: ProjectMembersComponent },
-  { path: 'upload-firebase', component: UploadtoFireStoreComponent },
-  { path: 'upload-s3', component: UploadtoS3Component }
+  {
+    path: '',
+    // component: AppComponent,
+    children: [
+      {
+        path: 'reg-user',
+        component: RegUserComponent,
+        data: {
+          breadcrumb: "Registration"
+        }
+      },
+      {
+        path: 'user-list',
+        component: UserListComponent,
+        data: {
+          breadcrumb: "list of users"
+        }
+      },
+      {
+        path: 'search-user', component: SearchUserComponent,
+        data: {
+          breadcrumb: "Search by full name"
+        }
+      },
+      {
+        path: 'codeManagement',
+        component: CodeManagementComponent,
+        data: {
+          breadcrumb: "Code Management"
+        }
+      },
+      {
+        path: 'codeManagementV2',
+        component: CodeManagementV2Component,
+        data: {
+          breadcrumb: 'Code Management V2'
+        }
+      },
+      {
+        path: 'org-chart',
+        component: OrgChartComponent,
+        data: {
+          breadcrumb: "org-chart"
+        }
+      },
+      {
+        path: 'company-management',
+        component: CompanymanagementComponent,
+        data: {
+          breadcrumb: "Company Management"
+        }
+      },
+      {
+        path: 'user-group',
+        component: UserGroupComponent,
+        data: {
+          breadcrumb: "User Group"
+        }
+      },
+      {
+        path: 'workflow',
+        component: WorkflowComponent,
+        data: {
+          breadcrumb: "Workflow"
+        }
+      },
+      {
+        path: 'c-input',
+        component: ParentComponentComponent,
+        data: {
+          breadcrumb: "Component Interaction (@Input)"
+        }
+      },
+      {
+        path: 'vote-user',
+        component: VoteUserComponent,
+        data: {
+          breadcrumb: "like & Dislike User (@Output)"
+        }
+      },
+      {
+        path: 'pro-sub',
+        component: ProjectSubmissionComponent,
+        data: {
+          breadcrumb: "Project Submission"
+        }
+      },
+      {
+        path: 'per-mana',
+        component: PersonManagementComponent,
+        data: {
+          breadcrumb: "Person Management"
+        }
+      },
+      {
+        path: 'pro-mana',
+        component: ProjectManagementComponent,
+        data: {
+          breadcrumb: "Project Management"
+        }
+      },
+      {
+        path: 'pro-mem',
+        component: ProjectMembersComponent,
+        data: {
+          breadcrumb: "Project Members"
+        }
+      },
+      {
+        path: 'upload-firebase',
+        component: UploadtoFireStoreComponent,
+        data: {
+          breadcrumb: "Upload to Firebase Storage"
+        }
+      },
+      {
+        path: 'upload-s3', component: UploadtoS3Component,
+        data: {
+          breadcrumb: "Upload to AWS S3"
+        }
+      }
+    ]
+  },
+
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
