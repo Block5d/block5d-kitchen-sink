@@ -38,7 +38,6 @@
         </th>
         <th nz-th>
           <span>Category Code</span>
-        </th>
         <th nz-th>
           <span>Created Date</span>
         </th>
@@ -93,7 +92,7 @@
     </form>
   </ng-template>
   <ng-template #categoryFooter>
-    <button nz-button (click)="saveeditcode()">
+    <button nz-button (click)="savecategory()">
       <span>Save</span>
     </button>
   </ng-template>
@@ -117,8 +116,8 @@
       </div>
       <div nzform-item nz-row>
         <label for="gennder">Category</label>
-        <nz-select id="gennder" style="width: 120px;" [(ngModel)]="addcode.categoryDesc" name="categoryDesc" nzAllowClear>
-          <nz-option *ngFor="let cate of category | async" [nzLabel]="cate.categoryDesc" [nzValue]="cate.categoryDesc"></nz-option>
+        <nz-select id="gennder" style="width: 120px;" [(ngModel)]="addcode.category" name="category" nzAllowClear>
+          <nz-option *ngFor="let cate of category | async" [nzLabel]="cate.categoryDesc" [nzValue]="cate"></nz-option>
         </nz-select>
       </div>
     </form>

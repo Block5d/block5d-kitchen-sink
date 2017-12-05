@@ -1,37 +1,29 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CodeManaService } from '../services/code-mana.service';
 import { AddCodeMana, SearchCodeMana, AddCategory } from '../shared/code-mana';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 @Component({
-  selector: 'app-code-management',
-  templateUrl: './code-management.component.html',
-  styleUrls: ['./code-management.component.css']
+  selector: 'app-code-management-v2',
+  templateUrl: './code-management-v2.component.html',
+  styleUrls: ['./code-management-v2.component.css']
 })
-
-export class CodeManagementComponent implements OnInit {
+export class CodeManagementV2Component implements OnInit {
   categorymodel= false; codemodel= false; editcodemodel= false;
   searchcode = new SearchCodeMana('', 'Code');
-  codenum: number;
   searchtype = [{label: 'Code', value: 'Code'},
     {label: 'Code Desc.', value: 'CodeDesc'},
     {label: 'Category Desc.', value: 'CateDesc'},
     {label: 'Category Code', value: 'CateCode'}];
   addcategory = new AddCategory('', '', true);
-  addcode = new AddCodeMana(null, '', '', '', '', true, new Date(), new Date(), '', '', '');
-  editcode = new AddCodeMana(null, '', '', '', '', null, null, null, '', '', '');
+  addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
+  editcode = new AddCodeMana(null, '', '', null, '', '', null, null, null, '', '', '');
   private resultcode: Observable<AddCodeMana[]>;
   private category: Observable<AddCategory[]>;
   constructor(
-    private modalService: BsModalService,
     private codemanaservice: CodeManaService,
-    private toastyService: ToastyService,
-    private toastyConfig: ToastyConfig
-  ) {
-  }
+  ) { }
+
   ngOnInit() {
   }
   getcategory() {
@@ -84,34 +76,15 @@ export class CodeManagementComponent implements OnInit {
     console.log(this.addcategory);
     this.codemanaservice.addcategory(this.addcategory).subscribe();
     this.categorymodel = false;
+    this.addcategory = new AddCategory('', '', true);
   }
   saveaddcode() {
-    this.addcode._id = this.codenum;
-    this.codemanaservice.addcode(this.addcode)
-      .subscribe(user => {
-        console.log(user);
-        this.addSuccessToast('Successfully added', `Added ${this.addcode.code}`);
-      });
+    console.log(this.addcode);
+    this.addcode.categoryDesc = this.addcode.category.categoryDesc;
+    this.addcode.categoryCode = this.addcode.category.categoryCode;
+    this.codemanaservice.addcode(this.addcode).subscribe();
     this.resultcode = this.codemanaservice.searchcode(null);
-    this.addcode = new AddCodeMana(null, '', '', '', '', true, new Date(), new Date(), '', '', '');
     this.codemodel = false;
+    this.addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
   }
-  addSuccessToast(title, msg) {
-    var toastOptions: ToastOptions = {
-      title: title,
-      msg: msg,
-      showClose: true,
-      timeout: 1500,
-      theme: 'bootstrap',
-      onAdd: (toast: ToastData) => {
-        console.log('Toast ' + toast.id + ' has been added!');
-      },
-      onRemove: function (toast: ToastData) {
-        console.log('Toast ' + toast.id + ' has been removed!');
-      }
-    };
-    this.toastyService.success(toastOptions);
-  }
-
-
 }

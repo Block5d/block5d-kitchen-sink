@@ -5,8 +5,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { CodeManagementComponent} from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
-import { CompanymanagementComponent } from "./companymanagement/companymanagement.component";
-import { UserGroupComponent} from "./user-group/user-group.component";
+import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+import { UserGroupComponent} from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -14,8 +14,9 @@ import { ProjectSubmissionComponent } from './project-submission/project-submiss
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
-import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component'
+import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
+import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user-list', pathMatch: 'full' },
@@ -23,16 +24,17 @@ const routes: Routes = [
   { path: 'user-list', component: UserListComponent },
   { path: 'search-user', component: SearchUserComponent },
   { path: 'codeManagement', component: CodeManagementComponent },
+  { path: 'codeManagementV2', component: CodeManagementV2Component },
   { path: 'org-chart', component: OrgChartComponent },
   { path: 'company-management', component: CompanymanagementComponent},
-  { path: 'user-group', component:UserGroupComponent },
-  { path: 'workflow', component:WorkflowComponent },
+  { path: 'user-group', component: UserGroupComponent },
+  { path: 'workflow', component: WorkflowComponent },
   { path: 'c-input', component: ParentComponentComponent },
   { path: 'vote-user', component: VoteUserComponent },
-  { path: 'pro-sub', component:ProjectSubmissionComponent },
-  { path: 'per-mana',component:PersonManagementComponent },
-  { path: 'pro-mana',component:ProjectManagementComponent },
-  { path: 'pro-mem',component:ProjectMembersComponent },
+  { path: 'pro-sub', component: ProjectSubmissionComponent },
+  { path: 'per-mana', component: PersonManagementComponent },
+  { path: 'pro-mana', component: ProjectManagementComponent },
+  { path: 'pro-mem', component: ProjectMembersComponent },
   { path: 'upload-firebase', component: UploadtoFireStoreComponent },
   { path: 'upload-s3', component: UploadtoS3Component }
 ];
