@@ -1,12 +1,14 @@
 <ng2-toasty [position]="'top-right'"></ng2-toasty>
 <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" nzWidth="250">
-      <div class="logo">
-            <a class="navbar-brand center" href="#" style="max-width: 50%;">
-                <img src="../assets/images/logo2.png" height="220" width="220" class="img-fluid">
-            </a>
+      <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+                <div class="logo">
+                    <a class="navbar-brand center" href="#" style="max-width: 50%;">
+                    <img src="../assets/images/logo2.png" height="220" width="220" class="img-fluid">
+                    </a>
+                </div>
             
-      </div>
+      </ul>
       <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
         <li nz-submenu>
           <span title><i class="anticon anticon-user"></i><span class="nav-text">Project Setup</span></span>
@@ -55,4 +57,4 @@
       </nz-content>
       <nz-footer style="text-align: center;">Nimbus ©2017 power by Angular</nz-footer>
     </nz-layout>
-  </nz-layout>
+</nz-layout>
