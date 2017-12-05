@@ -84,7 +84,9 @@ export class SearchUserComponent implements OnInit {
           this.result = result.slice(startIndex, endIndex);
           console.log(this.result);
         }else {
-          this.result = result.slice(0, 20);
+          console.log('page 1  > '  + event.page);
+          this.result = result.slice(0, +environment.itemPerPage);
+          console.log('page 1  > '  + this.result);
         }
         return this.result;
       })
