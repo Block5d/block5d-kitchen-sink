@@ -6,6 +6,8 @@ import { SearchUserComponent } from './search-user/search-user.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+
+import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
@@ -65,7 +67,7 @@ const routes: Routes = [
         component: CodeManagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: 'Code Management V2
+          breadcrumb: 'Code Management V2'
         }
       },
       {
@@ -79,6 +81,14 @@ const routes: Routes = [
       {
         path: 'company-management',
         component: CompanymanagementComponent,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Company Management"
+        }
+      },
+      {
+        path: 'company-managementv2',
+        component: CompanymanagementV2Component,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Company Management"
