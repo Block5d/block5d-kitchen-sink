@@ -48,6 +48,7 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     // iterate over each children
+
     for (let child of children) {
       //verify primary route
       if (child.outlet !== PRIMARY_OUTLET) {

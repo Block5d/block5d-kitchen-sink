@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
@@ -56,7 +57,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
 
 
-//Services
+// Services
 import { RegistrationService } from './services/registration-user.service';
 import { FileUploadService } from './services/file-upload.service';
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
@@ -66,6 +67,7 @@ import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
+import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 
@@ -96,6 +98,7 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
     PaginationComponent,
     LoadingSpinnerComponent,
     ProjectMembersComponent,
+    CodeManagementV2Component,
     ProjectManagementV2Component,
     BreadcrumbComponent,
     ProjectMembersV2Component,
@@ -122,7 +125,7 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
     SelectModule,
     AgmCoreModule.forRoot({
       apiKey: environment.AGM_API_KEY,
-      libraries: ["places"]
+      libraries: ['places']
     }),
     NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),

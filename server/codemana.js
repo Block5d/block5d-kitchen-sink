@@ -45,6 +45,7 @@ module.exports = function (app) {
         updatecode.code_details.code_desc = addcode.code_desc;
         updatecode.code_details.code = addcode.code;
         updatecode.category_details.categoryCode = addcode.categoryCode;
+        updatecode.category_details.categoryDesc = addcode.categoryDesc;
         updatecode.category_details.is_category = addcode.is_category;
         updatecode.modified_date = addcode.modified_date;
         var error = updatecode.validateSync();
@@ -91,6 +92,7 @@ module.exports = function (app) {
         var error = newcategory.validateSync();
         if (!error) {
             newcategory.save(function (err, result) {
+                console.log(addcategory);
                 res.status(201).json(result);
             });
         } else {

@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
-import { CodeManagementComponent} from './code-management/code-management.component';
+import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
-import { CompanymanagementComponent } from "./companymanagement/companymanagement.component";
-import { UserGroupComponent} from "./user-group/user-group.component";
+import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -14,13 +14,15 @@ import { ProjectSubmissionComponent } from './project-submission/project-submiss
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
-import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component'
+import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
+import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
+
 
 const routes: Routes = [
   {
@@ -55,7 +57,15 @@ const routes: Routes = [
         component: CodeManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: 'Code Management'
+          breadcrumb: "Code Management"
+        }
+      },
+      {
+        path: 'codeManagementV2',
+        component: CodeManagementV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: 'Code Management V2
         }
       },
       {
@@ -134,6 +144,7 @@ const routes: Routes = [
         path: 'pro-mana-2',
         component:ProjectManagementV2Component,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Project Management 2"
         }
       },
@@ -173,7 +184,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

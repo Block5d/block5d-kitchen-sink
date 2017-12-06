@@ -3,6 +3,10 @@ export class AddCodeMana {
         public _id: Number,
         public code_desc: String,
         public code: String,
+        public category: {
+            categoryDesc: string,
+            categoryCode: string
+        },
         public categoryDesc: String,
         public categoryCode: String,
         public is_category: Boolean,
