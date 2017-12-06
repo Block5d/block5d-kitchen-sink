@@ -65,7 +65,7 @@ const routes: Routes = [
         component: CodeManagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: 'Code Management V2
+          breadcrumb: 'Code Management V2'
         }
       },
       {

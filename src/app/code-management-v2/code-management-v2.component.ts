@@ -21,7 +21,7 @@ export class CodeManagementV2Component implements OnInit {
   private resultcode: Observable<AddCodeMana[]>;
   private category: Observable<AddCategory[]>;
   constructor(
-    private codemanaservice: CodeManaService,
+    private codemanaservice: CodeManaService
   ) { }
 
   ngOnInit() {
