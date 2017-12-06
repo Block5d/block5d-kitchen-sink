@@ -198,13 +198,14 @@ export class ProjectManagementV2Component implements OnInit {
     this.projects = this.projectManagementService.getAllProjects(this.model)
       .do(result => {
         this.totalItems = result.length;
-        var numPages = result.length / this.itemsPerPage;
-        if (numPages > 1 && this.smodel.currentPerPage > 1) {
-          var startIndex = (this.indexOnPage - this.itemsPerPage);
-          var endIndex = this.indexOnPage - 1;
+        const numPages = result.length / this.itemsPerPage;
+        console.log(numPages);
+        if ( numPages > 1 && this.smodel.currentPerPage > 1) {
+          const startIndex  = (this.indexOnPage - this.itemsPerPage);
+          const endIndex = this.indexOnPage;
           this.result = result.slice(startIndex, endIndex);
-        } else {
-          this.result = result;
+        }else {
+          this.result = result.slice(0, +environment.itemPerPage);
         }
         return this.result;
       })
@@ -249,12 +250,8 @@ export class ProjectManagementV2Component implements OnInit {
     this.projects.subscribe((x) => {
       this.showSpinner = false;
       this.totalItems = x.length;
-      var numPages = x.length / this.itemsPerPage;
-      if (numPages > 1) {
-        this.result = x.slice(this.indexOnPage, this.itemsPerPage - 1);
-      } else {
-        this.result = x;
-      }
+      console.log('forever subscribe ...');
+      this.result = x.slice(this.indexOnPage, this.itemsPerPage);
     });
 
     this.validateForm = this.fb.group({

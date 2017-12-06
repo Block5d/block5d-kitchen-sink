@@ -23,7 +23,26 @@
     </div>
 
   </div>
-  <nz-table *ngIf="(projects | async)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
+
+  <div *ngIf="(result)?.length > 0" class="row">
+      <div class="col-xs-12 col-12 col-md-6">
+        <pagination
+          class="pagination-sm"
+          [boundaryLinks]="true"
+          [rotate]="false"
+          [totalItems]="totalItems"
+          [(ngModel)]="currentPage"
+          [itemsPerPage]="itemsPerPage"
+          [maxSize]="maxSize"
+          (pageChanged)="pageChanged($event)"
+          (numPages)="numPages = $event">
+        </pagination>
+      </div>
+    </div>
+     
+  <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+  
+  <nz-table *ngIf="(result)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
     <thead nz-thead>
       <tr>
         <th nz-th>
@@ -59,7 +78,7 @@
       </tr>
     </thead>
     <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let project of projects | async">
+      <tr nz-tbody-tr *ngFor="let project of result; let i=index">
         <td nz-td>{{project._id}}</td>
         <td nz-td>{{project.name}}</td>
         <td nz-td>{{project.project_country}}</td>
@@ -80,7 +99,7 @@
       </tr>
     </tbody>
   </nz-table>
-  <div *ngIf="(projects | async)?.length==0">
+  <div *ngIf="(result)?.length==0">
     <p>No record found.</p>
   </div>
 </div>
