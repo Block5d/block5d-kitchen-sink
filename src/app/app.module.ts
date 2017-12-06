@@ -69,6 +69,7 @@ import { ProjectMembersService } from './services/project-members.service';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 
 
 @NgModule({
@@ -101,6 +102,7 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
     ProjectManagementV2Component,
     BreadcrumbComponent,
     ProjectMembersV2Component,
+    CompanymanagementV2Component,
 
   ],
   imports: [
