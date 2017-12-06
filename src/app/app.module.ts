@@ -18,6 +18,9 @@ import { PopoverModule } from 'ngx-bootstrap';
 import { AgmCoreModule } from '@agm/core';
 import { ProgressbarModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -51,6 +54,7 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
 
 
 // Services
@@ -65,6 +69,7 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { ProjectMembersService } from './services/project-members.service';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 
 
 @NgModule({
@@ -94,7 +99,9 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     LoadingSpinnerComponent,
     ProjectMembersComponent,
     CodeManagementV2Component,
+    ProjectManagementV2Component,
     BreadcrumbComponent,
+    ProjectMembersV2Component,
 
   ],
   imports: [
@@ -122,8 +129,9 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     }),
     NgZorroAntdModule.forRoot(),
     ProgressbarModule.forRoot(),
+    BrowserAnimationsModule,
     PaginationModule.forRoot(),
-    BrowserAnimationsModule
+    ReactiveFormsModule
   ],
   providers: [ RegistrationService,
                FileUploadService,

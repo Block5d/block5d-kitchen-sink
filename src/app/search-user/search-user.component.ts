@@ -36,8 +36,8 @@ export class SearchUserComponent implements OnInit {
   indexOnPage: number = 0;
   model = new SearchUsrCriteria('', '', this.currentPage, this.itemsPerPage);
   showSpinner = true;
-  
-  constructor(private registrationService: RegistrationService,) { 
+
+  constructor(private registrationService: RegistrationService) {
       this.users = this.registrationService.getAllUsers(this.model);
   }
 
@@ -45,28 +45,21 @@ export class SearchUserComponent implements OnInit {
     this.users.subscribe((x) => {
       this.showSpinner = false;
       this.totalItems = x.length;
-      console.log("forever subscribe ...");
-      var numPages = x.length / this.itemsPerPage;
-      console.log(numPages);
-      if(numPages > 1){
-        this.result = x.slice(this.indexOnPage, this.itemsPerPage -1);
-      }else{
-        this.result = x;
-      }
+      console.log('forever subscribe ...');
+      this.result = x.slice(this.indexOnPage, this.itemsPerPage);
     });
-    
   }
 
-  onSearch(){
+  onSearch() {
     console.log(this.model.keyword);
     console.log(this.model.sortBy);
     this.users = this.registrationService.getAllUsers(this.model)
-      .do(result=> this.totalItems = result.length)
-      .map(result=> result);
-    this.users.subscribe(users=> this.result = users);
+      .do(result => this.totalItems = result.length)
+      .map(result => result);
+    this.users.subscribe(users => this.result = users);
   }
 
-  onChange(evt){
+  onChange(evt) {
     // onChange
   }
 
@@ -77,25 +70,27 @@ export class SearchUserComponent implements OnInit {
     this.model.itemsPerPage = event.itemsPerPage;
     this.indexOnPage = event.page * (this.itemsPerPage);
     this.users = this.registrationService.getAllUsers(this.model)
-      .do(result=> {
+      .do(result => {
         this.totalItems = result.length;
-        var numPages = result.length / this.itemsPerPage;
+        const numPages = result.length / this.itemsPerPage;
         console.log(numPages);
-        if(numPages > 1 && this.model.currentPerPage > 1){
+        if ( numPages > 1 && this.model.currentPerPage > 1) {
           console.log(result);
-          
-          var startIndex  = (this.indexOnPage - this.itemsPerPage);
-          var endIndex = this.indexOnPage - 1;
-          console.log("<<" + startIndex);
-          console.log("<"+ endIndex);
+          const startIndex  = (this.indexOnPage - this.itemsPerPage);
+          console.log(this.indexOnPage);
+          const endIndex = this.indexOnPage;
+          console.log(`<< ${startIndex} `);
+          console.log(`< ${endIndex}`);
           this.result = result.slice(startIndex, endIndex);
           console.log(this.result);
-        }else{
-          this.result = result;
+        }else {
+          console.log('page 1  > '  + event.page);
+          this.result = result.slice(0, +environment.itemPerPage);
+          console.log('page 1  > '  + this.result);
         }
         return this.result;
       })
-      .map(result=> result);
+      .map(result => result);
     this.users.subscribe();
     console.log('this.users: ' + this.users);
   }

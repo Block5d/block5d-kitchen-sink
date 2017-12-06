@@ -9,4 +9,10 @@ import { TemplateRef } from '@angular/core';
 export class AppComponent {
   title = 'app';
   isCollapsed = false;
+  parentCrumb: string = 'Project Setup';
+
+  onClickCurrentParentCrumb(name: string) {
+    console.log(name);
+    this.parentCrumb = name;
+  }
 }

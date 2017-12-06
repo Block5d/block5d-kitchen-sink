@@ -34,13 +34,11 @@ export class ProjectMembersService {
       .pipe(catchError(this.handleError<ProjectMembers>('updatePromem')))
   };
 
-  public getAllPromems(url) {
-    var getURL = this.promemsURL;
-    if (url) {
-      getURL = url;
-    }
+  public getAllPromems(model) : Observable<ProjectMembers[]> {
+    var getURL = `${this.promemsURL}?keyword=${model.keyword}&sortBy=${model.type}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`;
     return this.httpClient.get<ProjectMembers[]>(getURL, httpOptions)
-      .pipe(catchError(this.handleError<ProjectMembers[]>('getPromems')))
+      .pipe(catchError(this.handleError<ProjectMembers[]>('getProjectMembers')));
+
   }
 
   public deletePromem(promem) {

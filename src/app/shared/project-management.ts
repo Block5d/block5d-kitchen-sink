@@ -48,7 +48,9 @@ export class ProjectManagement{
 export class SearchProject {
     constructor(
         public keyword: string,
-        public type:string
+        public type:string,
+        public currentPerPage: number,
+        public itemsPerPage: number
     ){
 
     }
