@@ -1,39 +1,52 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { RegistrationCompany } from '../shared/reg-company';
 import { SearchProject } from '../shared/project-management';
 import { ProjectManagement } from '../shared/project-management';
 import { ProjectManagementService } from '../services/project-management.service';
-import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { RegCompanyService } from '../services/reg-company.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
-import { IOption } from 'ng-select';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzModalService } from 'ng-zorro-antd';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
+import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-project-management',
-  templateUrl: './project-management.component.html',
-  styleUrls: ['./project-management.component.css']
+  selector: 'app-project-management-v2',
+  templateUrl: './project-management-v2.component.html',
+  styleUrls: ['./project-management-v2.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class ProjectManagementComponent implements OnInit {
+export class ProjectManagementV2Component implements OnInit {
 
-  private editProject: ProjectManagement;
   private projects: Observable<ProjectManagement[]>;
-  modalRef: BsModalRef;
-  minDate: Date;
-  submitted = false;
-  isopen = false;
-  inputValue: string;
+  private companies:Observable<RegistrationCompany[]>;
+  result: ProjectManagement[] = [];
   model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  inputValue: string;
+  editProjectModal = false; addProjectModal = false;
+  isConfirmLoading = false;
   types = [];
+  subcontractorses;
+  supplierses;
   selectedTypes;
-  smodel = new SearchProject('', "name",null, null);
+  maxSize: number = 5;
+  totalItems: number = 0;
+  currentPage: number = 1;
+  numPages: number = 0;
+  inited: boolean = false;
+  itemsPerPage: number = +environment.itemPerPage;
+  indexOnPage: number = 0;
+  showSpinner = true;
+  smodel = new SearchProject('', "name", this.currentPage, this.itemsPerPage);
   validateForm: FormGroup;
-
-
-  client_companies = [{ desc: "Blizzard", value: "blz" },
-  { desc: "Tencent", value: "QQ" }, { desc: "LemoTech", value: "Lemo" },
-  { desc: "Nimbus Financial", value: "NF" }, { desc: "Zonesle", value: "Xuulun" }];
 
   project_manager_persons = [{ desc: "Douglas", value: "swm" },
   { desc: "Louis", value: "hwy" }, { desc: "Mr.Moo", value: "hjc" },
@@ -63,14 +76,6 @@ export class ProjectManagementComponent implements OnInit {
   { desc: "Beast", value: "ys" }, { desc: "Shoooot", value: "sj" },
   { desc: "Shadow", value: "am" }, { desc: "Holy", value: "sm" }];
 
-  subcontractorses: Array<IOption> = [{ label: "Hude", value: "hd" },
-  { label: "Yanzhan", value: "yz" }, { label: "Yilishabai", value: "ylsb" },
-  { label: "Zhunuo", value: "zn" }, { label: "Beierfasite", value: "befst" }];
-
-  supplierses: Array<IOption> = [{ label: "Weiershi", value: "wes" },
-  { label: "Qiye", value: "qy" }, { label: "Chicheng", value: "cc" },
-  { label: "Jiahe", value: "jh" }, { label: "Guanghui", value: "gh" }];
-
   project_countries = [{ desc: "America", value: "us" },
   { desc: "China", value: "ch" }, { desc: "Singapore", value: "sg" },
   { desc: "English", value: "ed" }, { desc: "Janpan", value: "jan" }];
@@ -79,37 +84,32 @@ export class ProjectManagementComponent implements OnInit {
   { desc: "USD", value: "u" }, { desc: "SGD", value: "s" },
   { desc: "ED", value: "e" }, { desc: "VG", value: "v" }];
 
-
   constructor(
     private projectManagementService: ProjectManagementService,
-    private modalService: BsModalService,
+    private regCompanyService:RegCompanyService,
     private fb: FormBuilder,
-    private nzmodalService: NzModalService,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
+    this.projects = this.projectManagementService.getAllProjects(this.model);
+    this.companies = this.regCompanyService.getAllCompanies(null);
   }
 
-
-
-  onSearch() {
-    this.projects = this.getAllProjects(this.smodel.keyword, this.smodel.type);
-  }
-  
-
-  getAll() {
-    return this.projectManagementService.getAllProjects(null);
+  openModal(template) {
+    this.addProjectModal = true;
   }
 
-  getAllProjects(keyword, type) {
-    return this.projectManagementService.searchProjects(keyword, type);
+  closeModal(template) {
+    switch (template) {
+      case 'editProjectModal':
+        this.editProjectModal = false; break;
+      case 'addProjectModal':
+        this.projects = this.projectManagementService.getAllProjects(this.model);
+        this.addProjectModal = false; break;
+    }
   }
 
-  add(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
-  edit(project, template: TemplateRef<any>) {
+  edit(project) {
     this.editProject = project;
     this.editProject.modified_date = new Date();
     this.editProject.start_date = new Date(project.start_date);
@@ -145,7 +145,7 @@ export class ProjectManagementComponent implements OnInit {
     this.editProject.pct_completed_actual = project.project_monitoring.pct_completed_actual;
     this.editProject.pct_completed_1wktarget = project.project_monitoring.pct_completed_1wktarget;
     this.editProject.remark = project.project_monitoring.remark;
-    this.modalRef = this.modalService.show(template);
+    this.editProjectModal = true;
   }
 
   onEdit() {
@@ -153,8 +153,8 @@ export class ProjectManagementComponent implements OnInit {
     this.projectManagementService.updateProject(this.editProject as ProjectManagement)
       .subscribe(project => {
         this.addSuccessToast('Successfully updated', `Saved ${this.editProject.name}`);
-        this.projects = this.getAll();
-        this.modalRef.hide();
+        this.projects = this.projectManagementService.getAllProjects(this.model);
+        this.editProjectModal = false;
       });
   }
 
@@ -163,28 +163,64 @@ export class ProjectManagementComponent implements OnInit {
     this.projectManagementService.saveProject(this.model as ProjectManagement)
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
-        this.projects = this.getAll();
+        this.projects = this.projectManagementService.getAllProjects(this.model);
         this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
-        this.modalRef.hide();
+        this.addProjectModal = false;
       });
   }
 
   onDelete(project) {
     this.projectManagementService.deleteProject(project as ProjectManagement)
       .subscribe(project => {
-        this.projects = this.getAll();
+        this.projects = this.projectManagementService.getAllProjects(this.model);
         this.addSuccessToast('Delete successfully', `Delete ${project.name}`);
         //this.modalRef.hide();
       });
   }
 
-  onChange(evt) {
-    //TODO sth.
+  onSearch() {
+    this.projects = this.projectManagementService.getAllProjects(this.model)
+      .do(result => this.totalItems = result.length)
+      .map(result => result);
+    this.projects.subscribe(projects => this.result = projects);
   }
 
-  onCancel() {
-    this.modalRef.hide();
+  getAllProjects(keyword, type) {
+    return this.projectManagementService.searchProjects(keyword, type);
   }
+
+  pageChanged(event): void {
+    console.log('Page changed to: ' + event.page);
+    console.log('Number items per page: ' + event.itemsPerPage);
+    this.smodel.currentPerPage = event.page;
+    this.smodel.itemsPerPage = event.itemsPerPage;
+    this.indexOnPage = event.page * (this.itemsPerPage);
+    this.projects = this.projectManagementService.getAllProjects(this.model)
+      .do(result => {
+        this.totalItems = result.length;
+        const numPages = result.length / this.itemsPerPage;
+        console.log(numPages);
+        if ( numPages > 1 && this.smodel.currentPerPage > 1) {
+          const startIndex  = (this.indexOnPage - this.itemsPerPage);
+          const endIndex = this.indexOnPage;
+          this.result = result.slice(startIndex, endIndex);
+        }else {
+          this.result = result.slice(0, +environment.itemPerPage);
+        }
+        return this.result;
+      })
+      .map(result => result);
+    this.projects.subscribe();
+  }
+
+  emailValidator = (control: FormControl): { [s: string]: boolean } => {
+    const EMAIL_REGEXP = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+    if (!control.value) {
+      return { required: true }
+    } else if (!EMAIL_REGEXP.test(control.value)) {
+      return { error: true, email: true };
+    }
+  };
 
   addSuccessToast(title, msg) {
     var toastOptions: ToastOptions = {
@@ -202,6 +238,7 @@ export class ProjectManagementComponent implements OnInit {
     };
     this.toastyService.success(toastOptions);
   }
+  
 
   ngOnInit() {
     this.types = [
@@ -210,12 +247,53 @@ export class ProjectManagementComponent implements OnInit {
     ];
     this.selectedTypes = this.types[0];
 
-    this.validateForm = this.fb.group({
-      userName: [ null, [ Validators.required ] ],
-      password: [ null, [ Validators.required ] ],
-      remember: [ true ],
+    this.projects.subscribe((x) => {
+      this.showSpinner = false;
+      this.totalItems = x.length;
+      console.log('forever subscribe ...');
+      this.result = x.slice(this.indexOnPage, this.itemsPerPage);
     });
-    
+
+    this.validateForm = this.fb.group({
+      name: ['', [Validators.required]],
+      start_date: [null, [Validators.required]],
+      end_date: [null, [Validators.required]],
+      client_company: ['', [Validators.required]],
+      project_manager_person: ['', [Validators.required]],
+      architect_person: ['', [Validators.required]],
+      design_architect_person: ['', [Validators.required]],
+      quantity_surveyor_person: ['', [Validators.required]],
+      cs_engineer_person: ['', [Validators.required]],
+      service_engineer_person: ['', [Validators.required]],
+      main_contractor_company: [null, [Validators.required]],
+      subcontractors: [null, [Validators.required]],
+      suppliers: [null, [Validators.required]],
+      contact_no: [null, [Validators.required]],
+      company_email: ['', [this.emailValidator]],
+      fax_no: [null, [Validators.required]],
+      project_country: ['', [Validators.required]],
+      site_possession: ['', [Validators.required]],
+      completion_date: [null, [Validators.required]],
+      contract_currency: ['', [Validators.required]],
+      contract_sum: [null, [Validators.required]],
+      contract_duration_base: [null, [Validators.required]],
+      contract_duration_remaining: [null, [Validators.required]],
+      pct_work_done: [null, [Validators.required]],
+      remarks: ['', [Validators.required]],
+      site_issues: ['', [Validators.required]],
+      desc: ['', [Validators.required]],
+      planned_start_date: [null, [Validators.required]],
+      actual_start_date: [null, [Validators.required]],
+      planned_end_date: [null, [Validators.required]],
+      actual_end_date: [null, [Validators.required]],
+      pct_completed_planned: [null, [Validators.required]],
+      pct_completed_actual: [null, [Validators.required]],
+      pct_completed_1wktarget: [null, [Validators.required]],
+      remark: ['', [Validators.required]],
+    });
+
   }
 
 }
+
+

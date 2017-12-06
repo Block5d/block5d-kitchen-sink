@@ -36,13 +36,20 @@ export class ProjectManagementService {
     return this.getAllProjects(this.projectsURL + '?keyword=' + keyword + '&type=' + type);
   }
 
-  public getAllProjects(url){
-    var getURL = this.projectsURL;
-    if(url){
-      getURL = url;
-    }
+  // public getAllProjects(url){
+  //   var getURL = this.projectsURL;
+  //   if(url){
+  //     getURL = url;
+  //   }
+  //   return this.httpClient.get<ProjectManagement[]>(getURL, httpOptions)
+  //   .pipe(catchError(this.handleError<ProjectManagement[]>('getProjects')))
+  // }
+
+  public getAllProjects(model) : Observable<ProjectManagement[]> {
+    var getURL = `${this.projectsURL}?keyword=${model.keyword}&sortBy=${model.type}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`;
     return this.httpClient.get<ProjectManagement[]>(getURL, httpOptions)
-    .pipe(catchError(this.handleError<ProjectManagement[]>('getProjects')))
+      .pipe(catchError(this.handleError<ProjectManagement[]>('getProjects')));
+
   }
 
   public deleteProject(project){
