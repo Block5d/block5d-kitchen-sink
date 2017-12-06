@@ -63,8 +63,8 @@
         <td nz-td>{{project._id}}</td>
         <td nz-td>{{project.name}}</td>
         <td nz-td>{{project.project_country}}</td>
-        <td nz-td>{{project.start_date}}</td>
-        <td nz-td>{{project.end_date}}</td>
+        <td nz-td>{{project.start_date | date:medium}}</td>
+        <td nz-td>{{project.end_date | date:medium}}</td>
         <td nz-td>{{project.created_by}}</td>
         <td nz-td>{{project.modified_by}}</td>
         <td nz-td>{{project.created_date}}</td>
@@ -135,7 +135,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.client_company">
           <nz-select formControlName="client_company" [(ngModel)]="model.client_company" nzAllowClear>
-            <nz-option *ngFor="let client_company of client_companies" [nzLabel]="client_company.desc" [nzValue]="client_company.value">
+            <nz-option *ngFor="let client_company of companies | async" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
@@ -226,7 +226,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.main_contractor_company">
           <nz-select formControlName="main_contractor_company" [(ngModel)]="model.main_contractor_company" nzAllowClear>
-            <nz-option *ngFor="let main_contractor_company of main_contractor_companies" [nzLabel]="main_contractor_company.desc" [nzValue]="main_contractor_company.value">
+            <nz-option *ngFor="let main_contractor_company of companies | async" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
@@ -239,7 +239,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.subcontractors">
           <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="model.subcontractors" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let subcontractors of subcontractorses" [nzLabel]="subcontractors.label" [nzValue]="subcontractors.value"
+            <nz-option *ngFor="let subcontractors of companies | async" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
               [nzDisabled]="subcontractors.disabled">
             </nz-option>
           </nz-select>
@@ -253,7 +253,8 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.suppliers">
           <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="model.suppliers" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let suppliers of supplierses" [nzLabel]="suppliers.label" [nzValue]="suppliers.value" [nzDisabled]="suppliers.disabled">
+            <nz-option *ngFor="let suppliers of companies | async" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+              [nzDisabled]="suppliers.disabled">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.suppliers.dirty&&validateForm.controls.suppliers.hasError('required')">Please input your Suppliers!</div>
@@ -589,7 +590,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.client_company">
           <nz-select formControlName="client_company" [(ngModel)]="editProject.client_company" nzAllowClear>
-            <nz-option *ngFor="let client_company of client_companies" [nzLabel]="client_company.desc" [nzValue]="client_company.value">
+            <nz-option *ngFor="let client_company of companies | async" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
@@ -680,7 +681,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.main_contractor_company">
           <nz-select formControlName="main_contractor_company" [(ngModel)]="editProject.main_contractor_company" nzAllowClear>
-            <nz-option *ngFor="let main_contractor_company of main_contractor_companies" [nzLabel]="main_contractor_company.desc" [nzValue]="main_contractor_company.value">
+            <nz-option *ngFor="let main_contractor_company of companies | async" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
@@ -693,7 +694,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.subcontractors">
           <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="editProject.subcontractors" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let subcontractors of subcontractorses" [nzLabel]="subcontractors.label" [nzValue]="subcontractors.value"
+            <nz-option *ngFor="let subcontractors of companies | async" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
               [nzDisabled]="subcontractors.disabled">
             </nz-option>
           </nz-select>
@@ -707,7 +708,8 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.suppliers">
           <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="editProject.suppliers" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let suppliers of supplierses" [nzLabel]="suppliers.label" [nzValue]="suppliers.value" [nzDisabled]="suppliers.disabled">
+            <nz-option *ngFor="let suppliers of companies | async" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+              [nzDisabled]="suppliers.disabled">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.suppliers.dirty&&validateForm.controls.suppliers.hasError('required')">Please input your Suppliers!</div>
@@ -818,8 +820,8 @@
           <label>Contract Duration Base</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_duration_base">
-          <nz-datepicker formControlName="contract_duration_base" [(ngModel)]="editProject.contract_duration_base" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Contract Duration Base'"
-            style="width:100%;">
+          <nz-datepicker formControlName="contract_duration_base" [(ngModel)]="editProject.contract_duration_base" [nzSize]="'large'"
+            [nzPlaceHolder]="'Choose your Contract Duration Base'" style="width:100%;">
           </nz-datepicker>
           <div nz-form-explain *ngIf="validateForm.controls.contract_duration_base.dirty&&validateForm.controls.contract_duration_base.hasError('required')">Please input your Contract Duration Base!</div>
         </div>

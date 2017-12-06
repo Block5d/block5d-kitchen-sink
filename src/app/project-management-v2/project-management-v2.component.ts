@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { RegistrationCompany } from '../shared/reg-company';
 import { SearchProject } from '../shared/project-management';
 import { ProjectManagement } from '../shared/project-management';
 import { ProjectManagementService } from '../services/project-management.service';
+import { RegCompanyService } from '../services/reg-company.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -24,6 +26,7 @@ import * as _ from 'lodash';
 export class ProjectManagementV2Component implements OnInit {
 
   private projects: Observable<ProjectManagement[]>;
+  private companies:Observable<RegistrationCompany[]>;
   result: ProjectManagement[] = [];
   model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
@@ -44,10 +47,6 @@ export class ProjectManagementV2Component implements OnInit {
   showSpinner = true;
   smodel = new SearchProject('', "name", this.currentPage, this.itemsPerPage);
   validateForm: FormGroup;
-
-  client_companies = [{ desc: "Blizzard", value: "blz" },
-  { desc: "Tencent", value: "QQ" }, { desc: "LemoTech", value: "Lemo" },
-  { desc: "Nimbus Financial", value: "NF" }, { desc: "Zonesle", value: "Xuulun" }];
 
   project_manager_persons = [{ desc: "Douglas", value: "swm" },
   { desc: "Louis", value: "hwy" }, { desc: "Mr.Moo", value: "hjc" },
@@ -87,11 +86,13 @@ export class ProjectManagementV2Component implements OnInit {
 
   constructor(
     private projectManagementService: ProjectManagementService,
+    private regCompanyService:RegCompanyService,
     private fb: FormBuilder,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
     this.projects = this.projectManagementService.getAllProjects(this.model);
+    this.companies = this.regCompanyService.getAllCompanies(null);
   }
 
   openModal(template) {
@@ -244,15 +245,6 @@ export class ProjectManagementV2Component implements OnInit {
       { value: 'project_country', label: 'Country' }
     ];
     this.selectedTypes = this.types[0];
-
-
-    this.subcontractorses = [{ label: "Hude", value: "hd" },
-    { label: "Yanzhan", value: "yz" }, { label: "Yilishabai", value: "ylsb" },
-    { label: "Zhunuo", value: "zn" }, { label: "Beierfasite", value: "befst" }];
-
-    this.supplierses = [{ label: "Weiershi", value: "wes" },
-    { label: "Qiye", value: "qy" }, { label: "Chicheng", value: "cc" },
-    { label: "Jiahe", value: "jh" }, { label: "Guanghui", value: "gh" }];
 
     this.projects.subscribe((x) => {
       this.showSpinner = false;
