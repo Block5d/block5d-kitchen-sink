@@ -9,15 +9,17 @@ import { AddCodeMana, SearchCodeMana, AddCategory } from '../shared/code-mana';
   styleUrls: ['./code-management-v2.component.css']
 })
 export class CodeManagementV2Component implements OnInit {
-  categorymodel= false; codemodel= false; editcodemodel= false;
+  categorymodel= false; codemodel= false; editcodemodel= false; categoryCodeString;
   searchcode = new SearchCodeMana('', 'Code');
   searchtype = [{label: 'Code', value: 'Code'},
     {label: 'Code Desc.', value: 'CodeDesc'},
     {label: 'Category Desc.', value: 'CateDesc'},
     {label: 'Category Code', value: 'CateCode'}];
-  addcategory = new AddCategory('', '', true);
-  addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
-  editcode = new AddCodeMana(null, '', '', null, '', '', null, null, null, '', '', '');
+  addcategory = new AddCategory('', {}, true);
+  addcode = new AddCodeMana(null, { code_desc: null, code : null},
+     { categoryDesc: null, categoryCode: null}, true, new Date(), new Date(), '', '', '');
+  editcode = new AddCodeMana(null, { code_desc: null, code : null},
+    { categoryDesc: null, categoryCode: null}, null, null, null, '', '', '');
   private resultcode: Observable<AddCodeMana[]>;
   private category: Observable<AddCategory[]>;
   constructor(
@@ -59,34 +61,30 @@ export class CodeManagementV2Component implements OnInit {
   edit(result) {
     this.editcodemodel = true;
     this.editcode = result;
-    this.editcode.categoryCode = result.category_details.categoryCode;
-    this.editcode.categoryDesc = result.category_details.categoryDesc;
-    this.editcode.code = result.code_details.code;
-    this.editcode.code_desc = result.code_details.code_desc ;
-    this.editcode.is_category = result.category_details.is_category;
     this.editcode.modified_date = new Date();
   }
   saveeditcode() {
     this.editcode.modified_date = new Date();
+    console.log(this.editcode);
     this.codemanaservice.updatecode(this.editcode).subscribe();
     this.resultcode = this.codemanaservice.searchcode(null);
     this.editcodemodel = false;
   }
   savecategory() {
+    this.addcategory.categoryCode = JSON.parse(this.categoryCodeString);
     console.log(this.addcategory);
     this.codemanaservice.addcategory(this.addcategory).subscribe(result => {
-      console.log(result);
       this.categorymodel = false;
-      this.addcategory = new AddCategory('', '', true);
+      this.addcategory = new AddCategory('', {}, true);
     });
   }
   saveaddcode() {
     console.log(this.addcode);
-    this.addcode.categoryDesc = this.addcode.category.categoryDesc;
-    this.addcode.categoryCode = this.addcode.category.categoryCode;
-    this.codemanaservice.addcode(this.addcode).subscribe();
-    this.resultcode = this.codemanaservice.searchcode(null);
-    this.codemodel = false;
-    this.addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
+    this.codemanaservice.addcode(this.addcode).subscribe(result => {
+      this.resultcode = this.codemanaservice.searchcode(null);
+      this.codemodel = false;
+      this.addcode = new AddCodeMana(null, { code_desc: null, code : null},
+        { categoryDesc: null, categoryCode: null}, true, new Date(), new Date(), '', '', '');
+    });
   }
 }

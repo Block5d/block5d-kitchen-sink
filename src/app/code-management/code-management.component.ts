@@ -20,9 +20,9 @@ export class CodeManagementComponent implements OnInit {
     {label: 'Code Desc.', value: 'CodeDesc'},
     {label: 'Category Desc.', value: 'CateDesc'},
     {label: 'Category Code', value: 'CateCode'}];
-  addcategory = new AddCategory('', '', true);
-  addcode = new AddCodeMana(null, '', '', '', '', true, new Date(), new Date(), '', '', '');
-  editcode = new AddCodeMana(null, '', '', '', '', null, null, null, '', '', '');
+    addcategory = new AddCategory('', {}, true);
+    addcode = new AddCodeMana(null, null, null, true, new Date(), new Date(), '', '', '');
+    editcode = new AddCodeMana(null, null, null, null, null, null, '', '', '');
   private resultcode: Observable<AddCodeMana[]>;
   private category: Observable<AddCategory[]>;
   constructor(
@@ -93,7 +93,7 @@ export class CodeManagementComponent implements OnInit {
         this.addSuccessToast('Successfully added', `Added ${this.addcode.code}`);
       });
     this.resultcode = this.codemanaservice.searchcode(null);
-    this.addcode = new AddCodeMana(null, '', '', '', '', true, new Date(), new Date(), '', '', '');
+    this.addcode = new AddCodeMana(null, '', '', null, null, true, new Date(), new Date(), '', '', '');
     this.codemodel = false;
   }
   addSuccessToast(title, msg) {

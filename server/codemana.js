@@ -63,11 +63,11 @@ module.exports = function (app) {
         let addcode = req.body;
         let newcode = new code();
         newcode._id = addcode._id;
-        newcode.code_details.code_desc = addcode.code_desc;
-        newcode.code_details.code = addcode.code;
-        newcode.category_details.categoryDesc = addcode.categoryDesc;
-        newcode.category_details.categoryCode = addcode.categoryCode;
-        newcode.category_details.is_category = addcode.is_category;
+        newcode.code_details.code_desc = addcode.code_details.code_desc;
+        newcode.code_details.code = addcode.code_details.code;
+        newcode.category_details.categoryDesc = addcode.category_details.categoryDesc;
+        newcode.category_details.categoryCode = addcode.category_details.categoryCode;
+        newcode.category_details.is_category = addcode.category_details.is_category;
         newcode.modified_date = addcode.modified_date;
         newcode.created_date = addcode.created_date;
         newcode.created_by = addcode.created_by;
@@ -90,6 +90,7 @@ module.exports = function (app) {
         newcategory.categoryCode = getcategory.categoryCode;
         newcategory.is_category = getcategory.is_category;
         var error = newcategory.validateSync();
+        console.log(newcategory);
         if (!error) {
             newcategory.save(function (err, result) {
                 console.log(addcategory);
