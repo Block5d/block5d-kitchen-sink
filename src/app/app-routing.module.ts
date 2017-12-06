@@ -104,7 +104,7 @@ const routes: Routes = [
         path: 'c-input',
         component: ParentComponentComponent,
         data: {
-          group: PROJECT_SETUP,
+          group: CONFIGURATION,
           breadcrumb: "Component Interaction (@Input)"
         }
       },
@@ -112,7 +112,7 @@ const routes: Routes = [
         path: 'vote-user',
         component: VoteUserComponent,
         data: {
-          group: PROJECT_SETUP,
+          group: CONFIGURATION,
           breadcrumb: "like & Dislike User (@Output)"
         }
       },
@@ -168,14 +168,14 @@ const routes: Routes = [
         path: 'upload-firebase',
         component: UploadtoFireStoreComponent,
         data: {
-          group: PROJECT_SETUP,
+          group: CONFIGURATION,
           breadcrumb: "Upload to Firebase Storage"
         }
       },
       {
         path: 'upload-s3', component: UploadtoS3Component,
         data: {
-          group: PROJECT_SETUP,
+          group: CONFIGURATION,
           breadcrumb: "Upload to AWS S3"
         }
       }
