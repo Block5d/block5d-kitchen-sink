@@ -67,6 +67,7 @@ import { ProjectManagementService } from './services/project-management.service'
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     ProjectMembersComponent,
     ProjectManagementV2Component,
     BreadcrumbComponent,
+    ProjectMembersV2Component,
 
   ],
   imports: [

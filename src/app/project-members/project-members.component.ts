@@ -20,7 +20,7 @@ export class ProjectMembersComponent implements OnInit {
   private promems: Observable<ProjectMembers[]>;
   private editPromem: ProjectMembers;
   //checkModel:FormGroup;
-  checkModel:any = {isEnabled:true };
+  //checkModel:any = {isEnabled:true };
   modalRef: BsModalRef;
 
   project_ids: Array<IOption> = [{ label: "1", value: "id1" },

@@ -12,3 +12,14 @@ export class ProjectMembers{
 
     }
 }
+
+export class SearchProjectMembers {
+    constructor(
+        public keyword: string,
+        public type:string,
+        public currentPerPage: number,
+        public itemsPerPage: number
+    ){
+
+    }
+}

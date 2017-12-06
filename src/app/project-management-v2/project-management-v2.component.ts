@@ -32,10 +32,7 @@ export class ProjectManagementV2Component implements OnInit {
   editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   inputValue: string;
   editProjectModal = false; addProjectModal = false;
-  isConfirmLoading = false;
   types = [];
-  subcontractorses;
-  supplierses;
   selectedTypes;
   maxSize: number = 5;
   totalItems: number = 0;
@@ -183,10 +180,6 @@ export class ProjectManagementV2Component implements OnInit {
       .do(result => this.totalItems = result.length)
       .map(result => result);
     this.projects.subscribe(projects => this.result = projects);
-  }
-
-  getAllProjects(keyword, type) {
-    return this.projectManagementService.searchProjects(keyword, type);
   }
 
   pageChanged(event): void {

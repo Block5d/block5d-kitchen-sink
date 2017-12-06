@@ -25,23 +25,15 @@
   </div>
 
   <div *ngIf="(result)?.length > 0" class="row">
-      <div class="col-xs-12 col-12 col-md-6">
-        <pagination
-          class="pagination-sm"
-          [boundaryLinks]="true"
-          [rotate]="false"
-          [totalItems]="totalItems"
-          [(ngModel)]="currentPage"
-          [itemsPerPage]="itemsPerPage"
-          [maxSize]="maxSize"
-          (pageChanged)="pageChanged($event)"
-          (numPages)="numPages = $event">
-        </pagination>
-      </div>
+    <div class="col-xs-12 col-12 col-md-6">
+      <pagination class="pagination-sm" [boundaryLinks]="true" [rotate]="false" [totalItems]="totalItems" [(ngModel)]="currentPage"
+        [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" (pageChanged)="pageChanged($event)" (numPages)="numPages = $event">
+      </pagination>
     </div>
-     
+  </div>
+
   <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
-  
+
   <nz-table *ngIf="(result)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
     <thead nz-thead>
       <tr>
@@ -553,7 +545,7 @@
     <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="closeModal('addProjectModal')">
       cancel
     </button>
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onSubmit()" [nzLoading]="isConfirmLoading">
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onSubmit()">
       Submit
     </button>
   </ng-template>
@@ -1008,7 +1000,7 @@
     <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="closeModal('editProjectModal')">
       Cancel
     </button>
-    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()" [nzLoading]="isConfirmLoading">
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()">
       Save
     </button>
   </ng-template>
