@@ -6,6 +6,8 @@ import { SearchUserComponent } from './search-user/search-user.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
+
+import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
@@ -17,6 +19,12 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
+import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
+import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+
+const PROJECT_SETUP: string = 'Project Setup';
+const CONFIGURATION: string = 'Configuration';
+
 
 const routes: Routes = [
   {
@@ -27,26 +35,30 @@ const routes: Routes = [
         path: 'reg-user',
         component: RegUserComponent,
         data: {
-          breadcrumb: "Registration"
+          group: PROJECT_SETUP,
+          breadcrumb: 'Create New user'
         }
       },
       {
         path: 'user-list',
         component: UserListComponent,
         data: {
-          breadcrumb: "list of users"
+          group: PROJECT_SETUP,
+          breadcrumb: 'List of users'
         }
       },
       {
         path: 'search-user', component: SearchUserComponent,
         data: {
-          breadcrumb: "Search by full name"
+          group: PROJECT_SETUP,
+          breadcrumb: 'Search User'
         }
       },
       {
         path: 'codeManagement',
         component: CodeManagementComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Code Management"
         }
       },
@@ -54,6 +66,7 @@ const routes: Routes = [
         path: 'codeManagementV2',
         component: CodeManagementV2Component,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: 'Code Management V2'
         }
       },
@@ -61,13 +74,23 @@ const routes: Routes = [
         path: 'org-chart',
         component: OrgChartComponent,
         data: {
-          breadcrumb: "org-chart"
+          group: PROJECT_SETUP,
+          breadcrumb: "Organization Chart"
         }
       },
       {
         path: 'company-management',
         component: CompanymanagementComponent,
         data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Company Management"
+        }
+      },
+      {
+        path: 'company-managementv2',
+        component: CompanymanagementV2Component,
+        data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Company Management"
         }
       },
@@ -75,6 +98,7 @@ const routes: Routes = [
         path: 'user-group',
         component: UserGroupComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "User Group"
         }
       },
@@ -82,6 +106,7 @@ const routes: Routes = [
         path: 'workflow',
         component: WorkflowComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Workflow"
         }
       },
@@ -89,6 +114,7 @@ const routes: Routes = [
         path: 'c-input',
         component: ParentComponentComponent,
         data: {
+          group: CONFIGURATION,
           breadcrumb: "Component Interaction (@Input)"
         }
       },
@@ -96,6 +122,7 @@ const routes: Routes = [
         path: 'vote-user',
         component: VoteUserComponent,
         data: {
+          group: CONFIGURATION,
           breadcrumb: "like & Dislike User (@Output)"
         }
       },
@@ -103,6 +130,7 @@ const routes: Routes = [
         path: 'pro-sub',
         component: ProjectSubmissionComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Project Submission"
         }
       },
@@ -110,6 +138,7 @@ const routes: Routes = [
         path: 'per-mana',
         component: PersonManagementComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Person Management"
         }
       },
@@ -117,31 +146,50 @@ const routes: Routes = [
         path: 'pro-mana',
         component: ProjectManagementComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Project Management"
+        }
+      },
+      {
+        path: 'pro-mana-2',
+        component:ProjectManagementV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Project Management 2"
         }
       },
       {
         path: 'pro-mem',
         component: ProjectMembersComponent,
         data: {
+          group: PROJECT_SETUP,
           breadcrumb: "Project Members"
+        }
+      },
+      {
+        path: 'pro-mem-2',
+        component: ProjectMembersV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Project Members 2"
         }
       },
       {
         path: 'upload-firebase',
         component: UploadtoFireStoreComponent,
         data: {
+          group: CONFIGURATION,
           breadcrumb: "Upload to Firebase Storage"
         }
       },
       {
         path: 'upload-s3', component: UploadtoS3Component,
         data: {
+          group: CONFIGURATION,
           breadcrumb: "Upload to AWS S3"
         }
       }
-    ]
-  },
+    ]},
 
 ];
 

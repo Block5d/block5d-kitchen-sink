@@ -67,11 +67,6 @@ export class CodeManagementComponent implements OnInit {
   edit(result) {
     this.editcodemodel = true;
     this.editcode = result;
-    this.editcode.categoryCode = result.category_details.categoryCode;
-    this.editcode.categoryDesc = result.category_details.categoryDesc;
-    this.editcode.code = result.code_details.code;
-    this.editcode.code_desc = result.code_details.code_desc ;
-    this.editcode.is_category = result.category_details.is_category;
     this.editcode.modified_date = new Date();
   }
   saveeditcode() {
@@ -87,13 +82,9 @@ export class CodeManagementComponent implements OnInit {
   }
   saveaddcode() {
     this.addcode._id = this.codenum;
-    this.codemanaservice.addcode(this.addcode)
-      .subscribe(user => {
-        console.log(user);
-        this.addSuccessToast('Successfully added', `Added ${this.addcode.code}`);
-      });
+    this.codemanaservice.addcode(this.addcode).subscribe();
     this.resultcode = this.codemanaservice.searchcode(null);
-    this.addcode = new AddCodeMana(null, '', '', null, null, true, new Date(), new Date(), '', '', '');
+    this.addcode = new AddCodeMana(null, null, null, true, new Date(), new Date(), '', '', '');
     this.codemodel = false;
   }
   addSuccessToast(title, msg) {
