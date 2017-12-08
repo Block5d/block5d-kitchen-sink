@@ -107,11 +107,11 @@ export class ProjectManagementV2Component implements OnInit {
     console.log(companies)
     for (let i = 0; i < companies.length; i++) {
       switch (companies[i].company_type) {
-        case 'a':
+        case 'main_contractor_company':
           this.mainCompanies.push(companies[i]); break;
-        case 'b':
+        case 'subcontractors':
           this.subcontratorCompanies.push(companies[i]); break;
-        case 'c':
+        case 'suppliers':
           this.supplierCompanies.push(companies[i]); break;
       }
     }
