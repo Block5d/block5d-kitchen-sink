@@ -45,8 +45,9 @@ export class ProjectManagementService {
   //   .pipe(catchError(this.handleError<ProjectManagement[]>('getProjects')))
   // }
 
-  public getAllProjects(model) : Observable<ProjectManagement[]> {
-    var getURL = `${this.projectsURL}?keyword=${model.keyword}&sortBy=${model.type}&currentPerPage=${model.currentPerPage}&itemsPerPage=${model.itemsPerPage}`;
+  public getAllProjects(smodel) : Observable<ProjectManagement[]> {
+    var getURL = `${this.projectsURL}?keyword=${smodel.keyword}&type=${smodel.type}&currentPerPage=${smodel.currentPerPage}&itemsPerPage=${smodel.itemsPerPage}`;
+    console.log(getURL);
     return this.httpClient.get<ProjectManagement[]>(getURL, httpOptions)
       .pipe(catchError(this.handleError<ProjectManagement[]>('getProjects')));
 
