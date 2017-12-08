@@ -72,7 +72,7 @@
     <p class="font-weight-bold">No record found.</p>
   </div>
 </div>
-<nz-modal [nzVisible]="categorymodel" [nzTitle]="categoryTitle" [nzContent]="categoryContent" [nzFooter]="categoryFooter"   >
+<nz-modal [nzVisible]="categorymodel" [nzTitle]="categoryTitle" [nzContent]="categoryContent" [nzFooter]="categoryFooter"  (nzOnCancel)="closeModal('categorymodel')"  >
   <ng-template #categoryTitle>Add Category</ng-template>
   <ng-template #categoryContent>
     <form nz-form [nzLayout]="'horizontal'">
@@ -82,7 +82,7 @@
       </div>
       <div nz-form-item nz-row>
         <label for="categorydesc">Category Code</label>
-        <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcategory.categoryCode" name="categoryCode"></nz-input>
+        <nz-input id="categorydesc" [nzType]="'textarea'" nzAutosize [nzPlaceHolder]="''" [(ngModel)]="categoryCodeString" name="categoryCode"></nz-input>
         <div nz-form-control nz-col [nzSpan]="14">
           <label nz-checkbox [(ngModel)]="addcategory.is_category" name="checkbox" [nzDisabled]="isDisabled">
             <span>Is Category</span>
@@ -103,11 +103,11 @@
     <form nz-form [nzLayout]="'horizontal'">
       <div nz-form-item nz-row>
         <label for="codeDesc">Code Description</label>
-        <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcode.code_desc" name="codeDesc"></nz-input>
+        <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcode.code_details.code_desc" name="codeDesc"></nz-input>
       </div>
       <div nz-form-item nz-row>
         <label for="code">Code</label>
-        <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcode.code" name="code"></nz-input>
+        <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcode.code_details.code" name="code"></nz-input>
         <div nz-form-control nz-col [nzSpan]="14">
           <label nz-checkbox><!-- [(ngModel)]="addcode.is_category" name="checkbox" [nzDisabled]="isDisabled" -->
             <span>Is Category</span>
@@ -116,7 +116,7 @@
       </div>
       <div nzform-item nz-row>
         <label for="gennder">Category</label>
-        <nz-select id="gennder" style="width: 120px;" [(ngModel)]="addcode.category" name="category" nzAllowClear>
+        <nz-select id="gennder" style="width: 120px;" [(ngModel)]="addcode.category_details" name="category" nzAllowClear>
           <nz-option *ngFor="let cate of category | async" [nzLabel]="cate.categoryDesc" [nzValue]="cate"></nz-option>
         </nz-select>
       </div>
@@ -134,11 +134,11 @@
     <form nz-form [nzLayout]="'horizontal'">
       <div nz-form-item nz-row>
         <label for="codeDesc">Code Description</label>
-        <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code_desc" name="codeDesc"></nz-input>
+        <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code_details.code_desc" name="codeDesc"></nz-input>
       </div>
       <div nz-form-item nz-row>
         <label for="code">Code</label>
-        <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code" name="code"></nz-input>
+        <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code_details.code" name="code"></nz-input>
         <div nz-form-control nz-col [nzSpan]="14">
           <label nz-checkbox><!-- [(ngModel)]="addcode.is_category" name="checkbox" [nzDisabled]="isDisabled" -->
             <span>Is Category</span>
@@ -147,11 +147,11 @@
       </div>
       <div nz-form-item nz-row>
         <label for="categorydesc">Category Description</label>
-        <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.categoryDesc" name="categorydesc" [nzDisabled]="'true'" [nzReadonly]="'true'" ></nz-input>
+        <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.category_details.categoryDesc" name="categorydesc" [nzDisabled]="'true'" [nzReadonly]="'true'" ></nz-input>
       </div>
       <div nz-form-item nz-row>
         <label for="categorydesc">Category Code</label>
-        <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.categoryCode" name="categoryCode"></nz-input>
+        <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.category_details.categoryCode" name="categoryCode"></nz-input>
         <div nz-form-control nz-col [nzSpan]="14">
           <label nz-checkbox [(ngModel)]="editcode.is_category" name="checkbox" [nzDisabled]="isDisabled">
             <span>Is Category</span>
