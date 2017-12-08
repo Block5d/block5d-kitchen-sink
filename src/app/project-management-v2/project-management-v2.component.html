@@ -21,15 +21,7 @@
         </button>
       </div>
     </div>
-
-  </div>
-
-  <div *ngIf="(result)?.length > 0" class="row">
-    <div class="col-xs-12 col-12 col-md-6">
-      <pagination class="pagination-sm" [boundaryLinks]="true" [rotate]="false" [totalItems]="totalItems" [(ngModel)]="currentPage"
-        [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" (pageChanged)="pageChanged($event)" (numPages)="numPages = $event">
-      </pagination>
-    </div>
+1
   </div>
 
   <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
