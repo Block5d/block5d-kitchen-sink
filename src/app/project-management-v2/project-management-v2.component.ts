@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RegistrationCompany } from '../shared/reg-company';
+import { PersonManagement } from '../shared/person-management';
 import { SearchProject } from '../shared/project-management';
 import { ProjectManagement } from '../shared/project-management';
 import { ProjectManagementService } from '../services/project-management.service';
 import { RegCompanyService } from '../services/reg-company.service';
+import { PersonManagementService } from '../services/person-management.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -28,9 +30,11 @@ export class ProjectManagementV2Component implements OnInit {
 
   private projects: Observable<ProjectManagement[]>;
   private companies: RegistrationCompany[];
+  private persons: PersonManagement[];
   result: ProjectManagement[] = [];
   model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
   inputValue: string;
   editProjectModal = false; addProjectModal = false;
   maxSize: number = 5;
@@ -46,39 +50,17 @@ export class ProjectManagementV2Component implements OnInit {
   mainCompanies: any = [];
   subcontratorCompanies: any = [];
   supplierCompanies: any = [];
+  projectManagers: any = [];
+  architects: any = [];
+  designArchitects: any = [];
+  quantitySurveyors: any = [];
+  consultantEngineers: any = [];
+  serviceEngineers: any = [];
 
   types = [
     { value: 'name', label: 'Name' },
     { value: 'project_country', label: 'Country' }
   ];
-
-  project_manager_persons = [{ desc: "Douglas", value: "swm" },
-  { desc: "Louis", value: "hwy" }, { desc: "Mr.Moo", value: "hjc" },
-  { desc: "Jerry", value: "xjy" }, { desc: "ChanJo", value: "zsl" }];
-
-  architect_persons = [{ desc: "ZhangJie", value: "zj" },
-  { desc: "XieNa", value: "xn" }, { desc: "HuYanBin", value: "hyb" },
-  { desc: "WuBai", value: "wb" }, { desc: "WuYueTian", value: "mayday" }];
-
-  design_architect_persons = [{ desc: "Xtina", value: "CA" },
-  { desc: "Adam Lambert", value: "AL" }, { desc: "Ariana Grande", value: "AG" },
-  { desc: "Beyonce", value: "elephant" }, { desc: "Bruno Mars", value: "mars" }];
-
-  quantity_surveyor_persons = [{ desc: "Math", value: "ma" },
-  { desc: "Language", value: "any" }, { desc: "Fly", value: "fff" },
-  { desc: "Dating", value: "girl" }, { desc: "Study", value: "ing" }];
-
-  cs_engineer_persons = [{ desc: "Warrior", value: "zs" },
-  { desc: "Mage", value: "fs" }, { desc: "Priest", value: "ms" },
-  { desc: "Paladin", value: "qs" }, { desc: "DeathKnight", value: "dk" }];
-
-  service_engineer_persons = [{ desc: "Worlock", value: "ss" },
-  { desc: "Hunter", value: "lr" }, { desc: "Shaman", value: "sm" },
-  { desc: "Monk", value: "ws" }, { desc: "Rouge", value: "dz" }];
-
-  main_contractor_companies = [{ desc: "Survival", value: "sc" },
-  { desc: "Beast", value: "ys" }, { desc: "Shoooot", value: "sj" },
-  { desc: "Shadow", value: "am" }, { desc: "Holy", value: "sm" }];
 
   project_countries = [{ desc: "America", value: "us" },
   { desc: "China", value: "ch" }, { desc: "Singapore", value: "sg" },
@@ -91,17 +73,35 @@ export class ProjectManagementV2Component implements OnInit {
   constructor(
     private projectManagementService: ProjectManagementService,
     private regCompanyService: RegCompanyService,
+    private personManagementService: PersonManagementService,
     private fb: FormBuilder,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
     this.projects = this.projectManagementService.getAllProjects(this.model);
-    this.regCompanyService.getAllCompanies(null).subscribe(results => this.companies = results);
-    console.log(this.mainCompanies.length);
+    this.regCompanyService.getAllCompanies(null).subscribe(resultCompany => this.companies = resultCompany);
+    this.personManagementService.getAllPersons(this.personModel).subscribe(resultPerson => this.persons = resultPerson);
   }
 
-
-
+  getPersons(persons) {
+    console.log(persons);
+    for (let j = 0; j < persons.length; j++) {
+      switch (persons[j].provider_type) {
+        case 'project_manager_person':
+          this.projectManagers.push(persons[j]); break;
+        case 'architect_person':
+          this.architects.push(persons[j]); break;
+        case 'design_architect_person':
+          this.designArchitects.push(persons[j]); break;
+        case 'quantity_surveyor_person':
+          this.quantitySurveyors.push(persons[j]); break;
+        case 'cs_engineer_person':
+          this.consultantEngineers.push(persons[j]); break;
+        case 'service_engineer_person':
+          this.serviceEngineers.push(persons[j]); break;
+      }
+    }
+  }
 
   getCompanies(companies) {
     console.log(companies)
@@ -121,6 +121,10 @@ export class ProjectManagementV2Component implements OnInit {
     if (this.mainCompanies.length == 0 || this.subcontratorCompanies.length == 0 || this.supplierCompanies.length == 0) {
       this.getCompanies(this.companies);
     }
+    if (this.projectManagers.length == 0 || this.architects.length == 0 || this.designArchitects.length == 0 || this.quantitySurveyors.length == 0 || this.consultantEngineers.length == 0 || this.serviceEngineers.length == 0) {
+      this.getPersons(this.persons);
+      console.log(this.projectManagers);
+    }
     this.addProjectModal = true;
   }
 
@@ -137,6 +141,9 @@ export class ProjectManagementV2Component implements OnInit {
   edit(project) {
     if (this.mainCompanies.length == 0 || this.subcontratorCompanies.length == 0 || this.supplierCompanies.length == 0) {
       this.getCompanies(this.companies);
+    }
+    if (this.projectManagers.length == 0 || this.architects.length == 0 || this.designArchitects.length == 0 || this.quantitySurveyors.length == 0 || this.consultantEngineers.length == 0 || this.serviceEngineers.length == 0) {
+      this.getPersons(this.persons);
     }
     this.editProject = project;
     this.editProject.modified_date = new Date();

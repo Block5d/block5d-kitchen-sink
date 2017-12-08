@@ -16,7 +16,7 @@ export class PersonManagementComponent implements OnInit {
   private persons: Observable<PersonManagement[]>;
   private editPerson: PersonManagement;
   model = new PersonManagement('', '', '', null, '', null, '',null,'','','','', new Date(), new Date(),'','');
-  smodel = new SearchPerson('', "first_name");
+  smodel = new SearchPerson('', "first_name",null,null);
   modalRef: BsModalRef;
   bsValue: Date = new Date();
   isCollapsed: boolean = true;
@@ -56,7 +56,7 @@ export class PersonManagementComponent implements OnInit {
 
 
   onSubmit() {
-    this.personManagementService.savePersonSubmission(this.model as PersonManagement)
+    this.personManagementService.savePerson(this.model as PersonManagement)
       .subscribe(person => {
         this.addSuccessToast('Successfully added', `Added ${this.model.first_name}`);
         this.modalRef.hide();
@@ -75,7 +75,7 @@ export class PersonManagementComponent implements OnInit {
 
   onEdit() {
     //console.log("Saving edit ...");
-    this.personManagementService.updateUser(this.editPerson as PersonManagement)
+    this.personManagementService.updatePerson(this.editPerson as PersonManagement)
       .subscribe(person => {
         this.addSuccessToast('Successfully updated', `Saved ${this.editPerson.first_name}`);
         this.persons = this.getAllPersons();
@@ -84,7 +84,7 @@ export class PersonManagementComponent implements OnInit {
   }
 
   onDelete(person) {
-    this.personManagementService.deleteUser(person as PersonManagement)
+    this.personManagementService.deletePerson(person as PersonManagement)
       .subscribe(person => {
         this.persons = this.getAllPersons();
         this.addSuccessToast('Delete successfully', `Delete ${person.first_name}`);
@@ -93,15 +93,11 @@ export class PersonManagementComponent implements OnInit {
   }
 
   getAllPersons() {
-    return this.personManagementService.getAllUsers(null);
-  }
-
-  getAllUsers(keyword, type) {
-    return this.personManagementService.searchUsers(keyword, type);
+    return this.personManagementService.getAllPersons(null);
   }
 
   onSearch() {
-    this.persons = this.getAllUsers(this.smodel.keyword, this.smodel.type);
+    this.persons = this.getAllPersons();
   }
 
   onChange(evt) {
