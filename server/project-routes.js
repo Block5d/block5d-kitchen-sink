@@ -74,7 +74,9 @@ module.exports = function (app) {
     var query = {};
     var keyword = req.query.keyword;
     var type = req.query.type;
-    //console.log(keyword);
+    let currentPerPage = req.query.currentPerPage;
+    let itemsPerPage = req.query.itemsPerPage;
+    console.log(req.query);
     //console.log(type);
     if(typeof keyword == 'undefined'){
       keyword = "";
