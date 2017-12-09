@@ -54,6 +54,7 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
+import { PersonManagementV2Component } from './person-management-v2/person-management-v2.component';
 
 
 // Services
@@ -105,6 +106,7 @@ import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
     ProjectMembersV2Component,
     CompanymanagementV2Component,
     UserGroupV2Component,
+    PersonManagementV2Component,
 
   ],
   imports: [

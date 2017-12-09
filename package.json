@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "nodemon":"nodemon --inspect=127.0.0.1:9228 server/server.js"
+    "nodemon": "nodemon --inspect=127.0.0.1:9228 server/server.js"
   },
   "private": true,
   "dependencies": {
