@@ -131,18 +131,18 @@ module.exports = function(app){
 
     User.find(query, function (err, users) {
 
-      console.log(query);
+      //console.log(query);
       if (isAllRecord == 'all') {
         User.find({}, function (err, users) {
 
-          if (err) {
+          if (err) { 
             console.log(err);
             res.status(500).send(err);
           }
           res.status(200).json(users);
         });
       } else {
-        console.log("......");
+        //console.log("......");
         User.find(query, function (err, users) {
           if (err) {
             console.log(err);

@@ -7,8 +7,8 @@
         <nz-input [nzPlaceHolder]="'Input Search Text'" [(ngModel)]="smodel.keyword" [nzType]="'inputValue'" name="keyword"></nz-input>
       </div>
       <div nz-col [nzSpan]="4">
-        <nz-select [(ngModel)]="selectedTypes" nzAllowClear>
-          <nz-option *ngFor="let type of types" [nzLabel]="type.label" [nzValue]="type">
+        <nz-select [(ngModel)]="smodel.type" nzAllowClear>
+          <nz-option *ngFor="let type of types" [nzLabel]="type.label" [nzValue]="type.value">
           </nz-option>
         </nz-select>
       </div>
@@ -21,7 +21,6 @@
         </button>
       </div>
     </div>
-
   </div>
 
   <div *ngIf="(result)?.length > 0" class="row">
@@ -31,7 +30,7 @@
       </pagination>
     </div>
   </div>
-
+  
   <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
 
   <nz-table *ngIf="(result)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
@@ -146,7 +145,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.client_company">
           <nz-select formControlName="client_company" [(ngModel)]="model.client_company" nzAllowClear>
-            <nz-option *ngFor="let client_company of companies | async" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
+            <nz-option *ngFor="let client_company of companies" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
@@ -159,7 +158,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.project_manager_person">
           <nz-select formControlName="project_manager_person" [(ngModel)]="model.project_manager_person" nzAllowClear>
-            <nz-option *ngFor="let project_manager_person of project_manager_persons" [nzLabel]="project_manager_person.desc" [nzValue]="project_manager_person.value">
+            <nz-option *ngFor="let project_manager_person of projectManagers" [nzLabel]="project_manager_person.first_name+' '+project_manager_person.last_name" [nzValue]="project_manager_person.first_name+' '+project_manager_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.project_manager_person.dirty&&validateForm.controls.project_manager_person.hasError('required')">Please input your Project Manager Person!</div>
@@ -172,7 +171,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.architect_person">
           <nz-select formControlName="architect_person" [(ngModel)]="model.architect_person" nzAllowClear>
-            <nz-option *ngFor="let architect_person of architect_persons" [nzLabel]="architect_person.desc" [nzValue]="architect_person.value">
+            <nz-option *ngFor="let architect_person of architects" [nzLabel]="architect_person.first_name+' '+architect_person.last_name" [nzValue]="architect_person.first_name+' '+architect_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.architect_person.dirty&&validateForm.controls.architect_person.hasError('required')">Please input your Architect Person!</div>
@@ -185,7 +184,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.design_architect_person">
           <nz-select formControlName="design_architect_person" [(ngModel)]="model.design_architect_person" nzAllowClear>
-            <nz-option *ngFor="let design_architect_person of design_architect_persons" [nzLabel]="design_architect_person.desc" [nzValue]="design_architect_person.value">
+            <nz-option *ngFor="let design_architect_person of designArchitects" [nzLabel]="design_architect_person.first_name+' '+design_architect_person.last_name" [nzValue]="design_architect_person.first_name+' '+design_architect_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.design_architect_person.dirty&&validateForm.controls.design_architect_person.hasError('required')">Please input your Design Architect Person!</div>
@@ -198,7 +197,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.quantity_surveyor_person">
           <nz-select formControlName="quantity_surveyor_person" [(ngModel)]="model.quantity_surveyor_person" nzAllowClear>
-            <nz-option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [nzLabel]="quantity_surveyor_person.desc" [nzValue]="quantity_surveyor_person.value">
+            <nz-option *ngFor="let quantity_surveyor_person of quantitySurveyors" [nzLabel]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name" [nzValue]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.quantity_surveyor_person.dirty&&validateForm.controls.quantity_surveyor_person.hasError('required')">Please input your Quantity Surveyor Person!</div>
@@ -211,7 +210,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.cs_engineer_person">
           <nz-select formControlName="cs_engineer_person" [(ngModel)]="model.cs_engineer_person" nzAllowClear>
-            <nz-option *ngFor="let cs_engineer_person of cs_engineer_persons" [nzLabel]="cs_engineer_person.desc" [nzValue]="cs_engineer_person.value">
+            <nz-option *ngFor="let cs_engineer_person of consultantEngineers" [nzLabel]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name" [nzValue]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.cs_engineer_person.dirty&&validateForm.controls.cs_engineer_person.hasError('required')">Please input your CS Engineer Person!</div>
@@ -224,7 +223,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.service_engineer_person">
           <nz-select formControlName="service_engineer_person" [(ngModel)]="model.service_engineer_person" nzAllowClear>
-            <nz-option *ngFor="let service_engineer_person of service_engineer_persons" [nzLabel]="service_engineer_person.desc" [nzValue]="service_engineer_person.value">
+            <nz-option *ngFor="let service_engineer_person of serviceEngineers" [nzLabel]="service_engineer_person.first_name+' '+service_engineer_person.last_name" [nzValue]="service_engineer_person.first_name+' '+service_engineer_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.service_engineer_person.dirty&&validateForm.controls.service_engineer_person.hasError('required')">Please input your Service Engineer Person!</div>
@@ -237,7 +236,8 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.main_contractor_company">
           <nz-select formControlName="main_contractor_company" [(ngModel)]="model.main_contractor_company" nzAllowClear>
-            <nz-option *ngFor="let main_contractor_company of companies | async" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
+            <nz-option *ngFor="let main_contractor_company of mainCompanies" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
+           
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
@@ -250,7 +250,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.subcontractors">
           <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="model.subcontractors" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let subcontractors of companies | async" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
+            <nz-option *ngFor="let subcontractors of subcontratorCompanies" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
               [nzDisabled]="subcontractors.disabled">
             </nz-option>
           </nz-select>
@@ -264,7 +264,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.suppliers">
           <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="model.suppliers" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let suppliers of companies | async" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+            <nz-option *ngFor="let suppliers of supplierCompanies" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
               [nzDisabled]="suppliers.disabled">
             </nz-option>
           </nz-select>
@@ -277,7 +277,7 @@
           <label>Contact Number</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.contact_no">
-          <nz-input-number formControlName="contact_no" [(ngModel)]="model.contact_no" name="contact_no" [nzPlaceHolder]="'Contact Number'"
+          <nz-input-number formControlName="contact_no" [(ngModel)]="model.contact_no" [nzPlaceHolder]="'Contact Number'"
             [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.contact_no.dirty&&validateForm.controls.contact_no.hasError('required')">Please input your Contact Number!</div>
@@ -289,7 +289,7 @@
           <label>Company Email</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
-          <nz-input formControlName="company_email" [(ngModel)]="model.company_email" name="company_email" [nzPlaceHolder]="'Email Address'"
+          <nz-input formControlName="company_email" [(ngModel)]="model.company_email" [nzPlaceHolder]="'Email Address'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">The input is not valid E-mail!</div>
@@ -302,7 +302,7 @@
           <label>Fax Number</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
-          <nz-input-number formControlName="fax_no" [(ngModel)]="model.fax_no" name="fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
+          <nz-input-number formControlName="fax_no" [(ngModel)]="model.fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
             style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">Please input your Fax Number!</div>
@@ -327,7 +327,7 @@
           <label>Site Possession</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.site_possession">
-          <nz-input formControlName="site_possession" [(ngModel)]="model.site_possession" name="site_possession" [nzPlaceHolder]="'Site Possession'"
+          <nz-input formControlName="site_possession" [(ngModel)]="model.site_possession" [nzPlaceHolder]="'Site Possession'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.site_possession.dirty&&validateForm.controls.site_possession.hasError('required')">Please input your Site Possession!</div>
@@ -364,7 +364,7 @@
           <label>Contract Sum</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_sum">
-          <nz-input-number formControlName="contract_sum" [(ngModel)]="model.contract_sum" name="contract_sum" [nzPlaceHolder]="'Contract Sum'"
+          <nz-input-number formControlName="contract_sum" [(ngModel)]="model.contract_sum" [nzPlaceHolder]="'Contract Sum'"
             [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.contract_sum.dirty&&validateForm.controls.contract_sum.hasError('required')">Please input your Contract Sum!</div>
@@ -424,7 +424,7 @@
           <label>Site Issues</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.site_issues">
-          <nz-input formControlName="site_issues" [(ngModel)]="model.site_issues" name="site_issues" [nzPlaceHolder]="'Site Issues'"
+          <nz-input formControlName="site_issues" [(ngModel)]="model.site_issues" [nzPlaceHolder]="'Site Issues'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.site_issues.dirty&&validateForm.controls.site_issues.hasError('required')">Please input your Site Issues!</div>
@@ -436,7 +436,7 @@
           <label>Project Monitoring Description</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.desc">
-          <nz-input formControlName="desc" [(ngModel)]="model.desc" name="desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'"
+          <nz-input formControlName="desc" [(ngModel)]="model.desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.desc.dirty&&validateForm.controls.desc.hasError('required')">Please input your Project Monitoring Description!</div>
@@ -601,7 +601,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.client_company">
           <nz-select formControlName="client_company" [(ngModel)]="editProject.client_company" nzAllowClear>
-            <nz-option *ngFor="let client_company of companies | async" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
+            <nz-option *ngFor="let client_company of companies" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
@@ -614,7 +614,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.project_manager_person">
           <nz-select formControlName="project_manager_person" [(ngModel)]="editProject.project_manager_person" nzAllowClear>
-            <nz-option *ngFor="let project_manager_person of project_manager_persons" [nzLabel]="project_manager_person.desc" [nzValue]="project_manager_person.value">
+            <nz-option *ngFor="let project_manager_person of projectManagers" [nzLabel]="project_manager_person.first_name+' '+project_manager_person.last_name" [nzValue]="project_manager_person.first_name+' '+project_manager_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.project_manager_person.dirty&&validateForm.controls.project_manager_person.hasError('required')">Please input your Project Manager Person!</div>
@@ -627,7 +627,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.architect_person">
           <nz-select formControlName="architect_person" [(ngModel)]="editProject.architect_person" nzAllowClear>
-            <nz-option *ngFor="let architect_person of architect_persons" [nzLabel]="architect_person.desc" [nzValue]="architect_person.value">
+            <nz-option *ngFor="let architect_person of architects" [nzLabel]="architect_person.first_name+' '+architect_person.last_name" [nzValue]="architect_person.first_name+' '+architect_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.architect_person.dirty&&validateForm.controls.architect_person.hasError('required')">Please input your Architect Person!</div>
@@ -640,7 +640,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.design_architect_person">
           <nz-select formControlName="design_architect_person" [(ngModel)]="editProject.design_architect_person" nzAllowClear>
-            <nz-option *ngFor="let design_architect_person of design_architect_persons" [nzLabel]="design_architect_person.desc" [nzValue]="design_architect_person.value">
+            <nz-option *ngFor="let design_architect_person of designArchitects" [nzLabel]="design_architect_person.first_name+' '+design_architect_person.last_name" [nzValue]="design_architect_person.first_name+' '+design_architect_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.design_architect_person.dirty&&validateForm.controls.design_architect_person.hasError('required')">Please input your Design Architect Person!</div>
@@ -653,7 +653,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.quantity_surveyor_person">
           <nz-select formControlName="quantity_surveyor_person" [(ngModel)]="editProject.quantity_surveyor_person" nzAllowClear>
-            <nz-option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [nzLabel]="quantity_surveyor_person.desc" [nzValue]="quantity_surveyor_person.value">
+            <nz-option *ngFor="let quantity_surveyor_person of quantitySurveyors" [nzLabel]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name" [nzValue]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.quantity_surveyor_person.dirty&&validateForm.controls.quantity_surveyor_person.hasError('required')">Please input your Quantity Surveyor Person!</div>
@@ -666,7 +666,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.cs_engineer_person">
           <nz-select formControlName="cs_engineer_person" [(ngModel)]="editProject.cs_engineer_person" nzAllowClear>
-            <nz-option *ngFor="let cs_engineer_person of cs_engineer_persons" [nzLabel]="cs_engineer_person.desc" [nzValue]="cs_engineer_person.value">
+            <nz-option *ngFor="let cs_engineer_person of consultantEngineers" [nzLabel]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name" [nzValue]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.cs_engineer_person.dirty&&validateForm.controls.cs_engineer_person.hasError('required')">Please input your CS Engineer Person!</div>
@@ -679,7 +679,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.service_engineer_person">
           <nz-select formControlName="service_engineer_person" [(ngModel)]="editProject.service_engineer_person" nzAllowClear>
-            <nz-option *ngFor="let service_engineer_person of service_engineer_persons" [nzLabel]="service_engineer_person.desc" [nzValue]="service_engineer_person.value">
+            <nz-option *ngFor="let service_engineer_person of serviceEngineers" [nzLabel]="service_engineer_person.first_name+' '+service_engineer_person.last_name" [nzValue]="service_engineer_person.first_name+' '+service_engineer_person.last_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.service_engineer_person.dirty&&validateForm.controls.service_engineer_person.hasError('required')">Please input your Service Engineer Person!</div>
@@ -692,7 +692,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.main_contractor_company">
           <nz-select formControlName="main_contractor_company" [(ngModel)]="editProject.main_contractor_company" nzAllowClear>
-            <nz-option *ngFor="let main_contractor_company of companies | async" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
+            <nz-option *ngFor="let main_contractor_company of mainCompanies" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
             </nz-option>
           </nz-select>
           <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
@@ -705,7 +705,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.subcontractors">
           <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="editProject.subcontractors" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let subcontractors of companies | async" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
+            <nz-option *ngFor="let subcontractors of subcontratorCompanies" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
               [nzDisabled]="subcontractors.disabled">
             </nz-option>
           </nz-select>
@@ -719,7 +719,7 @@
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.suppliers">
           <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="editProject.suppliers" [nzNotFoundContent]="'Cannot find'">
-            <nz-option *ngFor="let suppliers of companies | async" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+            <nz-option *ngFor="let suppliers of supplierCompanies" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
               [nzDisabled]="suppliers.disabled">
             </nz-option>
           </nz-select>
@@ -732,7 +732,7 @@
           <label>Contact Number</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.contact_no">
-          <nz-input-number formControlName="contact_no" [(ngModel)]="editProject.contact_no" name="contact_no" [nzPlaceHolder]="'Contact Number'"
+          <nz-input-number formControlName="contact_no" [(ngModel)]="editProject.contact_no" [nzPlaceHolder]="'Contact Number'"
             [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.contact_no.dirty&&validateForm.controls.contact_no.hasError('required')">Please input your Contact Number!</div>
@@ -744,7 +744,7 @@
           <label>Company Email</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
-          <nz-input formControlName="company_email" [(ngModel)]="editProject.company_email" name="company_email" [nzPlaceHolder]="'Email Address'"
+          <nz-input formControlName="company_email" [(ngModel)]="editProject.company_email" [nzPlaceHolder]="'Email Address'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">The input is not valid E-mail!</div>
@@ -757,7 +757,7 @@
           <label>Fax Number</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
-          <nz-input-number formControlName="fax_no" [(ngModel)]="editProject.fax_no" name="fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
+          <nz-input-number formControlName="fax_no" [(ngModel)]="editProject.fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
             style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">Please input your Fax Number!</div>
@@ -782,7 +782,7 @@
           <label>Site Possession</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.site_possession">
-          <nz-input formControlName="site_possession" [(ngModel)]="editProject.site_possession" name="site_possession" [nzPlaceHolder]="'Site Possession'"
+          <nz-input formControlName="site_possession" [(ngModel)]="editProject.site_possession" [nzPlaceHolder]="'Site Possession'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.site_possession.dirty&&validateForm.controls.site_possession.hasError('required')">Please input your Contact Number!</div>
@@ -819,7 +819,7 @@
           <label>Contract Sum</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_sum">
-          <nz-input-number formControlName="contract_sum" [(ngModel)]="editProject.contract_sum" name="contract_sum" [nzPlaceHolder]="'Fax Number'"
+          <nz-input-number formControlName="contract_sum" [(ngModel)]="editProject.contract_sum" [nzPlaceHolder]="'Fax Number'"
             [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.contract_sum.dirty&&validateForm.controls.contract_sum.hasError('required')">Please input your Contract Sum!</div>
@@ -855,7 +855,7 @@
           <label>Percentage Work Done</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_work_done">
-          <nz-input-number formControlName="pct_work_done" [(ngModel)]="editProject.pct_work_done" name="pct_work_done" [nzPlaceHolder]="'Fax Number'"
+          <nz-input-number formControlName="pct_work_done" [(ngModel)]="editProject.pct_work_done" [nzPlaceHolder]="'Fax Number'"
             [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.pct_work_done.dirty&&validateForm.controls.pct_work_done.hasError('required')">Please input your Percentage Work Done!</div>
@@ -879,7 +879,7 @@
           <label>Site Issues</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.site_issues">
-          <nz-input formControlName="site_issues" [(ngModel)]="editProject.site_issues" name="site_issues" [nzPlaceHolder]="'Site Issues'"
+          <nz-input formControlName="site_issues" [(ngModel)]="editProject.site_issues" [nzPlaceHolder]="'Site Issues'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.site_issues.dirty&&validateForm.controls.site_issues.hasError('required')">Please input your Site Issues!</div>
@@ -891,7 +891,7 @@
           <label>Project Monitoring Description</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.desc">
-          <nz-input formControlName="desc" [(ngModel)]="editProject.desc" name="desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'"
+          <nz-input formControlName="desc" [(ngModel)]="editProject.desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'"
             [nzSize]="'large'">
           </nz-input>
           <div nz-form-explain *ngIf="validateForm.controls.desc.dirty&&validateForm.controls.desc.hasError('required')">Please input your Project Monitoring Description!</div>
@@ -951,7 +951,7 @@
           <label>Percentage Completed Planned</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_planned">
-          <nz-input-number formControlName="pct_completed_planned" [(ngModel)]="editProject.pct_completed_planned" name="pct_completed_planned"
+          <nz-input-number formControlName="pct_completed_planned" [(ngModel)]="editProject.pct_completed_planned" 
             [nzPlaceHolder]="'Percentage Completed Planned'" [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.pct_completed_planned.dirty&&validateForm.controls.pct_completed_planned.hasError('required')">Please input your Percentage Completed Planned!</div>
@@ -963,7 +963,7 @@
           <label>Percentage Completed Actual</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_actual">
-          <nz-input-number formControlName="pct_completed_actual" [(ngModel)]="editProject.pct_completed_actual" name="pct_completed_actual"
+          <nz-input-number formControlName="pct_completed_actual" [(ngModel)]="editProject.pct_completed_actual" 
             [nzPlaceHolder]="'Percentage Completed Actual'" [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.pct_completed_actual.dirty&&validateForm.controls.pct_completed_actual.hasError('required')">Please input your Percentage Completed Actual!</div>
@@ -975,7 +975,7 @@
           <label>Percentage Completed One Week Target</label>
         </div>
         <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_1wktarget">
-          <nz-input-number formControlName="pct_completed_1wktarget" [(ngModel)]="editProject.pct_completed_1wktarget" name="pct_completed_1wktarget"
+          <nz-input-number formControlName="pct_completed_1wktarget" [(ngModel)]="editProject.pct_completed_1wktarget" 
             [nzPlaceHolder]="'Percentage Completed One Week Target'" [nzSize]="'large'" style="width:100%;">
           </nz-input-number>
           <div nz-form-explain *ngIf="validateForm.controls.pct_completed_1wktarget.dirty&&validateForm.controls.pct_completed_1wktarget.hasError('required')">Please input your Percentage Completed One Week Target!</div>

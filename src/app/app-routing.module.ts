@@ -6,9 +6,9 @@ import { SearchUserComponent } from './search-user/search-user.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
-
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { UserGroupComponent } from './user-group/user-group.component';
+import { UserGroupV2Component } from './user-group-v2/user-group-v2.component'; 
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -22,6 +22,7 @@ import { CodeManagementV2Component } from './code-management-v2/code-management-
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+import { PersonManagementV2Component} from './person-management-v2/person-management-v2.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
@@ -112,6 +113,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'user-group-v2',
+        component: UserGroupV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "User Group"
+        }
+      },
+      {
         path: 'workflow',
         component: WorkflowComponent,
         data: {
@@ -149,6 +158,14 @@ const routes: Routes = [
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Person Management"
+        }
+      },
+      {
+        path: 'per-mana-2',
+        component: PersonManagementV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Person Management 2"
         }
       },
       {

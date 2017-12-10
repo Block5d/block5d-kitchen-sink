@@ -1,5 +1,5 @@
 // Modules
-import{ BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,7 +26,7 @@ import { HeaderComponent } from './header/header.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ToastyModule} from 'ng2-toasty';
+import { ToastyModule } from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
@@ -37,7 +37,7 @@ import { OrgChartService } from './services/org-chart.service';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
 import { RegCompanyService } from './services/reg-company.service';
-import { SelectModule} from 'ng-select';
+import { SelectModule } from 'ng-select';
 import { UserGroupService } from './services/user-group.service';
 import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
@@ -54,6 +54,7 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
+import { PersonManagementV2Component } from './person-management-v2/person-management-v2.component';
 
 
 // Services
@@ -71,6 +72,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
+import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 
 
 @NgModule({
@@ -105,6 +107,8 @@ import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
     ProjectMembersV2Component,
     CompanymanagementV2Component,
     OrgChartV2Component,
+    UserGroupV2Component,
+    PersonManagementV2Component,
 
   ],
   imports: [
@@ -136,19 +140,19 @@ import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
     PaginationModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [ RegistrationService,
-               FileUploadService,
-               ProjectSubmissionService,
-               PersonManagementService,
-               ProjectManagementService,
-               RegCompanyService,
-               UserGroupService,
-               ProjectMembersService,
-               LdhMemberService,
-               CodeManaService,
-               OrgChartService  ],
+  providers: [RegistrationService,
+    FileUploadService,
+    ProjectSubmissionService,
+    PersonManagementService,
+    ProjectManagementService,
+    RegCompanyService,
+    UserGroupService,
+    ProjectMembersService,
+    LdhMemberService,
+    CodeManaService,
+    OrgChartService],
 
-bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 
 })
 export class AppModule { }
