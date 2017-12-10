@@ -1,0 +1,73 @@
+<div nz-row [nzGutter]="16">
+  <div>
+    <h3>Set Up Organisation Chart Of /projectName/</h3>
+  </div>
+  <br />
+  <div nz-col [nzSpan]="10">
+    <form nz-form>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="6">
+          <h5>Project ID</h5>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <nz-select nz-col [nzSpan]="14" [(ngModel)]="submitperson.projectid" name="projectid"  [nzPlaceHolder]="''">
+            <nz-option *ngFor="let item of projectidoption" [nzLabel]="item.label" [nzValue]="item.value">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="6">
+          <h5>Reporting Officer</h5>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <nz-select nz-col [nzSpan]="14" [(ngModel)]="submitperson.reportingofficer" name="officer" [nzPlaceHolder]="''" [nzAllowClear]="true">
+            <nz-option *ngFor="let item of reportingofficeroption" [nzLabel]="item.label" [nzValue]="item.value">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-col [nzSpan]="6">
+          <h5>Selected Member</h5>
+        </div>
+        <div nz-col [nzSpan]="18">
+          <nz-select nz-col [nzSpan]="14" [(ngModel)]="submitperson.selectmember" name="member" [nzMode]="'multiple'" [nzPlaceHolder]="''" [nzAllowClear]="true">
+            <nz-option *ngFor="let item of selectmemberoption" [nzLabel]="item.label" [nzValue]="item.value">
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </form>
+    <br />
+    <button nz-button [nzType]="'dashed'" (click)="addmember()">
+      <span>ADD</span>
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="dosth()">
+      <span>SUBMIT</span>
+    </button>
+  </div>
+  <div nz-col [nzSpan]="14">
+      <ng-org-chart [topEmployee]="topEmployee"></ng-org-chart>
+      <br />
+      <table *ngIf="(persondetail | async)?.length > 0" class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>fax</th>
+            <th>phone</th>
+            <th>email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of persondetail | async">
+            <th scope="row">{{result.person_id}}</th>
+            <td>{{result.site_fax}}</td>
+            <td>{{result.site_phone}}</td>
+            <td>{{result.site_email}}</td>
+          </tr>
+    
+        </tbody>
+      </table>
+  </div>
+</div>

@@ -70,6 +70,7 @@ import { CodeManagementV2Component } from './code-management-v2/code-management-
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
+import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 
 
 @NgModule({
@@ -103,6 +104,7 @@ import { CompanymanagementV2Component } from './companymanagement-v2/companymana
     BreadcrumbComponent,
     ProjectMembersV2Component,
     CompanymanagementV2Component,
+    OrgChartV2Component,
 
   ],
   imports: [
