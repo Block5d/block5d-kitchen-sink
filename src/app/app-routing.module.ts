@@ -19,6 +19,7 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
+import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { PersonManagementV2Component} from './person-management-v2/person-management-v2.component';
@@ -74,6 +75,14 @@ const routes: Routes = [
       {
         path: 'org-chart',
         component: OrgChartComponent,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Organization Chart"
+        }
+      },
+      {
+        path: 'org-chartV2',
+        component: OrgChartV2Component,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Organization Chart"
