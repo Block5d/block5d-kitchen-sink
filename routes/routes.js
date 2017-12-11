@@ -1,4 +1,4 @@
-var User = require('./models/user');
+var User = require('../models/user');
 const bCrypt = require('bcrypt-nodejs'),
       assert = require('assert'),
       multer = require('multer'),
