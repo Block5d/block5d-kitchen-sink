@@ -254,6 +254,24 @@ export class ProjectManagementV2Component implements OnInit {
     }
   };
 
+  endDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+  plannedEndDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.planned_start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+  actualEndDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.actual_start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
   addSuccessToast(title, msg) {
     var toastOptions: ToastOptions = {
       title: title,
@@ -284,7 +302,7 @@ export class ProjectManagementV2Component implements OnInit {
     this.validateForm = this.fb.group({
       name: ['', [Validators.required]],
       start_date: [null, [Validators.required]],
-      end_date: [null, [Validators.required]],
+      end_date: [null, [this.endDayValidator]],
       client_company: ['', [Validators.required]],
       project_manager_person: ['', [Validators.required]],
       architect_person: ['', [Validators.required]],
@@ -311,8 +329,8 @@ export class ProjectManagementV2Component implements OnInit {
       desc: ['', [Validators.required]],
       planned_start_date: [null, [Validators.required]],
       actual_start_date: [null, [Validators.required]],
-      planned_end_date: [null, [Validators.required]],
-      actual_end_date: [null, [Validators.required]],
+      planned_end_date: [null, [this.plannedEndDayValidator]],
+      actual_end_date: [null, [this.actualEndDayValidator]],
       pct_completed_planned: [null, [Validators.required]],
       pct_completed_actual: [null, [Validators.required]],
       pct_completed_1wktarget: [null, [Validators.required]],
