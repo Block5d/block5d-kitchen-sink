@@ -16,7 +16,7 @@ export class CodeManaService {
   constructor(private httpClient: HttpClient,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig) { }
-  searchcode(option) {
+  searchcategory(option) {
     if (option === null || option.keyword === '') {
       return this.httpClient.get<AddCodeMana[]>(this.addcodeurl, httpOptions);
     }else {

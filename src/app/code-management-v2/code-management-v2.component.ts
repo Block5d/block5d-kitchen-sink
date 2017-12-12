@@ -9,13 +9,13 @@ import { AddCodeMana, SearchCodeMana, AddCategory } from '../shared/code-mana';
   styleUrls: ['./code-management-v2.component.css']
 })
 export class CodeManagementV2Component implements OnInit {
-  categorymodel= false; codemodel= false; editcodemodel= false; categoryCodeString;
+  categorymodel= false; codemodel= false; editcodemodel= false; isJSON = true; isObject = true; CodeString; categoryCodeString;
   searchcode = new SearchCodeMana('', 'Code');
   searchtype = [{label: 'Code', value: 'Code'},
     {label: 'Code Desc.', value: 'CodeDesc'},
     {label: 'Category Desc.', value: 'CateDesc'},
     {label: 'Category Code', value: 'CateCode'}];
-  addcategory = new AddCategory('', {}, true);
+  addcategory = new AddCategory('', null, true);
   addcode = new AddCodeMana(null, { code_desc: null, code : null},
      { categoryDesc: null, categoryCode: null}, true, new Date(), new Date(), '', '', '');
   editcode = new AddCodeMana(null, { code_desc: null, code : null},
@@ -53,10 +53,10 @@ export class CodeManagementV2Component implements OnInit {
   }
   delete(result) {
     this.codemanaservice.deletecode(result).subscribe();
-    this.resultcode = this.codemanaservice.searchcode(null);
+    this.resultcode = this.codemanaservice.searchcategory(null);
   }
   search() {
-    this.resultcode = this.codemanaservice.searchcode(this.searchcode);
+    this.resultcode = this.codemanaservice.searchcategory(this.searchcode);
   }
   edit(result) {
     this.editcodemodel = true;
@@ -67,21 +67,26 @@ export class CodeManagementV2Component implements OnInit {
     this.editcode.modified_date = new Date();
     console.log(this.editcode);
     this.codemanaservice.updatecode(this.editcode).subscribe();
-    this.resultcode = this.codemanaservice.searchcode(null);
+    this.resultcode = this.codemanaservice.searchcategory(null);
     this.editcodemodel = false;
   }
   savecategory() {
-    this.addcategory.categoryCode = JSON.parse(this.categoryCodeString);
+    console.log(this.isJSON);
+    if (this.isJSON) {
+      this.addcategory.categoryCode = JSON.parse(this.categoryCodeString);
+    }else {
+      this.addcategory.categoryCode = this.categoryCodeString.split(',');
+    }
     console.log(this.addcategory);
     this.codemanaservice.addcategory(this.addcategory).subscribe(result => {
       this.categorymodel = false;
-      this.addcategory = new AddCategory('', {}, true);
+      this.addcategory = new AddCategory('', null, true);
     });
   }
   saveaddcode() {
     console.log(this.addcode);
     this.codemanaservice.addcode(this.addcode).subscribe(result => {
-      this.resultcode = this.codemanaservice.searchcode(null);
+      this.resultcode = this.codemanaservice.searchcategory(null);
       this.codemodel = false;
       this.addcode = new AddCodeMana(null, { code_desc: null, code : null},
         { categoryDesc: null, categoryCode: null}, true, new Date(), new Date(), '', '', '');
