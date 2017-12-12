@@ -37,7 +37,7 @@ export class PersonManagementV2Component implements OnInit {
   indexOnPage: number = 0;
   showSpinner = true;
   smodel = new SearchPerson('', "first_name", this.currentPage, this.itemsPerPage);
-  validateForm: FormGroup;
+  addPersonValidateForm: FormGroup;
   editValidateForm: FormGroup;
 
   types = [
@@ -201,7 +201,7 @@ export class PersonManagementV2Component implements OnInit {
       this.result = x.slice(this.indexOnPage, this.itemsPerPage);
     });
 
-    this.validateForm = this.fb.group({
+    this.addPersonValidateForm = this.fb.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
       job_title: ['', [Validators.required]],
