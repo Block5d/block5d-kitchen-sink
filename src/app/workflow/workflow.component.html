@@ -1,18 +1,119 @@
-<div  class="workflow container">
-  <div  class="workflow col-xl-5">
-      <h3>Setting Up Workflow</h3>
-      <form #searchUserForm="ngForm"  novalidate class="row">
-        <div class="select-group col-xl-2">
-          <label for="project_id">Project Id</label>
-          <select class="form-control"   #project_id="ngModel" id="project_id" [(ngModel)]="model.project_id" [ngModelOptions]="{standalone: true}"
-          (ngModelChange)="onChange($event)">
-          <option *ngFor="let project_id of project_ids" [ngValue]="project_id.value">{{project_id.desc}}</option>
-          </select>
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <h4>Setting Up Workflow</h4>
+    <form nz-form [formGroup]="validateForm" >
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>Project Id</label>
+          </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.project_id">
+            <nz-select 
+            [(ngModel)]="model.project_id" [ngModelOptions]="{standalone: true}" >
+                <nz-option
+                  *ngFor="let project_id of project_ids"
+                  [nzLabel]="project_id.value"
+                  [nzValue]="project_id.desc">
+                </nz-option>
+            </nz-select>
+          <div nz-form-explain *ngIf="validateForm.controls.project_id.dirty&&validateForm.controls.project_id.hasError('required')">Please input your username!</div>
         </div>
-      </form>
-    
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>From Status</label>
+          </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.from_status">
+            <nz-select 
+            [(ngModel)]="model.from_status" [ngModelOptions]="{standalone: true}" >
+                <nz-option
+                  *ngFor="let allStatus of allStatuses"
+                  [nzLabel]="allStatus.status_code"
+                  [nzValue]="allStatus.status_desc">
+                </nz-option>
+            </nz-select>
+          <div nz-form-explain *ngIf="validateForm.controls.from_status.dirty&&validateForm.controls.from_status.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>To Status</label>
+          </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.to_status">
+            <nz-select 
+            [(ngModel)]="model.to_status" [ngModelOptions]="{standalone: true}" >
+                <nz-option
+                  *ngFor="let allStatus of allStatuses"
+                  [nzLabel]="allStatus.status_code"
+                  [nzValue]="allStatus.status_desc">
+                </nz-option>
+            </nz-select>
+          <div nz-form-explain *ngIf="validateForm.controls.to_status.dirty&&validateForm.controls.to_status.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>Action</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.action">
+          <nz-input formControlName="action"  [nzSize]="'large'"  [(ngModel)]="model.action">
+          </nz-input>
+          <div nz-form-explain 
+          *ngIf="validateForm.controls.action.dirty&&validateForm.controls.action.hasError('required')">
+            Please input your action!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>Rules</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.rules">
+          <nz-input formControlName="rules"  [nzSize]="'large'"  [(ngModel)]="model.rules">
+          </nz-input>
+          <div nz-form-explain 
+          *ngIf="validateForm.controls.rules.dirty&&validateForm.controls.rules.hasError('required')">
+            Please input your rules!</div>
+        </div>
+      </div>
+      <button nz-button [nzType]="'primary'" (click)="submit(model)">
+        <span>Submit</span>
+      </button>
+    </form>
   </div>
-  <div  clas="workflow col-xl-7">
-      <h3>Add New Status</h3>
+  <div nz-col [nzSpan]="12">
+    <span>Add New Status</span>
+    <form nz-form [formGroup]="validateForm" >
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>Status Code</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.status_code">
+          <nz-input formControlName="status_code"  [nzSize]="'large'"  [(ngModel)]="status.status_code">
+          </nz-input>
+          <div nz-form-explain 
+          *ngIf="validateForm.controls.status_code.dirty&&validateForm.controls.status_code.hasError('required')">
+            Please input your status_code!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+            <label>Status Desc</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="validateForm.controls.status_desc">
+          <nz-input formControlName="status_desc"  [nzSize]="'large'"  [(ngModel)]="status.status_desc">
+          </nz-input>
+          <div nz-form-explain 
+          *ngIf="validateForm.controls.status_desc.dirty&&validateForm.controls.status_desc.hasError('required')">
+            Please input your status_desc!</div>
+        </div>
+      </div>
+      <button nz-button [nzType]="'primary'" (click)="addStatus(status)">
+       <span>Add</span>
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="resetForm()">
+        <span>Reset</span>
+      </button>
+    </form>
   </div>
 </div>
+
+

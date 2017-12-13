@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
-
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
 import { CodeManaService } from './services/code-mana.service';
@@ -19,6 +18,8 @@ import { ProgressbarModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { APP_BASE_HREF, Location } from '@angular/common';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // Components
 import { AppComponent } from './app.component';
@@ -73,6 +74,8 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+import { WorkflowService } from './services/workflow.service';
+import { WorkflowSubmitService } from './services/workflow-submit.service';
 import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
 
 
@@ -152,7 +155,9 @@ import { ProjectSubmissionV2Component } from './project-submission-v2/project-su
     ProjectMembersService,
     LdhMemberService,
     CodeManaService,
-    OrgChartService],
+    OrgChartService,
+    WorkflowService,
+    WorkflowSubmitService],
 
   bootstrap: [AppComponent]
 

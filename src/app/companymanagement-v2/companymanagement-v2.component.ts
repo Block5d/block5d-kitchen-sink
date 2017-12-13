@@ -48,44 +48,61 @@ export class CompanymanagementV2Component implements OnInit {
     private fb: FormBuilder) {
       
     this.companies =  this.getAllCompanies(null);
-     }
-
+    }
   ngOnInit() {
     this.validateForm = this.fb.group({
-      company_name: [ null, [ Validators.required ] ],
+      company_name: [ null , [ Validators.required ] ],
       company_reg_no: [ null, [ Validators.required ] ],
       address_1: [ null, [ Validators.required ] ],
       address_2: [ null, [ Validators.required ] ],
       address_3: [ null, [ Validators.required ] ],
       postal_code: [ null, [ Validators.required ] ],
       city: [ null, [ Validators.required ] ],
-      phone_no: [ null, [ Validators.required ] ],
-      company_email: [ null, [ Validators.required ] ],
+      phone_no: [ null, [ Validators.required  ] ],
+      company_email: [ null, [ Validators.required ,this.emailValidator] ],
       fax_no: [ null, [ Validators.required ] ],
       country_origin: [ null, [ Validators.required ] ],
       company_type: [ null, [ Validators.required ] ],
-    });
+    })
   }
+
+  emailValidator = (control: FormControl): { [s: string]: boolean } => {
+    const EMAIL_REGEXP = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+    if (!control.value) {
+      return { required: true }
+    } else if (!EMAIL_REGEXP.test(control.value)) {
+      return { error: true, email: true };
+    }
+  };
   onChange(evt){
     // TODO ...
   }
+
   add = () => {
     this.addform = true;
   }
-  submit = (e) => {
-        console.log('点击了确定');
-        console.log(this.model)
-        this.regCompany.saveRegisteredCompany(this.model as RegistrationCompany)
-        .subscribe(company => {
-          //console.log(company);
-          this.companies = this.getAllCompanies(null);
-          this.addSuccessToast('Successfully added', `Added ${this.model.company_name}`);
-        });
-        this.addform = false;
+  onSubmit() {
+    for (const i in this.validateForm.controls) {
+      this.validateForm.controls[ i ].markAsDirty();
+    }
+    
+      console.log('点击了确定');
+      console.log(this.model)
+      this.regCompany.saveRegisteredCompany(this.model as RegistrationCompany)
+      .subscribe(company => {
+        //console.log(company);
+        this.companies = this.getAllCompanies(null);
+        this.addSuccessToast('Successfully added', `Added ${this.model.company_name}`);
+      });
+      this.validateForm.reset();
+      this.addform = false;
+    
       }
   cancel = (e) => {
     console.log(e);
+    this.validateForm.reset();
     this.addform = false;
+    
   }
   editCompany = new RegistrationCompany('','','','','','','','','','','','','',null,null);
   edit = (company) => {
@@ -96,12 +113,14 @@ export class CompanymanagementV2Component implements OnInit {
     this.editCompany.company_email = company.contact.company_email;
     this.editform = true;
   }
+  
   editCancel = (e) => {
     console.log(e);
     this.editform = false;
   }
   onEdit(){
     console.log("Saving edit ...");
+   
     this.regCompany.updateCompany(this.editCompany as RegistrationCompany)
     .subscribe(company => {
       //console.log(">>>>>" + user);
