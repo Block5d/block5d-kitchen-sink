@@ -1,5 +1,6 @@
 export class ProjectManagement{
     constructor(
+        public _id:string,
         public name:string,
         public start_date:Date,
         public end_date:Date,

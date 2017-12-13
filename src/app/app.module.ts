@@ -73,6 +73,7 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
     OrgChartV2Component,
     UserGroupV2Component,
     PersonManagementV2Component,
+    ProjectSubmissionV2Component,
 
   ],
   imports: [
