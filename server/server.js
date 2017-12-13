@@ -37,7 +37,8 @@ require('./company')(app);
 require('./user-group')(app);
 require('./person-routes')(app);
 require('./project-routes')(app);
-
+require('./workflow')(app);
+require('./workflow-status')(app);
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);
 });
