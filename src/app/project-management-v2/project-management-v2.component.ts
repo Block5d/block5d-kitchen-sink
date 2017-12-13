@@ -158,7 +158,17 @@ export class ProjectManagementV2Component implements OnInit {
       case 'service_engineer_person':
         this.serviceEngineers.push(person); break;
     }
+  }
 
+  addCompany(company) {
+    switch (company.company_type) {
+      case 'main_contractor_company':
+        this.mainCompanies.push(company); break;
+      case 'subcontractors':
+        this.subcontratorCompanies.push(company); break;
+      case 'suppliers':
+        this.supplierCompanies.push(company); break;
+    }
   }
 
   getCompanies(companies) {
@@ -274,24 +284,21 @@ export class ProjectManagementV2Component implements OnInit {
   }
 
   companyOnSubmit(){
-    console.log('点击了确定');
-    console.log(this.model)
     this.regCompanyService.saveRegisteredCompany(this.companyModel as RegistrationCompany)
       .subscribe(company => {
-        //console.log(company);
-        this.companieses = this.regCompanyService.getAllCompanies(null);
         this.addSuccessToast('Successfully added', `Added ${this.companyModel.company_name}`);
+        this.addCompany(company);
+        //this.companyModel = new RegistrationCompany('', '', '', '', '', '', '', '', '', '', '', '', '', null, null);
+        this.addCompanyModal = false;
       });
-    this.addCompanyModal = false;
   }
 
   personOnSubmit() {
     this.personManagementService.savePerson(this.personModel as PersonManagement)
       .subscribe(person => {
         this.addSuccessToast('Successfully added', `Added ${this.personModel.first_name}`);
-        this.personses = this.personManagementService.getAllPersons(this.personModel);
-        //this.model = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
         this.addPerson(person);
+        //this.personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
         this.addPersonModal = false;
       });
   }

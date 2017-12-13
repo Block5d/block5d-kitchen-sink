@@ -294,9 +294,7 @@
               <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
             </div>
             <div nz-col [nzSpan]="6">
-              <button [nzSize]="'large'" nz-button [nzType]="'dashed'">
-                <a href="/company-managementv2">Add</a>
-              </button>
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
             </div>
           </div>
         </div>
@@ -315,9 +313,7 @@
               <div nz-form-explain *ngIf="validateForm.controls.subcontractors.dirty&&validateForm.controls.subcontractors.hasError('required')">Please input your Subcontractors!</div>
             </div>
             <div nz-col [nzSpan]="6">
-              <button [nzSize]="'large'" nz-button [nzType]="'dashed'">
-                <a href="/company-managementv2">Add</a>
-              </button>
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
             </div>
           </div>
         </div>
@@ -336,9 +332,7 @@
               <div nz-form-explain *ngIf="validateForm.controls.suppliers.dirty&&validateForm.controls.suppliers.hasError('required')">Please input your Suppliers!</div>
             </div>
             <div nz-col [nzSpan]="6">
-              <button [nzSize]="'large'" nz-button [nzType]="'dashed'">
-                <a href="/company-managementv2">Add</a>
-              </button>
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
             </div>
           </div>
         </div>
@@ -1251,7 +1245,7 @@
           <label>Name</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_name">
-          <nz-input formControlName="company_name" [nzSize]="'large'" [(ngModel)]="model.company_name">
+          <nz-input formControlName="company_name" [nzSize]="'large'" [(ngModel)]="companyModel.company_name">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_name.dirty&&addCompanyValidateForm.controls.company_name.hasError('required')">Please input your username!</div>
         </div>
@@ -1261,7 +1255,7 @@
           <label>company_reg_no</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_reg_no">
-          <nz-input formControlName="company_reg_no" [nzSize]="'large'" [(ngModel)]="model.company_reg_no">
+          <nz-input formControlName="company_reg_no" [nzSize]="'large'" [(ngModel)]="companyModel.company_reg_no">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_reg_no.dirty&&addCompanyValidateForm.controls.company_reg_no.hasError('required')">Please input your username!</div>
         </div>
@@ -1271,7 +1265,7 @@
           <label>country_origin</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.country_origin">
-          <nz-select [(ngModel)]="model.country_origin" [ngModelOptions]="{standalone: true}">
+          <nz-select [(ngModel)]="companyModel.country_origin" [ngModelOptions]="{standalone: true}">
             <nz-option *ngFor="let country_origin of country_origins" [nzLabel]="country_origin.label" [nzValue]="country_origin.value">
             </nz-option>
           </nz-select>
@@ -1283,7 +1277,7 @@
           <label>company_type</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_type">
-          <nz-select [(ngModel)]="model.company_type" [ngModelOptions]="{standalone: true}">
+          <nz-select [(ngModel)]="companyModel.company_type" [ngModelOptions]="{standalone: true}">
             <nz-option *ngFor="let company_type of company_types" [nzLabel]="company_type.value" [nzValue]="company_type.desc">
             </nz-option>
           </nz-select>
@@ -1295,14 +1289,14 @@
           <label>address_1</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_1">
-          <nz-input formControlName="address_1" [nzSize]="'large'" [(ngModel)]="model.address_1">
+          <nz-input formControlName="address_1" [nzSize]="'large'" [(ngModel)]="companyModel.address_1">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_1.dirty&&addCompanyValidateForm.controls.address_1.hasError('required')">Please input your username!</div>
         </div>
       </div>
       <div nz-form-item>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_2">
-          <nz-input formControlName="address_2" [nzSize]="'large'" [(ngModel)]="model.address_2">
+          <nz-input formControlName="address_2" [nzSize]="'large'" [(ngModel)]="companyModel.address_2">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_2.dirty&&addCompanyValidateForm.controls.address_2.hasError('required')">
             Please input your username!</div>
@@ -1310,7 +1304,7 @@
       </div>
       <div nz-form-item>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_3">
-          <nz-input formControlName="address_3" [nzSize]="'large'" [(ngModel)]="model.address_3">
+          <nz-input formControlName="address_3" [nzSize]="'large'" [(ngModel)]="companyModel.address_3">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_3.dirty&&addCompanyValidateForm.controls.address_3.hasError('required')">
             Please input your username!</div>
@@ -1321,7 +1315,7 @@
           <label>postal_code</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.postal_code">
-          <nz-input formControlName="postal_code" [nzSize]="'large'" [(ngModel)]="model.postal_code">
+          <nz-input formControlName="postal_code" [nzSize]="'large'" [(ngModel)]="companyModel.postal_code">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.postal_code.dirty&&addCompanyValidateForm.controls.postal_code.hasError('required')">
             Please input your username!</div>
@@ -1332,7 +1326,7 @@
           <label>city</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.city">
-          <nz-input formControlName="city" [nzSize]="'large'" [(ngModel)]="model.city">
+          <nz-input formControlName="city" [nzSize]="'large'" [(ngModel)]="companyModel.city">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.city.dirty&&addCompanyValidateForm.controls.city.hasError('required')">
             Please input your username!</div>
@@ -1345,7 +1339,7 @@
           <label>phone_no</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.phone_no">
-          <nz-input formControlName="phone_no" [nzSize]="'large'" [(ngModel)]="model.phone_no">
+          <nz-input formControlName="phone_no" [nzSize]="'large'" [(ngModel)]="companyModel.phone_no">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.phone_no.dirty&&addCompanyValidateForm.controls.phone_no.hasError('required')">
             Please input your username!</div>
@@ -1356,7 +1350,7 @@
           <label>company_email</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_email">
-          <nz-input formControlName="company_email" [nzSize]="'large'" [(ngModel)]="model.company_email">
+          <nz-input formControlName="company_email" [nzSize]="'large'" [(ngModel)]="companyModel.company_email">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_email.dirty&&addCompanyValidateForm.controls.company_email.hasError('required')">
             Please input your username!</div>
@@ -1367,7 +1361,7 @@
           <label>fax_no</label>
         </div>
         <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.fax_no">
-          <nz-input formControlName="fax_no" [nzSize]="'large'" [(ngModel)]="model.fax_no">
+          <nz-input formControlName="fax_no" [nzSize]="'large'" [(ngModel)]="companyModel.fax_no">
           </nz-input>
           <div nz-form-explain *ngIf="addCompanyValidateForm.controls.fax_no.dirty&&addCompanyValidateForm.controls.fax_no.hasError('required')">
             Please input your username!</div>
