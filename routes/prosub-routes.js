@@ -1,4 +1,4 @@
-var Prosub = require('./models/projectSubmissions');
+var Prosub = require('../models/projectSubmissions');
 
 const PROSUBS_API_URL = '/api/v1/prosubs';
 

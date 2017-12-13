@@ -37,6 +37,17 @@ require('./company')(app);
 require('./user-group')(app);
 require('./person-routes')(app);
 require('./project-routes')(app);
+require('./workflow')(app);
+require('./workflow-status')(app);
+require('./routes/routes')(app);
+require('./routes/codemana')(app);
+require('./routes/orgchart')(app);
+require('./routes/prosub-routes')(app);
+require('./routes/promem-routes')(app);
+require('./routes/company')(app);
+require('./routes/user-group')(app);
+require('./routes/person-routes')(app);
+require('./routes/project-routes')(app);
 
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);
