@@ -35,8 +35,8 @@ export class ProjectManagementV2Component implements OnInit {
   private companies: RegistrationCompany[];
   private persons: PersonManagement[];
   result: ProjectManagement[] = [];
-  model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
-  editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  editProject = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
   companyModel = new RegistrationCompany('', '', '', '', '', '', '', '', '', '', '', '', '', null, null);
   inputValue: string;
@@ -278,7 +278,7 @@ export class ProjectManagementV2Component implements OnInit {
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
         this.projects = this.projectManagementService.getAllProjects(this.model);
-        this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+        this.model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
         this.addProjectModal = false;
       });
   }
