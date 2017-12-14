@@ -58,7 +58,7 @@
 
 
 
-<nz-modal [nzVisible]="addform" [nzTitle]="'Add Group'" [nzContent]="addForm" (nzOnCancel)="cancel($event)" (nzOnOk)="submit($event)">
+<nz-modal [nzVisible]="addform" [nzTitle]="'Add Group'" [nzContent]="addForm"[nzFooter]="modalFooter" (nzOnCancel)="cancel($event)">
   <ng-template #addForm>
       <h3>Company Detail</h3>
       <form nz-form [formGroup]="validateForm" >
@@ -92,7 +92,7 @@
               </div>
             <div nz-form-control [nzValidateStatus]="validateForm.controls.members">
                 <nz-select 
-                [(ngModel)]="model.members" [ngModelOptions]="{standalone: true}" [nzMode]="'multiple'">
+                [(ngModel)]="model.members"  formControlName="members" [nzMode]="'multiple'">
                     <nz-option
                       *ngFor="let member of myOptions"
                       [nzLabel]="member.value"
@@ -104,12 +104,20 @@
           </div>
       </form>
   </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+     cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="submit()">
+     submit
+    </button>
+</ng-template>
 </nz-modal>
 
 
 
 <nz-modal [nzVisible]="editform" [nzTitle]="'Edit Group'" 
-[nzContent]="editForm" (nzOnCancel)="editCancel($event)" (nzOnOk)="onEdit($event)">
+[nzContent]="editForm" (nzOnCancel)="editCancel($event)"  [nzFooter]="editModalFooter">
 <ng-template #editForm>
     <form nz-form [formGroup]="validateForm">
         <div nz-form-item>
@@ -142,7 +150,7 @@
               </div>
             <div nz-form-control [nzValidateStatus]="validateForm.controls.members">
                 <nz-select 
-                [(ngModel)]="editGroup.members" [ngModelOptions]="{standalone: true}" [nzMode]="'multiple'">
+                [(ngModel)]="editGroup.members" formControlName="members" [nzMode]="'multiple'">
                     <nz-option
                       *ngFor="let member of myOptions"
                       [nzLabel]="member.value"
@@ -153,5 +161,13 @@
             </div>
           </div>
     </form>
+</ng-template>
+<ng-template #editModalFooter>
+  <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="editCancel($event)">
+   cancel
+  </button>
+  <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()">
+   submit
+  </button>
 </ng-template>
 </nz-modal> 

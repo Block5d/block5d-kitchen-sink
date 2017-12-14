@@ -23,6 +23,7 @@ import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { PersonManagementV2Component} from './person-management-v2/person-management-v2.component';
+import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
@@ -150,6 +151,14 @@ const routes: Routes = [
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Project Submission"
+        }
+      },
+      {
+        path: 'pro-sub-2',
+        component: ProjectSubmissionV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Project Submission 2"
         }
       },
       {

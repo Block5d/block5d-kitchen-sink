@@ -51,13 +51,15 @@ export class UserGroupV2Component implements OnInit {
      }
 
   add = () => {
+    this.validateForm.reset();
     this.addform = true;
   }
-  submit = (e) => {
+  submit(){
     console.log(this.model);
     return this.userGroupService.saveUserGroup(this.model as UserGroup)
     .subscribe(group=>{
     this.addSuccessToast('Successfully added', `Added ${this.model}`);
+    this.validateForm.reset();
     this.addform = false;
     this.groups = this.getAllGroups(null);
     })
@@ -65,6 +67,7 @@ export class UserGroupV2Component implements OnInit {
    }
   cancel = (e) => {
     console.log(e);
+    this.validateForm.reset();
     this.addform = false;
   }
   onSearch(){
@@ -98,9 +101,9 @@ export class UserGroupV2Component implements OnInit {
   }
   ngOnInit() {
     this.validateForm = this.fb.group({
-      project_id: [ "", [ Validators.required ] ],
-      group_name: [ "", [ Validators.required ] ],
-      members: [ "", [ Validators.required ] ]
+      project_id: [ null, [ Validators.required ] ],
+      group_name: [ null, [ Validators.required ] ],
+      members: [ null, [ Validators.required ] ]
     });
   }
 

@@ -32,7 +32,7 @@ export class ProjectMembersV2Component implements OnInit {
   private persons:Observable<PersonManagement[]>;
   editProjectMember = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');;
   model = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');
-  projectModel = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  projectModel = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
   validateForm: FormGroup;
   validateEditForm: FormGroup;
