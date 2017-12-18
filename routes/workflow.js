@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Workflow = require('./models/workflow');
+var Workflow = require('./../models/workflow');
 
 const Workflow_Submit_API_URL ='/api/v1/workflowsSubmit';
 

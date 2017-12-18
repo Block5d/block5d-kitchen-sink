@@ -17,7 +17,6 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
-import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
@@ -63,14 +62,6 @@ const routes: Routes = [
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'Code Management V3'
-        }
-      },
-      {
-        path: 'codeManagementV2',
-        component: CodeManagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: 'Code Management V2'
         }
       },
       {
