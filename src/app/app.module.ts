@@ -4,6 +4,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+<<<<<<< HEAD
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+=======
+>>>>>>> a9deb2c2e34efd7b2aad8f7763b918e312a929f0
 import { OrgChartModule } from 'ng-org-chart';
 import { LdhMemberService } from './services/ldh-member.service';
 import { CodeManaService } from './services/code-mana.service';
@@ -32,7 +36,6 @@ import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
-import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { OrgChartService } from './services/org-chart.service';
 import { CarouselModule } from 'ngx-bootstrap';
@@ -74,9 +77,13 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+<<<<<<< HEAD
+import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
+=======
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
 import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
+>>>>>>> a9deb2c2e34efd7b2aad8f7763b918e312a929f0
 
 
 @NgModule({
@@ -86,7 +93,6 @@ import { ProjectSubmissionV2Component } from './project-submission-v2/project-su
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
-    CodeManagementComponent,
     OrgChartComponent,
     CompanymanagementComponent,
     UserGroupComponent,
@@ -113,13 +119,18 @@ import { ProjectSubmissionV2Component } from './project-submission-v2/project-su
     OrgChartV2Component,
     UserGroupV2Component,
     PersonManagementV2Component,
+<<<<<<< HEAD
+    CodeManagementV3Component,
+=======
     ProjectSubmissionV2Component,
+>>>>>>> a9deb2c2e34efd7b2aad8f7763b918e312a929f0
 
   ],
   imports: [
     BrowserModule,
     SelectModule,
     OrgChartModule,
+    NgxJsonViewerModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,

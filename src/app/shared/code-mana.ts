@@ -19,14 +19,6 @@ export class AddCodeMana {
 
     }
 }
-export class SearchCodeMana {
-    constructor(
-        public keyword: String,
-        public type: String
-    ) {
-
-    }
-}
 export class AddCategory {
     constructor(
         public categoryDesc: String,
