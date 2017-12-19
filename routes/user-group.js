@@ -1,6 +1,6 @@
 var bCrypt = require('bcrypt-nodejs');
 var assert = require('assert');
-var UserGroup = require('./models/user-group');
+var UserGroup = require('../models/user-group');
 
 const UserGroup_API_URL ='/api/v1/userGroups';
 

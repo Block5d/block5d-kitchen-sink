@@ -32,7 +32,8 @@ export class ProjectMembersV2Component implements OnInit {
   private persons:Observable<PersonManagement[]>;
   editProjectMember = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');;
   model = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');
-  projectModel = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  projectModel = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
   validateForm: FormGroup;
   validateEditForm: FormGroup;
   editProjectMemberModal = false;
@@ -57,7 +58,7 @@ export class ProjectMembersV2Component implements OnInit {
   ) { 
     this.projectMembers = this.projectMembersService.getAllPromems(this.model);
     this.projects = this.projectManagementService.getAllProjects(this.projectModel);
-    this.persons = this.personManagementService.getAllUsers(null);
+    this.persons = this.personManagementService.getAllPersons(this.personModel);
   }
 
   onSubmit() {

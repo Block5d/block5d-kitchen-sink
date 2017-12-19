@@ -24,7 +24,7 @@ export class ProjectManagementComponent implements OnInit {
   submitted = false;
   isopen = false;
   inputValue: string;
-  model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
   types = [];
   selectedTypes;
   smodel = new SearchProject('', "name",null, null);
@@ -164,7 +164,7 @@ export class ProjectManagementComponent implements OnInit {
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
         this.projects = this.getAll();
-        this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+        this.model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
         this.modalRef.hide();
       });
   }

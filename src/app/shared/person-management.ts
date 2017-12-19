@@ -24,7 +24,9 @@ export class PersonManagement {
 export class SearchPerson {
     constructor(
         public keyword: string,
-        public type:string
+        public type:string,
+        public currentPerPage: number,
+        public itemsPerPage: number
     ){
 
     }

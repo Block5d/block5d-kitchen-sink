@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CodeManagementComponent } from './code-management.component';
+import { CodeManagementV3Component } from './code-management-v3.component';
 
-describe('CodeManagementComponent', () => {
-  let component: CodeManagementComponent;
-  let fixture: ComponentFixture<CodeManagementComponent>;
+describe('CodeManagementV3Component', () => {
+  let component: CodeManagementV3Component;
+  let fixture: ComponentFixture<CodeManagementV3Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CodeManagementComponent ]
+      declarations: [ CodeManagementV3Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CodeManagementComponent);
+    fixture = TestBed.createComponent(CodeManagementV3Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

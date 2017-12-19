@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RegistrationCompany } from '../shared/reg-company';
+import { PersonManagement } from '../shared/person-management';
 import { SearchProject } from '../shared/project-management';
 import { ProjectManagement } from '../shared/project-management';
 import { ProjectManagementService } from '../services/project-management.service';
 import { RegCompanyService } from '../services/reg-company.service';
+import { PersonManagementService } from '../services/person-management.service';
 import { Observable } from 'rxjs/Observable';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -17,6 +19,7 @@ import 'rxjs/add/operator/switchMap';
 import { environment } from '../../environments/environment';
 import * as _ from 'lodash';
 import { forEach } from '@angular/router/src/utils/collection';
+import { PersonManagementComponent } from '../person-management/person-management.component';
 
 @Component({
   selector: 'app-project-management-v2',
@@ -27,12 +30,17 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class ProjectManagementV2Component implements OnInit {
 
   private projects: Observable<ProjectManagement[]>;
+  private personses: Observable<PersonManagement[]>;
+  private companieses: Observable<RegistrationCompany[]>;
   private companies: RegistrationCompany[];
+  private persons: PersonManagement[];
   result: ProjectManagement[] = [];
-  model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
-  editProject = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  editProject = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
+  companyModel = new RegistrationCompany('', '', '', '', '', '', '', '', '', '', '', '', '', null, null);
   inputValue: string;
-  editProjectModal = false; addProjectModal = false;
+  editProjectModal = false; addProjectModal = false; addPersonModal = false; addCompanyModal = false;
   maxSize: number = 5;
   totalItems: number = 0;
   currentPage: number = 1;
@@ -43,42 +51,22 @@ export class ProjectManagementV2Component implements OnInit {
   showSpinner = true;
   smodel = new SearchProject('', "name", this.currentPage, this.itemsPerPage);
   validateForm: FormGroup;
+  addPersonValidateForm: FormGroup;
+  addCompanyValidateForm: FormGroup;
   mainCompanies: any = [];
   subcontratorCompanies: any = [];
   supplierCompanies: any = [];
+  projectManagers: any = [];
+  architects: any = [];
+  designArchitects: any = [];
+  quantitySurveyors: any = [];
+  consultantEngineers: any = [];
+  serviceEngineers: any = [];
 
   types = [
     { value: 'name', label: 'Name' },
     { value: 'project_country', label: 'Country' }
   ];
-
-  project_manager_persons = [{ desc: "Douglas", value: "swm" },
-  { desc: "Louis", value: "hwy" }, { desc: "Mr.Moo", value: "hjc" },
-  { desc: "Jerry", value: "xjy" }, { desc: "ChanJo", value: "zsl" }];
-
-  architect_persons = [{ desc: "ZhangJie", value: "zj" },
-  { desc: "XieNa", value: "xn" }, { desc: "HuYanBin", value: "hyb" },
-  { desc: "WuBai", value: "wb" }, { desc: "WuYueTian", value: "mayday" }];
-
-  design_architect_persons = [{ desc: "Xtina", value: "CA" },
-  { desc: "Adam Lambert", value: "AL" }, { desc: "Ariana Grande", value: "AG" },
-  { desc: "Beyonce", value: "elephant" }, { desc: "Bruno Mars", value: "mars" }];
-
-  quantity_surveyor_persons = [{ desc: "Math", value: "ma" },
-  { desc: "Language", value: "any" }, { desc: "Fly", value: "fff" },
-  { desc: "Dating", value: "girl" }, { desc: "Study", value: "ing" }];
-
-  cs_engineer_persons = [{ desc: "Warrior", value: "zs" },
-  { desc: "Mage", value: "fs" }, { desc: "Priest", value: "ms" },
-  { desc: "Paladin", value: "qs" }, { desc: "DeathKnight", value: "dk" }];
-
-  service_engineer_persons = [{ desc: "Worlock", value: "ss" },
-  { desc: "Hunter", value: "lr" }, { desc: "Shaman", value: "sm" },
-  { desc: "Monk", value: "ws" }, { desc: "Rouge", value: "dz" }];
-
-  main_contractor_companies = [{ desc: "Survival", value: "sc" },
-  { desc: "Beast", value: "ys" }, { desc: "Shoooot", value: "sj" },
-  { desc: "Shadow", value: "am" }, { desc: "Holy", value: "sm" }];
 
   project_countries = [{ desc: "America", value: "us" },
   { desc: "China", value: "ch" }, { desc: "Singapore", value: "sg" },
@@ -88,20 +76,100 @@ export class ProjectManagementV2Component implements OnInit {
   { desc: "USD", value: "u" }, { desc: "SGD", value: "s" },
   { desc: "ED", value: "e" }, { desc: "VG", value: "v" }];
 
+  provider_types = [
+    { desc: "Project Manager", value: "project_manager_person" },
+    { desc: "Architect", value: "architect_person" },
+    { desc: "Design Architect", value: "design_architect_person" },
+    { desc: "Quantity Surveyor", value: "quantity_surveyor_person" },
+    { desc: "Consultant Engineer", value: "cs_engineer_person" },
+    { desc: "Service Engineer", value: "service_engineer_person" }
+  ];
+
+  genders = [
+    { desc: "Male", value: "male" }, { desc: "Female", value: "female" }
+  ];
+
+  cities = [
+    { desc: "Shanghai", value: "SH" },
+    { desc: "ChongQing", value: "CQ" },
+    { desc: "SiChuan", value: "SC" },
+    { desc: "JiangSu", value: "JS" },
+    { desc: "BeiJing", value: "BJ" }
+  ];
+
+  conditions = [{ label: "Name", value: "company_name" },
+  { label: "Reg No.", value: "company_reg_no" },
+  { label: "Type", value: "company_type" },
+  { label: "Country", value: "country_origin" }];
+  country_origins = [{ label: "Chinese", value: "CNY" },
+  { label: "Malaysian", value: "MY" },
+  { label: "Singaporean", value: "SG" },
+  { label: "Vietnam", value: "VN" }];
+  company_types = [{ desc: "main_contractor_company", value: "Main Contractor Company" },
+  { desc: "subcontractors", value: "Subcontractors" },
+  { desc: "suppliers", value: "Suppliers" }];
+
+
   constructor(
     private projectManagementService: ProjectManagementService,
     private regCompanyService: RegCompanyService,
+    private personManagementService: PersonManagementService,
     private fb: FormBuilder,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig
   ) {
     this.projects = this.projectManagementService.getAllProjects(this.model);
-    this.regCompanyService.getAllCompanies(null).subscribe(results => this.companies = results);
-    console.log(this.mainCompanies.length);
+    this.regCompanyService.getAllCompanies(null).subscribe(resultCompany => this.companies = resultCompany);
+    this.personManagementService.getAllPersons(this.personModel).subscribe(resultPerson => this.persons = resultPerson);
   }
 
+  getPersons(persons) {
+    console.log(persons);
+    for (let j = 0; j < persons.length; j++) {
+      switch (persons[j].provider_type) {
+        case 'project_manager_person':
+          this.projectManagers.push(persons[j]); break;
+        case 'architect_person':
+          this.architects.push(persons[j]); break;
+        case 'design_architect_person':
+          this.designArchitects.push(persons[j]); break;
+        case 'quantity_surveyor_person':
+          this.quantitySurveyors.push(persons[j]); break;
+        case 'cs_engineer_person':
+          this.consultantEngineers.push(persons[j]); break;
+        case 'service_engineer_person':
+          this.serviceEngineers.push(persons[j]); break;
+      }
+    }
+  }
 
+  addPerson(person) {
+    switch (person.provider_type) {
+      case 'project_manager_person':
+        this.projectManagers.push(person); break;
+      case 'architect_person':
+        this.architects.push(person); break;
+      case 'design_architect_person':
+        this.designArchitects.push(person); break;
+      case 'quantity_surveyor_person':
+        this.quantitySurveyors.push(person); break;
+      case 'cs_engineer_person':
+        this.consultantEngineers.push(person); break;
+      case 'service_engineer_person':
+        this.serviceEngineers.push(person); break;
+    }
+  }
 
+  addCompany(company) {
+    switch (company.company_type) {
+      case 'main_contractor_company':
+        this.mainCompanies.push(company); break;
+      case 'subcontractors':
+        this.subcontratorCompanies.push(company); break;
+      case 'suppliers':
+        this.supplierCompanies.push(company); break;
+    }
+  }
 
   getCompanies(companies) {
     console.log(companies)
@@ -118,10 +186,21 @@ export class ProjectManagementV2Component implements OnInit {
   }
 
   openModal(template) {
-    if (this.mainCompanies.length == 0 || this.subcontratorCompanies.length == 0 || this.supplierCompanies.length == 0) {
-      this.getCompanies(this.companies);
+    switch (template) {
+      case 'addProjectModal':
+        if (this.mainCompanies.length == 0 || this.subcontratorCompanies.length == 0 || this.supplierCompanies.length == 0) {
+          this.getCompanies(this.companies);
+        }
+        if (this.projectManagers.length == 0 || this.architects.length == 0 || this.designArchitects.length == 0 || this.quantitySurveyors.length == 0 || this.consultantEngineers.length == 0 || this.serviceEngineers.length == 0) {
+          this.getPersons(this.persons);
+          console.log(this.projectManagers);
+        }
+        this.addProjectModal = true; break;
+      case 'addPersonModal':
+        this.addPersonModal = true; break;
+      case 'addCompanyModal':
+        this.addCompanyModal = true; break;
     }
-    this.addProjectModal = true;
   }
 
   closeModal(template) {
@@ -131,12 +210,19 @@ export class ProjectManagementV2Component implements OnInit {
       case 'addProjectModal':
         this.projects = this.projectManagementService.getAllProjects(this.model);
         this.addProjectModal = false; break;
+      case 'addPersonModal':
+        this.addPersonModal = false; break;
+      case 'addCompanyModal':
+        this.addCompanyModal = false; break;
     }
   }
 
   edit(project) {
     if (this.mainCompanies.length == 0 || this.subcontratorCompanies.length == 0 || this.supplierCompanies.length == 0) {
       this.getCompanies(this.companies);
+    }
+    if (this.projectManagers.length == 0 || this.architects.length == 0 || this.designArchitects.length == 0 || this.quantitySurveyors.length == 0 || this.consultantEngineers.length == 0 || this.serviceEngineers.length == 0) {
+      this.getPersons(this.persons);
     }
     this.editProject = project;
     this.editProject.modified_date = new Date();
@@ -192,8 +278,28 @@ export class ProjectManagementV2Component implements OnInit {
       .subscribe(project => {
         this.addSuccessToast('Successfully added', `Added ${this.model.name}`);
         this.projects = this.projectManagementService.getAllProjects(this.model);
-        this.model = new ProjectManagement('', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+        this.model = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
         this.addProjectModal = false;
+      });
+  }
+
+  companyOnSubmit(){
+    this.regCompanyService.saveRegisteredCompany(this.companyModel as RegistrationCompany)
+      .subscribe(company => {
+        this.addSuccessToast('Successfully added', `Added ${this.companyModel.company_name}`);
+        this.addCompany(company);
+        //this.companyModel = new RegistrationCompany('', '', '', '', '', '', '', '', '', '', '', '', '', null, null);
+        this.addCompanyModal = false;
+      });
+  }
+
+  personOnSubmit() {
+    this.personManagementService.savePerson(this.personModel as PersonManagement)
+      .subscribe(person => {
+        this.addSuccessToast('Successfully added', `Added ${this.personModel.first_name}`);
+        this.addPerson(person);
+        //this.personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
+        this.addPersonModal = false;
       });
   }
 
@@ -247,6 +353,32 @@ export class ProjectManagementV2Component implements OnInit {
     }
   };
 
+  endDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+  plannedEndDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.planned_start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+  actualEndDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.actual_start_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+
+  birthDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) > new Date()) {
+      return { expired: true, error: true }
+    }
+  };
+
+
   addSuccessToast(title, msg) {
     var toastOptions: ToastOptions = {
       title: title,
@@ -277,7 +409,7 @@ export class ProjectManagementV2Component implements OnInit {
     this.validateForm = this.fb.group({
       name: ['', [Validators.required]],
       start_date: [null, [Validators.required]],
-      end_date: [null, [Validators.required]],
+      end_date: [null, [this.endDayValidator]],
       client_company: ['', [Validators.required]],
       project_manager_person: ['', [Validators.required]],
       architect_person: ['', [Validators.required]],
@@ -304,12 +436,41 @@ export class ProjectManagementV2Component implements OnInit {
       desc: ['', [Validators.required]],
       planned_start_date: [null, [Validators.required]],
       actual_start_date: [null, [Validators.required]],
-      planned_end_date: [null, [Validators.required]],
-      actual_end_date: [null, [Validators.required]],
+      planned_end_date: [null, [this.plannedEndDayValidator]],
+      actual_end_date: [null, [this.actualEndDayValidator]],
       pct_completed_planned: [null, [Validators.required]],
       pct_completed_actual: [null, [Validators.required]],
       pct_completed_1wktarget: [null, [Validators.required]],
       remark: ['', [Validators.required]],
+    });
+
+    this.addPersonValidateForm = this.fb.group({
+      first_name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      job_title: ['', [Validators.required]],
+      contact_no: [null, [Validators.required]],
+      email: ['', [this.emailValidator]],
+      dateOfBirth: [null, [this.birthDayValidator]],
+      gender: ['', [Validators.required]],
+      postal_code: [null, [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      provider_type: ['', [Validators.required]],
+    });
+
+    this.addCompanyValidateForm = this.fb.group({
+      company_name: [null, [Validators.required]],
+      company_reg_no: [null, [Validators.required]],
+      address_1: [null, [Validators.required]],
+      address_2: [null, [Validators.required]],
+      address_3: [null, [Validators.required]],
+      postal_code: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      phone_no: [null, [Validators.required]],
+      company_email: [null, [Validators.required]],
+      fax_no: [null, [Validators.required]],
+      country_origin: [null, [Validators.required]],
+      company_type: [null, [Validators.required]],
     });
 
   }

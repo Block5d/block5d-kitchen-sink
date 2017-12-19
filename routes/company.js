@@ -1,6 +1,6 @@
 var bCrypt = require('bcrypt-nodejs');
 var assert = require('assert');
-var Company = require('./models/company');
+var Company = require('../models/company');
 
 
 

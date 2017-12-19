@@ -1,4 +1,4 @@
-var Person = require('./models/person');
+var Person = require('../models/person');
 
 const PERSON_API_URL = '/api/v1/persons';
 

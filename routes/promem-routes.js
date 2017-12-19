@@ -1,4 +1,4 @@
-var Promem = require('./models/projectMembers');
+var Promem = require('../models/projectMembers');
 
 const PROMEMS_API_URL = '/api/v1/promems';
 

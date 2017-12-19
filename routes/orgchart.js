@@ -1,9 +1,10 @@
-var person = require('./models/persondetail');
+var person = require('../models/persondetail');
 
 const persondetail = '/api/persondetail';
 
 module.exports = function (app) {
     app.get(persondetail,(req,res)=>{
+        console.log(req);
         person.find((err,result)=>{
             if (err) {
                 res.status(500).send(err);

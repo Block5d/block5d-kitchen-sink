@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="jumbotron">
+    <div>
+      <nz-select style="width: 200px;" name="selectcategory" nzAllowClear [nzPlaceHolder]="'search'" [(ngModel)]="selectcategory"
+        (ngModelChange)="selectChange(this.selectcategory)" [nzShowSearch]="true">
+        <nz-option *ngFor="let option of resultcode | async" [nzLabel]="option.categoryDesc" [nzValue]="option"></nz-option>
+      </nz-select>
+      <button nz-button (click)="openModal('codemodel')">
+        <span>addCode</span>
+      </button>
+      <button nz-button (click)="openModal('categorymodel')">
+        <span>addCategory</span>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="selectcategory">
+    <h4>{{selectcategory.categoryDesc}}</h4>
+    <ngx-json-viewer [json]="jsonlist"></ngx-json-viewer>
+  </div>
+  <nz-modal [nzVisible]="categorymodel" [nzTitle]="categoryTitle" [nzContent]="categoryContent" [nzFooter]="categoryFooter"
+    (nzOnCancel)="closeModal('categorymodel')">
+    <ng-template #categoryTitle>Add Category</ng-template>
+    <ng-template #categoryContent>
+      <form nz-form [nzLayout]="'horizontal'">
+        <div nz-form-item nz-row>
+          <label for="categorydesc">Category Description</label>
+          <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcategory.categoryDesc" name="categorydesc"></nz-input>
+        </div>
+        <div nz-form-item nz-row>
+          <label for="categorydesc">Category Code</label>
+          <nz-switch [(ngModel)]="isJSON" name="isJSON" [nzSize]="'default'">
+            <span checked>JSON</span>
+            <span unchecked>Array</span>
+          </nz-switch>
+          <nz-input id="categorydesc" [nzType]="'textarea'" nzAutosize [nzPlaceHolder]="''" [(ngModel)]="categoryCodeString" name="categoryCode"></nz-input>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #categoryFooter>
+      <button nz-button (click)="savecategory()">
+        <span>Save</span>
+      </button>
+    </ng-template>
+  </nz-modal>
+  <nz-modal [nzVisible]="codemodel" [nzTitle]="codeTitle" [nzContent]="codeContent" [nzFooter]="codeFooter" (nzOnCancel)="closeModal('codemodel')">
+    <ng-template #codeTitle>Add Code</ng-template>
+    <ng-template #codeContent>
+      <form nz-form [nzLayout]="'horizontal'">
+        <div nz-form-item nz-row>
+          <label for="codeDesc">Code Description</label>
+          <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="addcode.code_details.code_desc" name="codeDesc"
+            [nzDisabled]="isObject"></nz-input>
+        </div>
+        <div nz-form-item nz-row>
+          <label for="code">Code</label>
+          <nz-switch [(ngModel)]="isObject" name="isObject" [nzSize]="'default'">
+            <span checked>Object</span>
+            <span unchecked>Array</span>
+          </nz-switch>
+          <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="CodeString" name="code"></nz-input>
+        </div>
+        <div nzform-item nz-row>
+          <label for="gennder">Category</label>
+          <nz-select id="gennder" style="width: 120px;" [(ngModel)]="addcode.category_details" name="category" nzAllowClear>
+            <nz-option *ngFor="let cate of category | async" [nzLabel]="cate.categoryDesc" [nzValue]="cate"></nz-option>
+          </nz-select>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #codeFooter>
+      <button nz-button (click)="saveaddcode()">
+        <span>Save</span>
+      </button>
+    </ng-template>
+  </nz-modal>
+  <nz-modal [nzVisible]="editcodemodel" [nzTitle]="editcodeTitle" [nzContent]="editcodeContent" [nzFooter]="editcodeFooter"
+    (nzOnCancel)="closeModal('editmodel')">
+    <ng-template #editcodeTitle>Edit Code</ng-template>
+    <ng-template #editcodeContent>
+      <form nz-form [nzLayout]="'horizontal'">
+        <div nz-form-item nz-row>
+          <label for="codeDesc">Code Description</label>
+          <nz-input id="codeDesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code_details.code_desc" name="codeDesc"></nz-input>
+        </div>
+        <div nz-form-item nz-row>
+          <label for="code">Code</label>
+          <nz-input id="code" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.code_details.code" name="code"></nz-input>
+          <div nz-form-control nz-col [nzSpan]="14">
+            <label nz-checkbox>
+              <!-- [(ngModel)]="addcode.is_category" name="checkbox" [nzDisabled]="isDisabled" -->
+              <span>Is Category</span>
+            </label>
+          </div>
+        </div>
+        <div nz-form-item nz-row>
+          <label for="categorydesc">Category Description</label>
+          <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.category_details.categoryDesc"
+            name="categorydesc" [nzDisabled]="'true'" [nzReadonly]="'true'"></nz-input>
+        </div>
+        <div nz-form-item nz-row>
+          <label for="categorydesc">Category Code</label>
+          <nz-input id="categorydesc" [nzType]="'inputValue'" [nzPlaceHolder]="''" [(ngModel)]="editcode.category_details.categoryCode"
+            name="categoryCode"></nz-input>
+          <div nz-form-control nz-col [nzSpan]="14">
+            <label nz-checkbox [(ngModel)]="editcode.is_category" name="checkbox" [nzDisabled]="isDisabled">
+              <span>Is Category</span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #editcodeFooter>
+      <button nz-button (click)="saveeditcode()">
+        <span>Save</span>
+      </button>
+    </ng-template>
+  </nz-modal>
