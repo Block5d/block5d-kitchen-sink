@@ -23,6 +23,7 @@ import { ProjectManagementV2Component} from './project-management-v2/project-man
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { PersonManagementV2Component} from './person-management-v2/person-management-v2.component';
 import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
+import { WebformTextFieldComponent } from './webform-modal/webform-text-field/webform-text-field.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
@@ -213,6 +214,13 @@ const routes: Routes = [
         data: {
           group: CONFIGURATION,
           breadcrumb: "Upload to AWS S3"
+        }
+      },
+      {
+        path: 'webform-textfield', component: WebformTextFieldComponent,
+        data: {
+          group: CONFIGURATION,
+          breadcrumb: "Webform TextField"
         }
       }
     ]},

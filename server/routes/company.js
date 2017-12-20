@@ -2,7 +2,7 @@ var bCrypt = require('bcrypt-nodejs');
 var assert = require('assert');
 var Company = require('../models/company');
 
-
+const COMPANYS_API_URL = '/api/v1/companies';
 
 module.exports = function(app){
     //新建公司

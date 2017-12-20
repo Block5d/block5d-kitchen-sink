@@ -1,0 +1,60 @@
+<div nz-row [nzGutter]="24">
+  
+    <form nz-col [nzSpan]="12" nz-form>
+      <h4>Number Component</h4>
+  
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Label</label>
+        </div>
+        <div nz-form-control>
+          <nz-input name="label" [(ngModel)]="numberModel.label" [nzPlaceHolder]="'Number Label'" [nzSize]="'large'">
+          </nz-input>
+        </div>
+      </div>
+  
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Placeholder</label>
+        </div>
+        <div nz-form-control>
+          <nz-input name="placeholder" [(ngModel)]="numberModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
+          </nz-input>
+        </div>
+      </div>
+  
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Description</label>
+        </div>
+        <div nz-form-control>
+          <nz-input name="description" [(ngModel)]="numberModel.description" [nzPlaceHolder]="'Description for this number'" [nzSize]="'large'">
+          </nz-input>
+        </div>
+      </div>
+  
+    </form>
+  
+    <div nz-col [nzSpan]="12">
+      <h6>Preview</h6>
+      <br/>
+      <div nz-form class="preview-form">
+        <div nz-form-label>
+          <label>{{numberModel.label}}</label>
+        </div>
+        <div nz-form-control>
+          <nz-input [nzPlaceHolder]="numberModel.placeholder" [nzSize]="'large'" [nzDisabled]="true"></nz-input>
+          <span>{{numberModel.description}}</span>
+        </div>
+      </div>
+  
+      <br/>
+  
+      <div style="float:right;">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'">Save</button>
+        <button nz-button [nzType]="'danger'" [nzSize]="'large'">Remove</button>
+      </div>
+  
+    </div>
+  
+  </div>

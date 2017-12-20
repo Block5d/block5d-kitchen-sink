@@ -1,0 +1,161 @@
+<div nz-row [nzGutter]="24">
+  <h4>Select Component</h4>
+  <nz-tabset nz-col [nzSpan]="12">
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Display
+      </ng-template>
+      <form nz-form>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Label</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="label" [(ngModel)]="selectModel.label" [nzPlaceHolder]="'Select Label'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Placeholder</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="placeholder" [(ngModel)]="selectModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Description</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="description" [(ngModel)]="selectModel.description" [nzPlaceHolder]="'Description for this select'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+      </form>
+    </nz-tab>
+
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Data
+      </ng-template>
+      <!-- <form nz-form [formGroup]="validateForm"> -->
+
+      <!-- <div nz-form-item>
+          <div nz-form-label>
+            <label>Data Source Type</label>
+          </div>
+          <div nz-form-control>
+            <nz-select formControlName="dataSourceType" [(ngModel)]="dataSourceType" nzAllowClear>
+              <nz-option *ngFor="let dataSourceType of dataSourceTypes" [nzLabel]="dataSourceType.desc" [nzValue]="dataSourceType.value">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div> -->
+
+      <!-- <div nz-form-item *ngFor="let control of controlArray;let i = index">
+          <div nz-form-label nz-col [nzSpan]="4" *ngIf="i==0">
+            <label [attr.for]="control.controlInstance">Values</label>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="i==0?0:4">
+            <nz-input style="width: 60%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'placeholder'" [formControlName]="control.controlInstance"
+              [nzId]="control.id">
+            </nz-input>
+            <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeField(control,$event)"></i>
+          </div>
+        </div>
+        <button nz-button [nzType]="'dashed'" [nzSize]="'large'" style="width:60%" (click)="addField($event)">
+          <span> Add Value</span>
+        </button>
+
+      </form> -->
+
+      <form nz-form [formGroup]="validateForm">
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Data Source Type</label>
+          </div>
+          <div nz-form-control>
+            <nz-select [(ngModel)]="dataSourceType" [ngModelOptions]="{standalone: true}" nzAllowClear>
+              <nz-option *ngFor="let dataSourceType of dataSourceTypes" [nzLabel]="dataSourceType.desc" [nzValue]="dataSourceType.value">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <!-- <div [ngSwitch]="dataSourceType.value"> -->
+
+          <!-- <div *ngSwitchCase="values"> -->
+            <div nz-form-item nz-row *ngFor="let control of controlArray;let i = index">
+              <div nz-form-label nz-col [nzSpan]="4" *ngIf="i==0">
+                <label [attr.for]="control.controlInstance">Data</label>
+              </div>
+              <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="i==0?0:4">
+                <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Description'" [formControlName]="control.controlInstance"
+                  [(ngModel)]="control.desc">
+                </nz-input>
+                <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Value'" [formControlName]="control.controlInstance">
+                </nz-input>
+                <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeField(control,$event)"></i>
+              </div>
+            </div>
+            <div nz-form-item nz-row>
+              <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="4">
+                <button nz-button [nzType]="'dashed'" [nzSize]="'large'" style="width:60%" (click)="addField($event)">
+                  <span> Add data</span>
+                </button>
+              </div>
+            </div>
+          <!-- </div> -->
+
+          <!-- <div *ngSwitchCase="json"> -->
+            <div nz-form-item>
+              <div nz-form-label>
+                <label>Data</label>
+              </div>
+              <div nz-form-control>
+                  <nz-input [(ngModel)]="dataSourceType" [nzType]="'textarea'" [nzRows]="'5'" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Description for this select'" [nzSize]="'large'">
+                  </nz-input>
+              </div>
+            </div>
+          <!-- </div> -->
+
+        <!-- </div> -->
+
+      </form>
+    </nz-tab>
+
+  </nz-tabset>
+
+  <div nz-col [nzSpan]="12">
+    <h6>Preview</h6>
+    <br/>
+    <div nz-form class="preview-form">
+      <div nz-form-label>
+        <label>{{selectModel.label}}</label>
+      </div>
+      <div nz-form-control>
+        <nz-select name="previewSelect" [nzPlaceHolder]="selectModel.placeholder" [nzShowSearch]="true" style="width:100%;" nzAllowClear>
+          <nz-option *ngFor="let selectData of controlArray" [nzLabel]="selectData.desc" [nzValue]="selectData.value">
+          </nz-option>
+        </nz-select>
+        <span>{{selectModel.description}}</span>
+      </div>
+    </div>
+
+    <br/>
+
+    <div style="float:right;">
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="onSave()">Save</button>
+      <button nz-button [nzType]="'danger'" [nzSize]="'large'">Remove</button>
+    </div>
+
+  </div>
+
+</div>
