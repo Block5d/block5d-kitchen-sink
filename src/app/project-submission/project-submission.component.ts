@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { ProjectSubmission } from '../shared/project-submission';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { ProjectManagement } from '../shared/project-management';
 import { ProjectSubmissionService } from '../services/project-submission.service';
+import { ProjectManagementService } from '../services/project-management.service';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+
 @Component({
   selector: 'app-project-submission',
   templateUrl: './project-submission.component.html',
@@ -9,78 +15,80 @@ import { ProjectSubmissionService } from '../services/project-submission.service
 })
 export class ProjectSubmissionComponent implements OnInit {
 
-  submitted = false;
-  model = new ProjectSubmission('','','',null,null,null, '', '',null,null);
+  private projects: Observable<ProjectManagement[]>;
+  showProject: ProjectManagement;
+  model = new ProjectSubmission('', '', '', null, null, null, '', '', null, null);
+  projectSubmissionValidateForm: FormGroup;
 
-  authorities = [{ desc: "penis", value: "Man" },
-  { desc: "pussy", value: "Woman" },
-  { desc: "nothing", value: "Else" }
+  authorities = [{ desc: "Have one", value: "Man" },
+  { desc: "Have zero", value: "Woman" },
+  { desc: "Have Nothing", value: "Else" }
   ];
 
-  project_ids = [{ desc: "Sheep", value: "Aries" },
-  { desc: "Moo", value: "Taurus" },
-  { desc: "Double", value: "Gemini" },
-  { desc: "Crab", value: "Cancer" },
-  { desc: "Lion", value: "Leo" },
-  { desc: "Virgin", value: "Virgo" },
-  { desc: "Scales", value: "Libra" },
-  { desc: "HYD", value: "Scorpio" },
-  { desc: "Arrows", value: "Sagittarius" },
-  { desc: "Cap", value: "Capricorn" },
-  { desc: "Bottle", value: "Aquarius" },
-  { desc: "Fish", value: "Pisces" }
+  types = [{ desc: "Building", value: "Building" },
+  { desc: "Renovation", value: "Renovation" },
+  { desc: "Soil Stabilization", value: "Soil Stabilization" }
   ];
 
-  types = [{ desc: "Chinese", value: "CNY" },
-  { desc: "American", value: "USD" },
-  { desc: "Singaporean", value: "SG" },
-  { desc: "Australians", value: "AD" }
+  statuses = [{ desc: "Pending", value: "pending" },
+  { desc: "Complete", value: "complete" }
   ];
 
-  statuses = [{ desc: "apple", value: "a" },
-  { desc: "orange", value: "o" },
-  { desc: "watermelon", value: "w" },
-  { desc: "banana", value: "b" },
-  { desc: "pear", value: "p" },
-  { desc: "kiwi", value: "k" }
-  ];
 
   constructor(
-    private projectSubbmissionService:ProjectSubmissionService,
-    private toastyService:ToastyService, 
-    private toastyConfig: ToastyConfig
-  ) { }
-
-  ngOnInit() {
+    private projectSubmissionService: ProjectSubmissionService,
+    private projectManagementService: ProjectManagementService,
+    private toastyService: ToastyService,
+    private toastyConfig: ToastyConfig,
+    private fb: FormBuilder
+  ) {
+    this.projects = this.projectManagementService.getAllProjects(this.model);
   }
 
   onSubmit() {
-    this.projectSubbmissionService.saveProjectSubmission(this.model as ProjectSubmission)
+    this.model.project_id = this.showProject._id;
+    this.projectSubmissionService.saveProjectSubmission(this.model as ProjectSubmission)
       .subscribe(user => {
-        this.addSuccessToast('Successfully added', `Added ${this.model.description}`);
+        this.addSuccessToast('Successfully added', `Added ${this.model.project_id}`);
       });
   }
 
-  onChange(evt){
-    //TODO sth.
-  }
-
-
-  addSuccessToast(title,msg) {
-    var toastOptions:ToastOptions = {
-        title: title,
-        msg: msg,
-        showClose: true,
-        timeout: 1500,
-        theme: 'bootstrap',
-        onAdd: (toast:ToastData) => {
-            console.log('Toast ' + toast.id + ' has been added!');
-        },
-        onRemove: function(toast:ToastData) {
-            console.log('Toast ' + toast.id + ' has been removed!');
-        }
+  addSuccessToast(title, msg) {
+    var toastOptions: ToastOptions = {
+      title: title,
+      msg: msg,
+      showClose: true,
+      timeout: 1500,
+      theme: 'bootstrap',
+      onAdd: (toast: ToastData) => {
+        console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: function (toast: ToastData) {
+        console.log('Toast ' + toast.id + ' has been removed!');
+      }
     };
     this.toastyService.success(toastOptions);
+  }
+
+  secondSubmissionDayValidator = (control: FormControl): any => {
+    if (new Date(control.value) < new Date(this.model.first_submission_date)) {
+      return { expired: true, error: true }
+    }
+  };
+
+  ngOnInit() {
+
+    this.projectSubmissionValidateForm = this.fb.group({
+      project_id: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      authority: ['', [Validators.required]],
+      planned_submission_date: [null, [Validators.required]],
+      first_submission_date: [null, [Validators.required]],
+      second_submission_date: [null, [this.secondSubmissionDayValidator]],
+      type: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+    });
+
   }
 
 }

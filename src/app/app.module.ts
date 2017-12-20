@@ -53,8 +53,6 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 import { ProjectManagementComponent } from './project-management/project-management.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { PaginationComponent } from './pagination/pagination.component';
-import { ProjectManagementV2Component } from './project-management-v2/project-management-v2.component';
-import { PersonManagementV2Component } from './person-management-v2/person-management-v2.component';
 
 
 // Services
@@ -68,14 +66,12 @@ import { ProjectManagementService } from './services/project-management.service'
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { ProjectMembersService } from './services/project-members.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
-import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
 import { WebformTextFieldComponent } from './webform-modal/webform-text-field/webform-text-field.component';
 import { WebformNumberComponent } from './webform-modal/webform-number/webform-number.component';
 import { WebformPasswordComponent } from './webform-modal/webform-password/webform-password.component';
@@ -115,15 +111,11 @@ import { WebformButtonComponent } from './webform-modal/webform-button/webform-b
     PaginationComponent,
     LoadingSpinnerComponent,
     ProjectMembersComponent,
-    ProjectManagementV2Component,
     BreadcrumbComponent,
-    ProjectMembersV2Component,
     CompanymanagementV2Component,
     OrgChartV2Component,
     UserGroupV2Component,
-    PersonManagementV2Component,
     CodeManagementV3Component,
-    ProjectSubmissionV2Component,
     WebformTextFieldComponent,
     WebformNumberComponent,
     WebformPasswordComponent,

@@ -19,10 +19,6 @@ import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
-import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
-import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
-import { PersonManagementV2Component} from './person-management-v2/person-management-v2.component';
-import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
 import { WebformTextFieldComponent } from './webform-modal/webform-text-field/webform-text-field.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
@@ -146,27 +142,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'pro-sub-2',
-        component: ProjectSubmissionV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Project Submission 2"
-        }
-      },
-      {
         path: 'per-mana',
         component: PersonManagementComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Person Management"
-        }
-      },
-      {
-        path: 'per-mana-2',
-        component: PersonManagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Person Management 2"
         }
       },
       {
@@ -178,27 +158,11 @@ const routes: Routes = [
         }
       },
       {
-        path: 'pro-mana-2',
-        component:ProjectManagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Project Management 2"
-        }
-      },
-      {
         path: 'pro-mem',
         component: ProjectMembersComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Project Members"
-        }
-      },
-      {
-        path: 'pro-mem-2',
-        component: ProjectMembersV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Project Members 2"
         }
       },
       {
