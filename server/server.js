@@ -28,17 +28,17 @@ app.use(bodyParser.json({ limit: '50mb'}));
 
 app.use(express.static(`${__dirname}/../dist/`, {maxAge: 31557600000}));
 app.use('/static', express.static(path.join(__dirname, '/../upload_tmp/')));
-require('./routes/workflow')(app);
-require('./routes/workflow-status')(app);
-require('./routes/routes')(app);
-require('./routes/codemana')(app);
-require('./routes/orgchart')(app);
-require('./routes/prosub-routes')(app);
-require('./routes/promem-routes')(app);
-require('./routes/company')(app);
-require('./routes/user-group')(app);
-require('./routes/person-routes')(app);
-require('./routes/project-routes')(app);
+require('./routes/api/workflow')(app);
+require('./routes/api/workflow-status')(app);
+require('./routes/api/routes')(app);
+require('./routes/api/codemana')(app);
+require('./routes/api/orgchart')(app);
+require('./routes/api/prosub-routes')(app);
+require('./routes/api/promem-routes')(app);
+require('./routes/api/company')(app);
+require('./routes/api/user-group')(app);
+require('./routes/api/person-routes')(app);
+require('./routes/api/project-routes')(app);
 
 app.listen(NODE_PORT, ()=>{
     console.log(`Server side started at ${NODE_PORT}`);
