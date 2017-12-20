@@ -1,146 +1,173 @@
-<div class="container">
 <div class="jumbotron">
   <form #searchUserForm="ngForm"  novalidate class="row">
-    <div class="input-group col-lg-9">
-
-      <input  id="keyword"  #keyword="ngModel" name="keyword" type="text" [(ngModel)]="searchcondition.keyword" placeholder="Adam Smith" 
-        class="form-control" #keyword="ngModel" required/>
-      <select class="form-control"   #condition="ngModel" id="condition" [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}"
-      (ngModelChange)="onChange($event)">
-      <option *ngFor="let condition of conditions" [ngValue]="condition.value">{{condition.desc}}</option>
-    </select>  
-    <div class="col-lg-1">
-      <button type="submit" id="searchBtn" class="btn btn-primary" id="search" (click)="onSearch(company)">Search</button>
-    </div>
-    <div class="col-lg-3">
-      <button type="button" id="addBtn" class="btn btn-primary" id="add" (click)="openModal(template)">Add</button>
+    <div class="input-group col-lg-11">
+      <nz-input [(ngModel)]="searchcondition.keyword"  name="keyword" 
+      [nzPlaceHolder]="'Basic usage'" (ngModelChange)="onChange($event)"></nz-input>
+      <nz-select style="width: 120px;" [(ngModel)]="selectedOption" 
+      [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}" >
+          <nz-option
+            *ngFor="let condition of conditions"
+            [nzLabel]="condition.desc"
+            [nzValue]="condition.value">
+          </nz-option>
+      </nz-select>
+    <div class="col-lg-4">
+        <button nz-button [nzType]="'primary'" (click)="onSearch(group)">
+          <i class="anticon anticon-search"></i><span>Search</span>
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="add()">
+            <span>Add</span>
+        </button>
     </div>
     </div>
   </form>
 </div>
 
 
-<table *ngIf="( groups | async)?.length > 0" class="table">
-  <thead>
+<nz-table *ngIf="( groups | async)?.length > 0" class="table">
+  <thead nz-thed>
     <tr>
-      <th>#</th>
-      <th>Project Id</th>
-      <th>Group Name</th>
-      <th>Members</th>
-      <th>Created Date</th>
-      <th>Updated Date</th>
-      <th>Action</th>
+      <th nz-th>#</th>
+      <th nz-th>Project Id</th>
+      <th nz-th>Group Name</th>
+      <th nz-th>Members</th>
+      <th nz-th>Created Date</th>
+      <th nz-th>Updated Date</th>
+      <th nz-th>Action</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let group of groups | async">
-      <th scope="row">{{group._id}}</th>
-      <td>{{group.project_id}}</td>
-      <td>{{group.group_name}}</td>
-      <td>{{group.members}}</td>
-      <td>{{group.createdAt  | date:medium}}</td>
-      <td>{{group.modifiedAt  | date:medium}}</td>
-      <td>
-        <button class="btn btn-primary" title="edit group"
-        (click)="edit(group, template1)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-        <button class="btn btn-danger" title="delete group"
-              (click)="onDelete(group)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+  <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let group of groups | async">
+      <td nz-td scope="row">{{group._id}}</td>
+      <td nz-td>{{group.project_id}}</td>
+      <td nz-td>{{group.group_name}}</td>
+      <td nz-td>{{group.members}}</td>
+      <td nz-td>{{group.created_date  | date:medium}}</td>
+      <td nz-td>{{group.modified_date  | date:medium}}</td>
+      <td nz-td>
+        <button nz-button [nzType]="'primary'" (click)="edit(group)" >
+            <i class="anticon anticon-edit"></i>
+      </button>
+        <button nz-button [nzType]="'danger'" (click)="onDelete(group)">
+            <i class="anticon anticon-delete"></i>
+        </button>
       </td>
     </tr>
   </tbody>
-</table>
-<div *ngIf="(groups | async)?.length==0"><p class="font-weight-bold">No record found.</p></div>
+</nz-table>
 
-</div>
 
-<ng-template #template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
-            <br>
-        <h3>Project Detail</h3>
-        <form #regForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
-          <div class="form-group">
-            <label for="project_id">Project id </label>
-            <input id="project_id" #project_id ="ngModel" name="project_id" type="text" [(ngModel)]="model.project_id"  
-            class="form-control" #project_id ="ngModel"  required/>
-          </div>
-          <div class="form-group">
-            <label for="group_name">Group Name</label>
-            <input id="group_name" #group_name ="ngModel" name="group_name" type="text" [(ngModel)]="model.group_name" 
-            class="form-control" #group_name ="ngModel"  required/>
-          </div>
-          <div class="form-group">
-            <label for="group_name">Members</label>
-            <ng-select [(ngModel)]="model.members" [ngModelOptions]="{standalone: true}"
-            [options]="myOptions"
-            [multiple]="true">
-            
-            </ng-select>
-          </div>
-          <div class="form-group">
-            <hr/>
-            <button type="submit" [disabled]="!regForm.form.valid" class="btn btn-success">Submit</button>
-            <button type="reset" class="btn btn-danger" (click)="regForm.reset()">Reset</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</ng-template>
 
-<ng-template #template1>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit Project Detail</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      <div class="container-fluid">
-          <form #editform="ngForm" novalidate>
-          <div class="row">
-            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
-                <div class="form-group">
-                  <label for="project_id">Project Id</label>
-                  <input id="project_id" #project_id="ngModel" name="project_id" type="text" placeholder="Adam Smith" [(ngModel)]="editGroup.project_id" 
-                  class="form-control" required />
-                  <div *ngIf="project_id.errors && (project_id.touched || submitted)">
-                    <div [hidden]="!project_id.errors.required && project_id.dirty" class="alert alert-danger">
-                      Name is required
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="group_name">Group Name</label>
-                  <input id="group_name" #group_name="ngModel" name="group_name" type="text" placeholder="Adam Smith" [(ngModel)]="editGroup.group_name" 
-                  class="form-control" required />
-                  <div *ngIf="group_name.errors && (group_name.touched || submitted)">
-                    <div [hidden]="!group_name.errors.required && group_name.dirty" class="alert alert-danger">
-                      Name is required
-                    </div>
-                  </div>
-                </div>
-                 <div class="form-group">
-                  <label for="members">Members</label>
-                  <ng-select [(ngModel)]="editGroup.members" [ngModelOptions]="{standalone: true}"
-                  [options]="myOptions"
-                  [multiple]="true">
-                  </ng-select>
-                  <!-- <div *ngIf="members.errors && (members.touched || submitted)">
-                    <div [hidden]="!members.errors.required && members.dirty" class="alert alert-danger"></div>
-                      Name is required
-                    </div> -->
-                  </div> 
-                <div class="form-group">
-                  <hr/>
-                  <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
-                  <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
-                </div>
+<nz-modal [nzVisible]="addform" [nzTitle]="'Add Group'" [nzContent]="addForm"[nzFooter]="modalFooter" (nzOnCancel)="cancel($event)">
+  <ng-template #addForm>
+      <h3>Company Detail</h3>
+      <form nz-form [formGroup]="validateForm" >
+        <div nz-form-item>
+          <div nz-form-label>
+              <label>project_id</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.project_id">
+            <nz-input formControlName="project_id"  [nzSize]="'large'"  [(ngModel)]="model.project_id">
+            </nz-input>
+            <div nz-form-explain 
+            *ngIf="validateForm.controls.project_id.dirty&&validateForm.controls.project_id.hasError('required')">
+              Please input your project_id!</div>
+          </div>
+        </div>
+        <div nz-form-item>
+          <div nz-form-label>
+              <label>group_name</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.group_name">
+            <nz-input formControlName="group_name"  [nzSize]="'large'"  [(ngModel)]="model.group_name">
+            </nz-input>
+            <div nz-form-explain 
+            *ngIf="validateForm.controls.group_name.dirty&&validateForm.controls.group_name.hasError('required')">
+              Please input your group_name!</div>
+          </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label>members</label>
+              </div>
+            <div nz-form-control [nzValidateStatus]="validateForm.controls.members">
+                <nz-select 
+                [(ngModel)]="model.members"  formControlName="members" [nzMode]="'multiple'">
+                    <nz-option
+                      *ngFor="let member of myOptions"
+                      [nzLabel]="member.value"
+                      [nzValue]="member.label">
+                    </nz-option>
+                </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.members.dirty&&validateForm.controls.members.hasError('required')">Please input your username!</div>
             </div>
           </div>
-          </form>
-        </div>  
-  </div>
+      </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+     cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="submit()">
+     submit
+    </button>
 </ng-template>
+</nz-modal>
+
+
+
+<nz-modal [nzVisible]="editform" [nzTitle]="'Edit Group'" 
+[nzContent]="editForm" (nzOnCancel)="editCancel($event)"  [nzFooter]="editModalFooter">
+<ng-template #editForm>
+    <form nz-form [formGroup]="validateForm">
+        <div nz-form-item>
+          <div nz-form-label>
+              <label>project_id</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.project_id">
+            <nz-input formControlName="project_id"  [nzSize]="'large'"  [(ngModel)]="editGroup.project_id">
+            </nz-input>
+            <div nz-form-explain 
+            *ngIf="validateForm.controls.project_id.dirty&&validateForm.controls.project_id.hasError('required')">
+              Please input your project_id!</div>
+          </div>
+        </div>
+        <div nz-form-item>
+          <div nz-form-label>
+              <label>group_name</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.group_name">
+            <nz-input formControlName="group_name"  [nzSize]="'large'"  [(ngModel)]="editGroup.group_name">
+            </nz-input>
+            <div nz-form-explain 
+            *ngIf="validateForm.controls.group_name.dirty&&validateForm.controls.group_name.hasError('required')">
+              Please input your group_name!</div>
+          </div>
+        </div>
+        <div nz-form-item>
+            <div nz-form-label>
+                <label>members</label>
+              </div>
+            <div nz-form-control [nzValidateStatus]="validateForm.controls.members">
+                <nz-select 
+                [(ngModel)]="editGroup.members" formControlName="members" [nzMode]="'multiple'">
+                    <nz-option
+                      *ngFor="let member of myOptions"
+                      [nzLabel]="member.value"
+                      [nzValue]="member.label">
+                    </nz-option>
+                </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.members.dirty&&validateForm.controls.members.hasError('required')">Please input your username!</div>
+            </div>
+          </div>
+    </form>
+</ng-template>
+<ng-template #editModalFooter>
+  <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="editCancel($event)">
+   cancel
+  </button>
+  <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()">
+   submit
+  </button>
+</ng-template>
+</nz-modal> 

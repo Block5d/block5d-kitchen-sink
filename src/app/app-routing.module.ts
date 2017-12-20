@@ -5,9 +5,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
-import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { UserGroupComponent } from './user-group/user-group.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component'; 
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -89,24 +87,8 @@ const routes: Routes = [
         }
       },
       {
-        path: 'company-managementv2',
-        component: CompanymanagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Company Management"
-        }
-      },
-      {
         path: 'user-group',
         component: UserGroupComponent,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "User Group"
-        }
-      },
-      {
-        path: 'user-group-v2',
-        component: UserGroupV2Component,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "User Group"

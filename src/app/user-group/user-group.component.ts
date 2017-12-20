@@ -1,4 +1,4 @@
-import { Component, OnInit,TemplateRef } from '@angular/core';
+import { Component, OnInit,TemplateRef ,ViewEncapsulation} from '@angular/core';
 import { BrowserModule} from '@angular/platform-browser';
 import { AppComponent} from '../app.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -9,52 +9,104 @@ import { UserGroup} from '../shared/user-group';
 import { UserGroupSearch} from '../shared/user-group';
 import { UserGroupService} from '../services/user-group.service';
 import { Observable } from 'rxjs/Observable';
+import { FormBuilder, FormGroup,FormControl, Validators} from '@angular/forms';
 
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
+import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-user-group',
   templateUrl: './user-group.component.html',
-  styleUrls: ['./user-group.component.css']
+  styleUrls: ['./user-group.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserGroupComponent implements OnInit {
   private groups : Observable<UserGroup[]>;
-  private editGroup: UserGroup;
-  modalRef: BsModalRef;
-  submitted = false;
   model = new UserGroup('','',null,null,null);
   searchcondition = new UserGroupSearch('','project_id');
 
-  myOptions: Array<IOption> = [
+  myOptions = [
     {label: 'Belgium', value: 'BE'},
     {label: 'Luxembourg', value: 'LU'},
     {label: 'Netherlands', value: 'NL'}
   ];
+  
   conditions = [ { desc: "Project Id", value: "project_id"}, 
   {desc: "Group Name", value: "group_name"}];
+  addform = false;
+  editform = false;
+  validateForm: FormGroup;
 
   constructor(private modalService: BsModalService,
     private toastyService:ToastyService, 
     private toastyConfig: ToastyConfig,
-    private userGroupService:UserGroupService
-  ) {
-    this.groups = this.getAllGroups(null);
+    private userGroupService:UserGroupService,
+    private fb: FormBuilder) {
+      this.groups = this.getAllGroups(null);
+     }
+
+  add = () => {
+    this.validateForm.reset();
+    this.addform = true;
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-  onSubmit(){
+  submit(){
     console.log(this.model);
     return this.userGroupService.saveUserGroup(this.model as UserGroup)
     .subscribe(group=>{
-      this.addSuccessToast('Successfully added', `Added ${this.model}`);
+    this.addSuccessToast('Successfully added', `Added ${this.model}`);
+    this.validateForm.reset();
+    this.addform = false;
+    this.groups = this.getAllGroups(null);
     })
+      
+   }
+  cancel = (e) => {
+    console.log(e);
+    this.validateForm.reset();
+    this.addform = false;
+  }
+  onSearch(){
+    this.groups = this.getAllGroups(this.searchcondition.keyword,this.searchcondition.condition);
   }
   onDelete(group){
     this.userGroupService.deleteUserGroup(group as UserGroup)
     .subscribe(group=>{
       this.groups = this.getAllGroups(null);
       this.addSuccessToast('Delete successfully', `Delete ${group}`);
+      this.groups = this.getAllGroups(null);
     })
   }
+  editGroup = new  UserGroup('','',null,null,null);
+  edit = (group) => {
+    this.editGroup = group;
+    this.editform = true;
+  }
+  editCancel = (e) => {
+    console.log(e);
+    this.editform = false;
+  }
+  onEdit(){
+    console.log("Saving edit ...");
+    this.userGroupService.updateUserGroup(this.editGroup as UserGroup)
+    .subscribe(group =>{
+      this.groups = this.getAllGroups(null);
+      this.addSuccessToast('Successfully updated', `Saved ${this.editGroup}`);
+      this.editform = false;
+    });
+  }
+  ngOnInit() {
+    this.validateForm = this.fb.group({
+      project_id: [ null, [ Validators.required ] ],
+      group_name: [ null, [ Validators.required ] ],
+      members: [ null, [ Validators.required ] ]
+    });
+  }
+
   getAllGroups(keyword:string,value:string):any;
   getAllGroups(keyword:null,value?:string):any;
   getAllGroups(keyword,value?:string):any{
@@ -66,31 +118,8 @@ export class UserGroupComponent implements OnInit {
       return this.userGroupService.searchGroup(keyword,value);
     }  
   }
-  onSearch(){
-    this.groups = this.getAllGroups(this.searchcondition.keyword,this.searchcondition.condition);
-  }
-  edit(group, template1:TemplateRef<any>){
-    this.editGroup = group;
-    this.modalRef = this.modalService.show(template1);
-  }
-  onEdit(){
-    this.userGroupService.updateUserGroup(this.editGroup as UserGroup)
-    .subscribe(group =>{
-      this.groups = this.getAllGroups(null);
-      this.addSuccessToast('Successfully updated', `Saved ${this.editGroup}`);
-      this.modalRef.hide();
-    })
-  }
-
-
-  ngOnInit() {
-  }
-
   onChange(evt){
     // TODO ...
-  }
-  onCancel(){
-    this.modalRef.hide();
   }
   addSuccessToast(title,msg) {
     var toastOptions:ToastOptions = {

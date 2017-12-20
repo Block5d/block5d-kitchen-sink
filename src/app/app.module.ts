@@ -69,9 +69,7 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { ProjectMembersService } from './services/project-members.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
-import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
@@ -107,9 +105,7 @@ import { ProjectSubmissionV2Component } from './project-submission-v2/project-su
     ProjectManagementV2Component,
     BreadcrumbComponent,
     ProjectMembersV2Component,
-    CompanymanagementV2Component,
     OrgChartV2Component,
-    UserGroupV2Component,
     PersonManagementV2Component,
     CodeManagementV3Component,
     ProjectSubmissionV2Component,
