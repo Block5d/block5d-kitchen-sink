@@ -1,6 +1,6 @@
 
 var assert = require('assert');
-var WorkflowStatus = require('./../models/workflow-status');
+var WorkflowStatus = require('./../../models/workflow-status');
 
 const Workflow_API_URL ='/api/v1/workflows';
 
