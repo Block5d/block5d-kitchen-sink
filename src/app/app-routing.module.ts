@@ -17,6 +17,8 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
+import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
+
 import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
 import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
@@ -69,7 +71,7 @@ const routes: Routes = [
         component: OrgChartComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Organization Chart"
+          breadcrumb: 'Organization Chart'
         }
       },
       {
@@ -77,7 +79,7 @@ const routes: Routes = [
         component: OrgChartV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Organization Chart"
+          breadcrumb: 'Organization Chart'
         }
       },
       {
@@ -85,7 +87,7 @@ const routes: Routes = [
         component: CompanymanagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Company Management"
+          breadcrumb: 'Company Management'
         }
       },
       {
@@ -93,7 +95,7 @@ const routes: Routes = [
         component: CompanymanagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Company Management"
+          breadcrumb: 'Company Management'
         }
       },
       {
@@ -101,7 +103,7 @@ const routes: Routes = [
         component: UserGroupComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "User Group"
+          breadcrumb: 'User Group'
         }
       },
       {
@@ -109,7 +111,7 @@ const routes: Routes = [
         component: UserGroupV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "User Group"
+          breadcrumb: 'User Group'
         }
       },
       {
@@ -117,7 +119,7 @@ const routes: Routes = [
         component: WorkflowComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Workflow"
+          breadcrumb: 'Workflow'
         }
       },
       {
@@ -125,7 +127,7 @@ const routes: Routes = [
         component: ParentComponentComponent,
         data: {
           group: CONFIGURATION,
-          breadcrumb: "Component Interaction (@Input)"
+          breadcrumb: 'Component Interaction (@Input)'
         }
       },
       {
@@ -133,7 +135,7 @@ const routes: Routes = [
         component: VoteUserComponent,
         data: {
           group: CONFIGURATION,
-          breadcrumb: "like & Dislike User (@Output)"
+          breadcrumb: 'like & Dislike User (@Output)'
         }
       },
       {
@@ -141,7 +143,7 @@ const routes: Routes = [
         component: ProjectSubmissionComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Submission"
+          breadcrumb: 'Project Submission'
         }
       },
       {
@@ -149,7 +151,7 @@ const routes: Routes = [
         component: ProjectSubmissionV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Submission 2"
+          breadcrumb: 'Project Submission 2'
         }
       },
       {
@@ -157,7 +159,7 @@ const routes: Routes = [
         component: PersonManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Person Management"
+          breadcrumb: 'Person Management'
         }
       },
       {
@@ -165,7 +167,7 @@ const routes: Routes = [
         component: PersonManagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Person Management 2"
+          breadcrumb: 'Person Management 2'
         }
       },
       {
@@ -173,15 +175,15 @@ const routes: Routes = [
         component: ProjectManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Management"
+          breadcrumb: 'Project Management'
         }
       },
       {
         path: 'pro-mana-2',
-        component:ProjectManagementV2Component,
+        component: ProjectManagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Management 2"
+          breadcrumb: 'Project Management 2'
         }
       },
       {
@@ -189,7 +191,7 @@ const routes: Routes = [
         component: ProjectMembersComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Members"
+          breadcrumb: 'Project Members'
         }
       },
       {
@@ -197,7 +199,7 @@ const routes: Routes = [
         component: ProjectMembersV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Members 2"
+          breadcrumb: 'Project Members 2'
         }
       },
       {
@@ -205,14 +207,21 @@ const routes: Routes = [
         component: UploadtoFireStoreComponent,
         data: {
           group: CONFIGURATION,
-          breadcrumb: "Upload to Firebase Storage"
+          breadcrumb: 'Upload to Firebase Storage'
         }
       },
       {
         path: 'upload-s3', component: UploadtoS3Component,
         data: {
           group: CONFIGURATION,
-          breadcrumb: "Upload to AWS S3"
+          breadcrumb: 'Upload to AWS S3'
+        }
+      },
+      {
+        path: 'upload-local', component: UploadtoLocalComponent,
+        data: {
+          group: CONFIGURATION,
+          breadcrumb: 'Upload to Local Storage'
         }
       }
     ]},

@@ -76,6 +76,7 @@ import { CodeManagementV3Component } from './code-management-v3/code-management-
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
 import { ProjectSubmissionV2Component } from './project-submission-v2/project-submission-v2.component';
+import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
 
 
 
@@ -113,6 +114,7 @@ import { ProjectSubmissionV2Component } from './project-submission-v2/project-su
     PersonManagementV2Component,
     CodeManagementV3Component,
     ProjectSubmissionV2Component,
+    UploadtoLocalComponent,
   ],
   imports: [
     BrowserModule,

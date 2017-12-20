@@ -209,12 +209,17 @@ module.exports = function(app){
 
     app.post(UPLOAD_FIRESTORE_API_URL, googleMulter.array('file[]', 5), (req, res)=> {
       let multipleFiles = req.files;
+      let successfulUploadedFiles = [];
       multipleFiles.forEach((file, index)=> {
         if (file) {
           uploadImageToStorage(file).then((success) => {
-            res.status(200).json({
-              status: 'success'
-            });
+            successfulUploadedFiles.push(file);
+            console.log(index);
+            console.log(multipleFiles.length);
+            if(index == (multipleFiles.length-1)) {
+              console.log(successfulUploadedFiles);
+              res.status(200).json(successfulUploadedFiles);
+            }
           }).catch((error) => {
             console.error(error);
           });
@@ -237,7 +242,7 @@ module.exports = function(app){
         if (!file) {
           reject('No image file');
         }
-        let newFileName = `${file.originalname}_${Date.now()}`;
+        let newFileName = `${Date.now()}_${file.originalname}`;
 
         let fileUpload = bucket.file(newFileName);
 
@@ -248,12 +253,15 @@ module.exports = function(app){
         });
 
         blobStream.on('error', (error) => {
+          console.log(error);
           reject('Something is wrong! Unable to upload at the moment.');
         });
 
         blobStream.on('finish', () => {
           // The public URL can be used to directly access the file via HTTP.
-          const url = format(`https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`);
+          const url = `https://firebasestorage.googleapis.com/v0/b/construction-smartcontract.appspot.com/o/${fileUpload.name}?alt=media`;
+          console.log(url);
+          file.fileURL = url;
           resolve(url);
         });
 

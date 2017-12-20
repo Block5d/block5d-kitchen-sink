@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-uploadto-s3',
-  templateUrl: './uploadto-s3.component.html',
-  styleUrls: ['./uploadto-s3.component.css']
+  selector: 'app-uploadto-local',
+  templateUrl: './uploadto-local.component.html',
+  styleUrls: ['./uploadto-local.component.css']
 })
-export class UploadtoS3Component implements OnInit {
+export class UploadtoLocalComponent implements OnInit {
 
   public images = [];
   constructor() { }
