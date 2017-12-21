@@ -1,13 +1,23 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { IOption } from 'ng-select';
-import { ProjectMembers } from '../shared/project-members';
-import { ProjectMembersService } from '../services/project-members.service';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
-import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ProjectMembers } from '../shared/project-members';
+import { SearchProjectMembers } from '../shared/project-members';
+import { PersonManagement } from '../shared/person-management';
 import { ProjectManagement } from '../shared/project-management';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProjectMembersService } from '../services/project-members.service';
+import { ProjectManagementService } from '../services/project-management.service';
+import { PersonManagementService } from '../services/person-management.service';
+
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
+import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-project-members',
@@ -16,85 +26,111 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProjectMembersComponent implements OnInit {
 
+
+  private projectMembers:Observable<ProjectMembers[]>;
+  private projects:Observable<ProjectManagement[]>;
+  private persons:Observable<PersonManagement[]>;
+  editProjectMember = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');;
   model = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');
-  private promems: Observable<ProjectMembers[]>;
-  private editPromem: ProjectMembers;
-  //checkModel:FormGroup;
-  //checkModel:any = {isEnabled:true };
-  modalRef: BsModalRef;
-
-  project_ids: Array<IOption> = [{ label: "1", value: "id1" },
-  { label: "2", value: "id2" }, { label: "3", value: "id3" },
-  { label: "4", value: "id4" }, { label: "5", value: "id5" }];
-
-  person_ids: Array<IOption> = [{ label: "moron", value: "u" },
-  { label: "idiot", value: "r" }, { label: "nerd", value: "m" },
-  { label: "bastard", value: "r" }, { label: "bitch", value: "m" },
-  { label: "silly", value: "o" }, { label: "asshole", value: "o" }]
+  projectModel = new ProjectManagement(null, '', null, null, '', '', '', '', '', '', '', '', null, null, null, '', null, '', '', null, '', null, null, null, null, '', '', '', null, null, null, null, null, null, null, '', new Date(), new Date(), '', '');
+  personModel = new PersonManagement('', '', '', null, '', null, '', null, '', '', '', '', new Date(), new Date(), '', '');
+  validateForm: FormGroup;
+  validateEditForm: FormGroup;
+  editProjectMemberModal = false;
+  result: ProjectMembers[] = [];
+  maxSize: number = 5;
+  totalItems: number = 0;
+  currentPage: number = 1;
+  numPages: number = 0;
+  inited: boolean = false;
+  itemsPerPage: number = +environment.itemPerPage;
+  indexOnPage: number = 0;
+  showSpinner = true;
+  smodel = new SearchProjectMembers('', "name", this.currentPage, this.itemsPerPage);
 
   constructor(
-    private projectMembersService: ProjectMembersService,
-    private modalService: BsModalService,
+    private projectMembersService:ProjectMembersService,
+    private projectManagementService:ProjectManagementService,
+    private personManagementService:PersonManagementService,
     private toastyService: ToastyService,
-    private toastyConfig: ToastyConfig
-  ) {
-    this.promems = this.getAllPromems();
-  }
-
-  ngOnInit() {
-
-  }
-
-  getAllPromems() {
-    return this.projectMembersService.getAllPromems(null);
+    private toastyConfig: ToastyConfig,
+    private fb: FormBuilder
+  ) { 
+    this.projectMembers = this.projectMembersService.getAllPromems(this.model);
+    this.projects = this.projectManagementService.getAllProjects(this.projectModel);
+    this.persons = this.personManagementService.getAllPersons(this.personModel);
   }
 
   onSubmit() {
     this.projectMembersService.savePromem(this.model as ProjectMembers)
-      .subscribe(promem => {
+      .subscribe(projectMember => {
         this.addSuccessToast('Successfully added', `Added ${this.model.person_id}`);
-        this.promems = this.getAllPromems();
-        this.model = new ProjectMembers('', '', '', true, new Date(), new Date(), '', '');
+        this.projectMembers = this.projectMembersService.getAllPromems(this.model);
       });
+  }
+
+  onDelete(projectMember) {
+    this.projectMembersService.deletePromem(projectMember as ProjectMembers)
+      .subscribe(projectMember => {
+        this.projectMembers = this.projectMembersService.getAllPromems(this.model);
+        this.addSuccessToast('Delete successfully', `Delete ${this.model.person_id}`);
+      });
+  }
+
+  onEnable(projectMember) {
+        this.editProjectMember = projectMember;
+        this.editProjectMember.isEnabled = !this.editProjectMember.isEnabled;
+        //this.editPromem.isEnabled = this.checkModel.isEnabled
+        this.projectMembersService.updatePromem(this.editProjectMember as ProjectMembers)
+          .subscribe(projectMember => {
+            this.projectMembers = this.projectMembersService.getAllPromems(this.model);
+            this.addSuccessToast('Update successfully', `Update done`);
+          });
+      }
+
+  edit(projectMember){
+      this.editProjectMember = projectMember;
+      this.editProjectMember.modified_date = new Date();
+      this.editProjectMemberModal = true;
+    
   }
 
   onEdit() {
-    this.projectMembersService.updatePromem(this.editPromem as ProjectMembers)
-      .subscribe(promem => {
-        this.addSuccessToast('Successfully updated', `Saved ${this.editPromem.person_id}`);
-        this.promems = this.getAllPromems();
-        this.modalRef.hide();
+    //console.log("Saving edit ...");
+    this.projectMembersService.updatePromem(this.editProjectMember as ProjectMembers)
+      .subscribe(projectMember => {
+        this.addSuccessToast('Successfully updated', `Saved ${this.editProjectMember.person_id}`);
+        this.projectMembers = this.projectMembersService.getAllPromems(this.model);
+        this.editProjectMemberModal = false;
       });
   }
 
-  edit(promem, template: TemplateRef<any>) {
-    this.editPromem = promem;
-    this.editPromem.modified_date = new Date();
-    this.modalRef = this.modalService.show(template);
+  closeModal(template) {
+        this.editProjectMemberModal = false; 
   }
 
-  onDelete(promem) {
-    this.projectMembersService.deletePromem(promem as ProjectMembers)
-      .subscribe(promem => {
-        this.promems = this.getAllPromems();
-        this.addSuccessToast('Delete successfully', `Delete ${promem.person_id}`);
-      });
-  }
-
-  onEnable(promem) {
-
-    this.editPromem = promem;
-    this.editPromem.isEnabled = !this.editPromem.isEnabled;
-    //this.editPromem.isEnabled = this.checkModel.isEnabled
-    this.projectMembersService.updatePromem(this.editPromem as ProjectMembers)
-      .subscribe(promem => {
-        this.promems = this.getAllPromems();
-        this.addSuccessToast('Update successfully', `Update done`);
-      });
-  }
-
-  onChange(evt) {
-    //TO DO STH.
+  pageChanged(event): void {
+    console.log('Page changed to: ' + event.page);
+    console.log('Number items per page: ' + event.itemsPerPage);
+    this.smodel.currentPerPage = event.page;
+    this.smodel.itemsPerPage = event.itemsPerPage;
+    this.indexOnPage = event.page * (this.itemsPerPage);
+    this.projectMembers = this.projectMembersService.getAllPromems(this.model)
+      .do(result => {
+        this.totalItems = result.length;
+        const numPages = result.length / this.itemsPerPage;
+        console.log(numPages);
+        if ( numPages > 1 && this.smodel.currentPerPage > 1) {
+          const startIndex  = (this.indexOnPage - this.itemsPerPage);
+          const endIndex = this.indexOnPage;
+          this.result = result.slice(startIndex, endIndex);
+        }else {
+          this.result = result.slice(0, +environment.itemPerPage);
+        }
+        return this.result;
+      })
+      .map(result => result);
+    this.projectMembers.subscribe();
   }
 
   addSuccessToast(title, msg) {
@@ -114,4 +150,25 @@ export class ProjectMembersComponent implements OnInit {
     this.toastyService.success(toastOptions);
   }
 
+  ngOnInit() {
+
+    this.projectMembers.subscribe((x) => {
+      this.showSpinner = false;
+      this.totalItems = x.length;
+      console.log('forever subscribe ...');
+      this.result = x.slice(this.indexOnPage, this.itemsPerPage);
+    });
+
+    this.validateForm = this.fb.group({
+      project_id: [ null, [ Validators.required ] ],
+      person_id: [ null, [ Validators.required ] ]
+    });
+
+    this.validateEditForm = this.fb.group({
+      project_id: [ null, [ Validators.required ] ],
+    });
+
+  }
+
 }
+ 

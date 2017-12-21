@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PersonManagementV2Component } from './person-management-v2.component';
+import { WebformTextFieldComponent } from './webform-text-field.component';
 
-describe('PersonManagementV2Component', () => {
-  let component: PersonManagementV2Component;
-  let fixture: ComponentFixture<PersonManagementV2Component>;
+describe('WebformTextFieldComponent', () => {
+  let component: WebformTextFieldComponent;
+  let fixture: ComponentFixture<WebformTextFieldComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonManagementV2Component ]
+      declarations: [ WebformTextFieldComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PersonManagementV2Component);
+    fixture = TestBed.createComponent(WebformTextFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
