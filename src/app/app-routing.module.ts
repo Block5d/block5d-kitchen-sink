@@ -3,11 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
-import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { UserGroupComponent } from './user-group/user-group.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component'; 
+import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -56,23 +55,15 @@ const routes: Routes = [
         }
       },
       {
-        path: 'codeManagementV3',
+        path: 'codeManagement',
         component: CodeManagementV3Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: 'Code Management V3'
+          breadcrumb: 'Code Management'
         }
       },
       {
         path: 'org-chart',
-        component: OrgChartComponent,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: 'Organization Chart'
-        }
-      },
-      {
-        path: 'org-chartV2',
         component: OrgChartV2Component,
         data: {
           group: PROJECT_SETUP,

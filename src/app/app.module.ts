@@ -32,7 +32,6 @@ import { ToastyModule } from 'ng2-toasty';
 import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { OrgChartComponent } from './org-chart/org-chart.component';
 import { OrgChartService } from './services/org-chart.service';
 import { CarouselModule } from 'ngx-bootstrap';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
@@ -95,7 +94,6 @@ import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.componen
     UserListComponent,
     RegUserComponent,
     SearchUserComponent,
-    OrgChartComponent,
     CompanymanagementComponent,
     UserGroupComponent,
     WorkflowComponent,
