@@ -75,23 +75,23 @@
 
       </form> -->
 
-      <form nz-form [formGroup]="validateForm">
+      <form nz-form [formGroup]="selectValueForm">
 
         <div nz-form-item>
           <div nz-form-label>
             <label>Data Source Type</label>
           </div>
           <div nz-form-control>
-            <nz-select [(ngModel)]="dataSourceType" [ngModelOptions]="{standalone: true}" nzAllowClear>
+            <nz-select [(ngModel)]="dataSourceType" [ngModelOptions]="{standalone: true}" (ngModelChange)="wth()" nzAllowClear>
               <nz-option *ngFor="let dataSourceType of dataSourceTypes" [nzLabel]="dataSourceType.desc" [nzValue]="dataSourceType.value">
               </nz-option>
             </nz-select>
           </div>
         </div>
 
-        <!-- <div [ngSwitch]="dataSourceType.value"> -->
+        <div [ngSwitch]="dataSourceType">
 
-          <!-- <div *ngSwitchCase="values"> -->
+          <!-- <div *ngSwitchCase="'values'">
             <div nz-form-item nz-row *ngFor="let control of controlArray;let i = index">
               <div nz-form-label nz-col [nzSpan]="4" *ngIf="i==0">
                 <label [attr.for]="control.controlInstance">Data</label>
@@ -112,21 +112,43 @@
                 </button>
               </div>
             </div>
-          <!-- </div> -->
+          </div> -->
 
-          <!-- <div *ngSwitchCase="json"> -->
+          <div *ngSwitchCase="'values'">
+            <div nz-form-item formArrayName="dataArray">
+              <div nz-form-control *ngFor="let dataValue of dataArray.controls; let i=index" [formGroupName]="i">
+                <div nz-form-label>
+                  <label>Values {{i+1}}</label>
+                </div>
+                <div nz-form-control>
+                  <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Description'" formControlName="desc">
+                  </nz-input>
+                  <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Value'" formControlName="value">
+                  </nz-input>
+                  <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeField(i)"></i>
+                </div>
+              </div>
+              <br>
+              <div nz-form-control>
+                <button nz-button [nzType]="'dashed'" [nzSize]="'large'" style="width:60%" (click)="addField()">Add Values</button>
+              </div>
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'json'">
             <div nz-form-item>
               <div nz-form-label>
                 <label>Data</label>
               </div>
               <div nz-form-control>
-                  <nz-input [(ngModel)]="dataSourceType" [nzType]="'textarea'" [nzRows]="'5'" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Description for this select'" [nzSize]="'large'">
-                  </nz-input>
+                <nz-input [(ngModel)]="jsonModel" [nzType]="'textarea'" [nzRows]="'5'" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Description for this select'"
+                  [nzSize]="'large'">
+                </nz-input>
               </div>
             </div>
-          <!-- </div> -->
+          </div>
 
-        <!-- </div> -->
+        </div>
 
       </form>
     </nz-tab>
@@ -142,7 +164,7 @@
       </div>
       <div nz-form-control>
         <nz-select name="previewSelect" [nzPlaceHolder]="selectModel.placeholder" [nzShowSearch]="true" style="width:100%;" nzAllowClear>
-          <nz-option *ngFor="let selectData of controlArray" [nzLabel]="selectData.desc" [nzValue]="selectData.value">
+          <nz-option *ngFor="let selectData of dataArray.controls" [nzLabel]="selectData.value.desc" [nzValue]="selectData.value.value">
           </nz-option>
         </nz-select>
         <span>{{selectModel.description}}</span>

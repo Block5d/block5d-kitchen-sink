@@ -1,81 +1,92 @@
-export class  WebformTextField{
+export class WebformTextField {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformNumber{
+export class WebformNumber {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformPassword{
+export class WebformPassword {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformTextArea{
+export class WebformTextArea {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string,
-        rows:number
-    ){}
+        label: string,
+        placeholder: string,
+        description: string,
+        rows: number
+    ) { }
 }
 
-export class  WebformCheckBox{
+export class WebformCheckBox {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformSelectBoxes{
+export class WebformSelectBoxes {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformSelect{
+export class WebformSelect {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformRadio{
+export class WebformRadio {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformHtmlElement{
+export class WebformHtmlElement {
     constructor(
-        label:string,
-        placeholder:string,
-        description:string
-    ){}
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
 }
 
-export class  WebformButton{
+export class WebformButton {
     constructor(
-        label:string,
-        action:string,
-        theme:string,
-        size:string
-    ){}
+        label: string,
+        action: string,
+        theme: string,
+        size: string
+    ) { }
 }
+
+export class SelectModel {
+    desc = '';
+    value = '';
+}
+
+export class Select {
+    id = 0;
+    selectModels: SelectModel[];
+  }
+  
