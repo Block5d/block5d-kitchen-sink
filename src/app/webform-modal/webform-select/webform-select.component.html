@@ -163,7 +163,7 @@
         <label>{{selectModel.label}}</label>
       </div>
       <div nz-form-control>
-        <nz-select name="previewSelect" [nzPlaceHolder]="selectModel.placeholder" [nzShowSearch]="true" style="width:100%;" nzAllowClear>
+        <nz-select name="previewSelect" [nzShowSearch]="true" style="width:100%;" nzAllowClear>
           <nz-option *ngFor="let selectData of dataArray.controls" [nzLabel]="selectData.value.desc" [nzValue]="selectData.value.value">
           </nz-option>
         </nz-select>

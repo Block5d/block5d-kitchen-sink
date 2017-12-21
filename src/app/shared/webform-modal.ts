@@ -57,9 +57,7 @@ export class WebformSelect {
 
 export class WebformRadio {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string
+        label: string
     ) { }
 }
 
@@ -80,13 +78,13 @@ export class WebformButton {
     ) { }
 }
 
-export class SelectModel {
+export class AddValueModel {
     desc = '';
     value = '';
 }
 
 export class Select {
     id = 0;
-    selectModels: SelectModel[];
+    selectModels: AddValueModel[];
   }
   

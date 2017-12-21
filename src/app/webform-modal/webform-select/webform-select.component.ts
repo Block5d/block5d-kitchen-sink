@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WebformSelect, SelectModel, Select } from '../../shared/webform-modal';
+import { WebformSelect, AddValueModel, Select } from '../../shared/webform-modal';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -43,7 +43,7 @@ export class WebformSelectComponent implements OnInit {
   }
 
   addField(){
-    this.dataArray.push(this.fb.group(new SelectModel))
+    this.dataArray.push(this.fb.group(new AddValueModel))
     console.log(this.dataArray.controls);
   }
 
