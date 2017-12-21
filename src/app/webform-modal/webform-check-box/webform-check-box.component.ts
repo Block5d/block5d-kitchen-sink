@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebformCheckBox } from '../../shared/webform-modal';
 
 @Component({
   selector: 'app-webform-check-box',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WebformCheckBoxComponent implements OnInit {
 
+  checkBoxModel = new WebformCheckBox('');
+
+  _checked = false;
+
   constructor() { }
+
+  _console(value) {
+    console.log(value);
+  }
 
   ngOnInit() {
   }

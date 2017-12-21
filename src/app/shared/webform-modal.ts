@@ -33,17 +33,13 @@ export class WebformTextArea {
 
 export class WebformCheckBox {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string
+        label: string
     ) { }
 }
 
 export class WebformSelectBoxes {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string
+        label: string
     ) { }
 }
 
