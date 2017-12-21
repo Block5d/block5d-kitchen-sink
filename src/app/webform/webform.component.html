@@ -1,0 +1,103 @@
+<nz-layout>
+  <nz-header>
+    <form nz-form item-height="64px">
+      <div nz-row>
+        <div nz-col [nzSpan]="4">
+          <div>
+            <label>Title</label>
+          </div>
+          <div nz-form-control>
+            <nz-input style="width:120px"></nz-input>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="4">
+          <label>Name</label>
+          <div nz-form-control>
+            <nz-input style="width:120px"></nz-input>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="4">
+          <label>Display as</label>
+          <div>
+            <!-- <nz-select style="width: 120px;" [(ngModel)]="selectedOption" nzAllowClear>
+              <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option">
+                <ng-template #nzOptionTemplate><i class="anticon" [ngClass]="'anticon-'+option.label"></i> {{option.label}}</ng-template>
+              </nz-option>
+            </nz-select> -->
+          </div>
+        </div>
+        <div nz-col [nzSpan]="6">
+          <label>API Path</label>
+          <div nz-form-control>
+            <nz-input style="width:120px"></nz-input>
+            <nz-input style="width:60px"></nz-input>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="6">
+          <label></label>
+          <div>
+            <button nz-button [nzType]="'default'">Cancel</button>
+            <button nz-button [nzType]="'primary'">Save</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nz-header>
+  <hr>
+  <nz-layout>
+    <nz-sider>
+      <div id="we"><p style="align:center">Basic Components</p>
+        <div class='wrapper'>
+          <div class="container" [dragula]='"first-bag"'>
+            <div>Text Field</div>
+            <div>Number</div>
+            <div>Password</div>
+            <div>Text Area</div>
+            <div>Check Box</div>
+            <div>Select Boxes</div>
+            <div>Select</div>
+            <div>Radio</div>
+            <div>HTML Element</div>
+            <div>Content</div>
+            <div>Button</div>
+          </div>
+        </div>
+      </div>
+    </nz-sider>
+    <nz-content>
+
+
+
+      <!-- <label>
+    First Name
+    </label>
+    <br>
+    <form nz-form>
+    <div nz-form-control>
+        <nz-input></nz-input>
+      </div>
+    </form>
+
+    <label>
+    Last Name
+    </label>
+      <br>
+      <form nz-form>
+          <div nz-form-control>
+              <nz-input></nz-input>
+            </div>
+      </form>
+
+    <label>
+   Email
+    </label>
+    <br>
+    <form nz-form>
+    <div nz-form-control>
+    <nz-input></nz-input>
+    </div>
+    </form>
+    <button nz-button [nzType]="'primary'">Submit</button> -->
+    </nz-content>
+  </nz-layout>
+</nz-layout>

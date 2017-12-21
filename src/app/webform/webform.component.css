@@ -1,0 +1,53 @@
+:host ::ng-deep .ant-layout-content {
+    background: rgb(252, 253, 253);
+    color: rgb(8, 8, 8);
+    min-height: 60px;
+    line-height: 60px;
+  }
+
+  :host ::ng-deep .ant-layout-header, :host ::ng-deep .ant-layout-footer {
+    background: #f9f9fa;
+    color: rgb(14, 13, 13);
+    line-height: 32px;
+    min-height: 84px;
+  }
+
+  :host ::ng-deep .ant-layout-footer {
+    line-height: 1.5;
+  }
+
+  :host > .ant-layout {
+    text-align: left;
+    margin-bottom: 48px;
+  }
+
+  :host ::ng-deep .ant-layout-sider {
+    background: #fefeff;
+    color: rgb(10, 10, 10);
+    line-height: 30px;
+  }
+  .container > div{
+      height: 30px;
+      cursor: pointer;
+      position: relative;
+      text-align: center;
+      font-size:14px !important;
+      background-color: #aaf;
+      margin: .5em;
+      padding-top: 0;
+      border-radius: 4px;
+  }
+  .container div:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+  #we {
+    border: 1px;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    text-align: center;
+    margin: 20px;
+    background-color: rgb(219, 217, 217);
+  }
+

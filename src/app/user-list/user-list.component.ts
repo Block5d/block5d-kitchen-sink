@@ -4,7 +4,7 @@ import { RegistrationUser } from '../shared/registration-user';
 import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+import { ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import * as _ from 'lodash';
 import { SearchUsrCriteria } from '../shared/search-user';
 import { environment } from '../../environments/environment';

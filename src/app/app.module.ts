@@ -19,6 +19,7 @@ import { ProgressbarModule } from 'ngx-bootstrap';
 import { PaginationModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DragulaModule } from 'ng2-dragula'
 
 // Components
 import { AppComponent } from './app.component';
@@ -69,6 +70,7 @@ import { ProjectMembersService } from './services/project-members.service';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+import { WebformComponent } from './webform/webform.component';
 
 
 @NgModule({
@@ -101,9 +103,11 @@ import { ProjectMembersV2Component } from './project-members-v2/project-members-
     ProjectManagementV2Component,
     BreadcrumbComponent,
     ProjectMembersV2Component,
+    WebformComponent,
 
   ],
   imports: [
+    DragulaModule,
     BrowserModule,
     SelectModule,
     OrgChartModule,

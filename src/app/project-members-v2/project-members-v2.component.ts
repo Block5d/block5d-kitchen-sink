@@ -9,7 +9,7 @@ import { ProjectManagement } from '../shared/project-management';
 import { ProjectMembersService } from '../services/project-members.service';
 import { ProjectManagementService } from '../services/project-management.service';
 import { PersonManagementService } from '../services/person-management.service';
-
+ 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -26,7 +26,7 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class ProjectMembersV2Component implements OnInit {
-
+ 
   private projectMembers:Observable<ProjectMembers[]>;
   private projects:Observable<ProjectManagement[]>;
   private persons:Observable<PersonManagement[]>;
@@ -42,7 +42,7 @@ export class ProjectMembersV2Component implements OnInit {
   currentPage: number = 1;
   numPages: number = 0;
   inited: boolean = false;
-  itemsPerPage: number = +environment.itemPerPage;
+  itemsPerPage: number = environment.itemPerPage;
   indexOnPage: number = 0;
   showSpinner = true;
   smodel = new SearchProjectMembers('', "name", this.currentPage, this.itemsPerPage);

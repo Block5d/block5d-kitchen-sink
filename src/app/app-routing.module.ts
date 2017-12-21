@@ -19,6 +19,8 @@ import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
 import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+import { WebformComponent } from './webform/webform.component'
+
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
@@ -177,6 +179,13 @@ const routes: Routes = [
         data: {
           group: PROJECT_SETUP,
           breadcrumb: "Upload to AWS S3"
+        }
+      },
+      {
+        path: 'web-form', component: WebformComponent,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Web Form"
         }
       }
     ]},
