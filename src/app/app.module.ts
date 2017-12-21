@@ -83,6 +83,8 @@ import { WebformRadioComponent } from './webform-modal/webform-radio/webform-rad
 import { WebformHtmlElementComponent } from './webform-modal/webform-html-element/webform-html-element.component';
 import { WebformContentComponent } from './webform-modal/webform-content/webform-content.component';
 import { WebformButtonComponent } from './webform-modal/webform-button/webform-button.component';
+import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
+
 
 
 
@@ -127,6 +129,7 @@ import { WebformButtonComponent } from './webform-modal/webform-button/webform-b
     WebformHtmlElementComponent,
     WebformContentComponent,
     WebformButtonComponent,
+    UploadtoLocalComponent,
   ],
   imports: [
     BrowserModule,

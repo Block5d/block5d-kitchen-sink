@@ -21,7 +21,7 @@ export class FileUploadComponent implements OnInit {
 
   @Input() maxFiles: number = 5; // max only 5 files
   @Input() maxSize: number = 5; //5MB
-  
+  @Input() backend: string = "localStorage";
   
   @Output() uploadStatus = new EventEmitter();
   
@@ -75,13 +75,13 @@ export class FileUploadComponent implements OnInit {
     this.saveFiles(files);
   }
 
-  saveFiles(files){
+  saveFiles(files) {
     // clear errors
     this.errors = [];
 
     //check the file size is more than 0
     // check files are valid
-    if ( files.length > 0 && (!this.isValidFiles(files))){
+    if ( files.length > 0 && (!this.isValidFiles(files))) {
       var uploadStatusJson = {
         status: false
       }
@@ -89,7 +89,7 @@ export class FileUploadComponent implements OnInit {
       return;
     }
 
-    if(files.length > 0){
+    if ( files.length > 0 ) {
       // js https://developer.mozilla.org/en-US/docs/Web/API/FormData
       // The FormData interface provides a way to easily 
       // construct a set of key/value pairs representing form fields and their values,
@@ -99,8 +99,8 @@ export class FileUploadComponent implements OnInit {
         console.log(files[j].size);
         this.totalFileSizes = this.totalFileSizes + files[j].size;
       }
-      
-      this.fileService.upload(formData)
+
+      this.fileService.upload(formData, this.backend)
       .subscribe(success => {
         console.log(JSON.stringify(success));
         var arr = Object.values(success);
@@ -117,13 +117,13 @@ export class FileUploadComponent implements OnInit {
           // if the maxsize == to the progress size then 100%
           console.log(this.calculateXferSize);
           console.log(this.totalFileSizes);
-          console.log(">>"+ this.progressPct);
-          
-          if(this.calculateXferSize == this.totalFileSizes){
+          console.log('>>' + this.progressPct);
+
+          if(this.calculateXferSize === this.totalFileSizes) { 
             this.progressPct = 100;
           }
         }
-      }, error=>{
+      }, error => {
         var uploadStatusJson = {
           status: false
         }
