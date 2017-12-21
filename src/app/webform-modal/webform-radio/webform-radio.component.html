@@ -1,3 +1,77 @@
-<p>
-  webform-radio works!
-</p>
+<div nz-row [nzGutter]="24">
+  <h4>Radio Component</h4>
+  <nz-tabset nz-col [nzSpan]="12">
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Display
+      </ng-template>
+      <form nz-form [formGroup]="radioForm">
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Label</label>
+          </div>
+          <div nz-form-control>
+            <nz-input [(ngModel)]="radioModel.label" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Radio Label'" [nzSize]="'large'" >
+            </nz-input>
+          </div>
+        </div>
+
+        <div nz-form-item formArrayName="dataArray">
+          <div nz-form-control *ngFor="let dataValue of dataArray.controls; let i=index" [formGroupName]="i">
+            <div nz-form-label>
+              <label>Values {{i+1}}</label>
+            </div>
+            <div nz-form-control>
+              <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Description'" formControlName="desc">
+              </nz-input>
+              <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Value'" formControlName="value">
+              </nz-input>
+              <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeField(i)"></i>
+            </div>
+          </div>
+          <br>
+          <div nz-form-control>
+            <button nz-button [nzType]="'dashed'" [nzSize]="'large'" style="width:60%" (click)="addField()">Add Values</button>
+          </div>
+        </div>
+
+      </form>
+    </nz-tab>
+
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Validation
+      </ng-template>
+
+
+    </nz-tab>
+
+  </nz-tabset>
+
+  <div nz-col [nzSpan]="12">
+    <h6>Preview</h6>
+    <br/>
+    <div nz-form class="preview-form">
+      <div nz-form-label>
+        <label>{{radioModel.label}}</label>
+      </div>
+      <div nz-form-control>
+        <nz-radio-group [(ngModel)]="radioValue" *ngFor="let radioData of dataArray.controls">
+          <label nz-radio [nzValue]="radioData.value.value">
+            <span>{{radioData.value.desc}}</span>
+          </label>
+        </nz-radio-group>
+      </div>
+    </div>
+
+    <br/>
+
+    <div style="float:right;">
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="onSave()">Save</button>
+      <button nz-button [nzType]="'danger'" [nzSize]="'large'">Remove</button>
+    </div>
+
+  </div>
+
+</div>
