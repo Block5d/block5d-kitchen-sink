@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-6">
+    <app-file-upload
+      maxFiles="5"
+      maxSize="15"
+      storageType="1"
+      fileExt="JPG, GIF, PNG"
+      backend="localStorage"
+      (uploadStatus)="refreshImages($event)" >
+    </app-file-upload>
+  </div>
+</div>
+<div class="row">
+  <div class="card-group">
+    <div class="card" *ngFor="let img of images">
+        <img class="card-img-top" [src]="img" alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">{{img}}</p>
+        </div>
+    </div>
+  </div>
+</div>
+

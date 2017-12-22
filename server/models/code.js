@@ -8,7 +8,7 @@ module.exports = mongoose.model('CodeManagement', {
     },
     category_details: {
         categoryDesc: String,
-        categoryCode: String,
+        categoryCode: Object,
         is_category: Boolean
     },
     modified_date: Date,

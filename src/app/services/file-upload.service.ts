@@ -14,21 +14,32 @@ const httpOptions = {
 export class FileUploadService {
 
   private uploadURL = `${environment.ApiUrl}/api/v1/upload`;
+  private uploadURLS3 = `${environment.ApiUrl}/api/v1/upload-s3`;
+  private uploadURLFireStore = `${environment.ApiUrl}/api/v1/upload-firestore`;
+
   private getImagesURL = `${environment.ApiUrl}/api/v1/images`;
 
-  constructor(private httpClient:HttpClient,
-    private toastyService:ToastyService, 
+  constructor(private httpClient: HttpClient,
+    private toastyService: ToastyService,
     private toastyConfig: ToastyConfig) { }
 
-  public upload(file:any){
-    return this.httpClient.post(this.uploadURL, file, httpOptions)
+  public upload(file: any, mode: string) {
+    console.log(`uploading mode > ${mode}`);
+    let finalUploadUrl = this.uploadURL;
+    if ( mode === 'firestore' ) {
+      finalUploadUrl = this.uploadURLFireStore;
+    } else if( mode === 's3' ) {
+      finalUploadUrl = this.uploadURLS3;
+    }
+    console.log(`finalUploadUrl > ${finalUploadUrl}`);
+    return this.httpClient.post(finalUploadUrl, file, httpOptions)
     .pipe(catchError(this.handleError<Fileupload>('uploadImg')))
 
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      this.addErrorToast("Error", error.error);
+      this.addErrorToast( "Error" , error.error);
       return Observable.throw(error  || 'backend server error');
     };
   }

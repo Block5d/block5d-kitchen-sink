@@ -1,968 +1,1372 @@
 <!-- Main -->
 <div class="container">
-  <h1>Project Management</h1>
   <div class="jumbotron">
-    <form #searchUPersonForm="ngForm" (ngSubmit)="onSearch()" novalidate class="row">
-      <div class="input-group col-lg-7">
-
-        <input id="keyword" #keyword="ngModel" name="keyword" type="text" [(ngModel)]="smodel.keyword" placeholder="Search Person"
-          class="form-control" #keyword="ngModel" required/>
-        <span class="input-group-addon">
-          <i class="fa fa-search"></i>
-        </span>
+    <div nz-row>
+      <h1>Project Management</h1>
+      <div nz-col [nzSpan]="12">
+        <nz-input [nzPlaceHolder]="'Input Search Text'" [(ngModel)]="smodel.keyword" [nzType]="'inputValue'" name="keyword"></nz-input>
       </div>
-      <div class="col-lg-3">
-        <select class="form-control" [(ngModel)]="smodel.type" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)">
-          <option value="name">Name</option>
-          <option value="project_country">Country</option>
-        </select>
+      <div nz-col [nzSpan]="4">
+        <nz-select [(ngModel)]="smodel.type" nzAllowClear>
+          <nz-option *ngFor="let type of types" [nzLabel]="type.label" [nzValue]="type.value">
+          </nz-option>
+        </nz-select>
       </div>
-      <div class="col-lg-2">
-        <button type="submit" id="searchBtn" class="btn btn-primary" id="search">Search</button>
-        <button class="btn btn-success" title="add person" (click)="add(template1)">Add</button>
+      <div nz-col [nzSpan]="8">
+        <button nz-button [nzType]="'primary'" (click)="onSearch()">
+          <span>Search</span>
+        </button>
+        <button nz-button [nzType]="'dashed'" (click)="openModal('addProjectModal')">
+          <span>Add</span>
+        </button>
       </div>
-    </form>
+    </div>
   </div>
- 
-  <table *ngIf="(projects | async)?.length > 0" class="table">
-    <thead>
+
+  <div *ngIf="(result)?.length > 0" class="row">
+    <div class="col-xs-12 col-12 col-md-6">
+      <pagination class="pagination-sm" [boundaryLinks]="true" [rotate]="false" [totalItems]="totalItems" [(ngModel)]="currentPage"
+        [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" (pageChanged)="pageChanged($event)" (numPages)="numPages = $event">
+      </pagination>
+    </div>
+  </div>
+
+  <pre *ngIf="(result)?.length > 0" class="card card-block card-header">Page: {{currentPage}} / {{numPages}}</pre>
+
+  <nz-table *ngIf="(result)?.length>0" #nzTable [nzAjaxData]="projects" [nzPageSize]="10" [nzShowSizeChanger]="true">
+    <thead nz-thead>
       <tr>
-        <th>#</th>
-        <th>Project Name</th>
-        <th>Country</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Created By</th>
-        <th>Updated By</th>
-        <th>Created Date</th>
-        <th>Updated Date</th>
-        <th>Actions</th>
+        <th nz-th>
+          <span>#</span>
+        </th>
+        <th nz-th>
+          <span>Project Name</span>
+        </th>
+        <th nz-th>
+          <span>Country</span>
+        </th>
+        <th nz-th>
+          <span>Start Date</span>
+        </th>
+        <th nz-th>
+          <span>End Date</span>
+        </th>
+        <th nz-th>
+          <span>Created By</span>
+        </th>
+        <th nz-th>
+          <span>Updated By</span>
+        </th>
+        <th nz-th>
+          <span>Created Date</span>
+        </th>
+        <th nz-th>
+          <span>Updated Date</span>
+        </th>
+        <th nz-th>
+          <span>Actions</span>
+        </th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let project of projects | async">
-        <th scope="row">{{project._id}}</th>
-        <td>{{project.name}}</td>
-        <th>{{project.project_country}}</th>
-        <th>{{project.start_date}}</th>
-        <th>{{project.end_date}}</th>
-        <th>{{project.created_by}}</th>
-        <th>{{project.modified_by}}</th>
-        <th>{{project.created_date}}</th>
-        <th>{{project.modified_date}}</th>
-        <td>
-          <button class="btn btn-primary" title="edit project" (click)="edit(project, template3)">
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let project of result; let i=index">
+        <td nz-td>{{project._id}}</td>
+        <td nz-td>{{project.name}}</td>
+        <td nz-td>{{project.project_country}}</td>
+        <td nz-td>{{project.start_date | date:medium}}</td>
+        <td nz-td>{{project.end_date | date:medium}}</td>
+        <td nz-td>{{project.created_by}}</td>
+        <td nz-td>{{project.modified_by}}</td>
+        <td nz-td>{{project.created_date}}</td>
+        <td nz-td>{{project.modified_date}}</td>
+        <td nz-td>
+          <button nz-button [nzType]="'primary'" (click)="edit(project)">
+            <i class="anticon anticon-edit"></i>
           </button>
-          <button class="btn btn-danger" title="delete project" (click)="onDelete(project)">
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          <button nz-button [nzType]="'danger'" (click)="onDelete(project)">
+            <i class="anticon anticon-delete"></i>
           </button>
         </td>
       </tr>
-
     </tbody>
-  </table>
-  <div *ngIf="(projects | async)?.length==0">
-    <p class="font-weight-bold">No record found.</p>
+  </nz-table>
+  <div *ngIf="(result)?.length==0">
+    <p>No record found.</p>
   </div>
 </div>
+
+
 <!-- Add Project -->
-<ng-template #template1>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Add Project</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <form #addform="ngForm" novalidate>
-        <div class="row">
-          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+<nz-modal [nzVisible]="addProjectModal" [nzTitle]="addTitle" [nzContent]="addContent" [nzFooter]="addFooter" (nzOnCancel)="closeModal('addProjectModal')"
+  [nzWidth]="'50%'">
+  <ng-template #addTitle>
+    Add Project
+  </ng-template>
+  <ng-template #addContent>
+    <form nz-form [formGroup]="validateForm">
 
-            <div class="form-group">
-              <label for="name">Name </label>
-              <input id="name" #name="ngModel" name="name" type="text" [(ngModel)]="model.name" placeholder="Name" class="form-control"
-                [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-              <div *ngIf="name.errors && (name.touched || submitted)">
-                <div [hidden]="!name.errors.required && name.dirty" class="alert alert-danger">
-                  Name is required.
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="start_date">Start Date</label>
-              <input id="start_date" name="start_date" type="text" #start_date="ngModel" class="form-control" [(ngModel)]="model.start_date "
-                #dp="bsDatepicker" bsDatepicker required/>
-              <div *ngIf="start_date.errors && (start_date.touched || submitted)">
-                <div [hidden]="!start_date.errors.required && start_date.dirty" class="alert alert-danger">
-                  Start Date is required
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="end_date">End Date</label>
-              <input id="end_date" name="end_date" type="text" #end_date="ngModel" class="form-control" [(ngModel)]="model.end_date" #dp="bsDatepicker"
-                bsDatepicker required/>
-              <div *ngIf="end_date.errors && (end_date.touched || submitted)">
-                <div [hidden]="!end_date.errors.required && end_date.dirty" class="alert alert-danger">
-                  End Date is required
-                </div>
-              </div>
-            </div>
-            <div>
-              <h5>Project Members</h5>
-
-              <div class="form-group">
-                <label for="client_company">Client Company</label>
-                <select class="form-control" #client_company="ngModel" id="client_company" [(ngModel)]="model.client_company" [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let client_company of client_companies" [ngValue]="client_company.value">{{client_company.desc}}</option>
-                </select>
-                <div *ngIf="client_company.errors && (client_company.touched || submitted)">
-                  <div [hidden]="!client_company.errors.required && client_company.dirty" class="alert alert-danger">
-                    Client Company is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="project_manager_person">Project Manager Person</label>
-                <select class="form-control" #project_manager_person="ngModel" id="project_manager_person" [(ngModel)]="model.project_manager_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let project_manager_person of project_manager_persons" [ngValue]="project_manager_person.value">{{project_manager_person.desc}}</option>
-                </select>
-                <div *ngIf="project_manager_person.errors && (project_manager_person.touched || submitted)">
-                  <div [hidden]="!project_manager_person.errors.required && project_manager_person.dirty" class="alert alert-danger">
-                    Project Manager Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="architect_person">Architect Person</label>
-                <select class="form-control" #architect_person="ngModel" id="architect_person" [(ngModel)]="model.architect_person" [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let architect_person of architect_persons" [ngValue]="architect_person.value">{{architect_person.desc}}</option>
-                </select>
-                <div *ngIf="architect_person.errors && (architect_person.touched || submitted)">
-                  <div [hidden]="!architect_person.errors.required && architect_person.dirty" class="alert alert-danger">
-                    Architect Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="design_architect_person">Design Architect Person</label>
-                <select class="form-control" #design_architect_person="ngModel" id="design_architect_person" [(ngModel)]="model.design_architect_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let design_architect_person of design_architect_persons" [ngValue]="design_architect_person.value">{{design_architect_person.desc}}</option>
-                </select>
-                <div *ngIf="design_architect_person.errors && (design_architect_person.touched || submitted)">
-                  <div [hidden]="!design_architect_person.errors.required && design_architect_person.dirty" class="alert alert-danger">
-                    Design Architect Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="quantity_surveyor_person">Quantity Surveyor Person</label>
-                <select class="form-control" #quantity_surveyor_person="ngModel" id="quantity_surveyor_person" [(ngModel)]="model.quantity_surveyor_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [ngValue]="quantity_surveyor_person.value">{{quantity_surveyor_person.desc}}</option>
-                </select>
-                <div *ngIf="quantity_surveyor_person.errors && (quantity_surveyor_person.touched || submitted)">
-                  <div [hidden]="!quantity_surveyor_person.errors.required && quantity_surveyor_person.dirty" class="alert alert-danger">
-                    Quantity Surveyor Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="cs_engineer_person">Consultant Engineer Person</label>
-                <select class="form-control" #cs_engineer_person="ngModel" id="cs_engineer_person" [(ngModel)]="model.cs_engineer_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let cs_engineer_person of cs_engineer_persons" [ngValue]="cs_engineer_person.value">{{cs_engineer_person.desc}}</option>
-                </select>
-                <div *ngIf="cs_engineer_person.errors && (cs_engineer_person.touched || submitted)">
-                  <div [hidden]="!cs_engineer_person.errors.required && cs_engineer_person.dirty" class="alert alert-danger">
-                    Consultant Engineer Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="service_engineer_person">Service Engineer Person</label>
-                <select class="form-control" #service_engineer_person="ngModel" id="service_engineer_person" [(ngModel)]="model.service_engineer_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let service_engineer_person of service_engineer_persons" [ngValue]="service_engineer_person.value">{{service_engineer_person.desc}}</option>
-                </select>
-                <div *ngIf="service_engineer_person.errors && (service_engineer_person.touched || submitted)">
-                  <div [hidden]="!service_engineer_person.errors.required && service_engineer_person.dirty" class="alert alert-danger">
-                    Service Engineer Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="main_contractor_company">Main Contractor Company</label>
-                <select class="form-control" #main_contractor_company="ngModel" id="main_contractor_company" [(ngModel)]="model.main_contractor_company"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let main_contractor_company of main_contractor_companies" [ngValue]="main_contractor_company.value">{{main_contractor_company.desc}}</option>
-                </select>
-                <div *ngIf="main_contractor_company.errors && (main_contractor_company.touched || submitted)">
-                  <div [hidden]="!main_contractor_company.errors.required && main_contractor_company.dirty" class="alert alert-danger">
-                    Main Contractor Company is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Subcontractors</label>
-                <ng-select [(ngModel)]="model.subcontractors" #subcontractors="ngModel" [ngModelOptions]="{standalone: true}" [options]="subcontractorses"
-                  [multiple]="true" (ngModelChange)="onChange($event)" required>
-                </ng-select>
-                <div *ngIf="subcontractors.errors && (subcontractors.touched || submitted)">
-                  <div [hidden]="!subcontractors.errors.required && subcontractors.dirty" class="alert alert-danger">
-                    Subcontractors is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Suppliers</label>
-                <ng-select [(ngModel)]="model.suppliers" #suppliers="ngModel" [ngModelOptions]="{standalone: true}" [options]="supplierses"
-                  [multiple]="true" (ngModelChange)="onChange($event)" required>
-                </ng-select>
-                <div *ngIf="suppliers.errors && (suppliers.touched || submitted)">
-                  <div [hidden]="!suppliers.errors.required && suppliers.dirty" class="alert alert-danger">
-                    Suppliers is required.
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div>
-              <h5>Contact</h5>
-
-              <div class="form-group">
-                <label for="contact_no">Contact Number</label>
-                <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="model.contact_no"
-                  pattern="[0-8]*" required/>
-                <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
-                  <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
-                    Contact no. is required.
-                  </div>
-                  <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
-                    Contact no. is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="company_email">Company Email Address </label>
-                <input id="company_email" #company_email="ngModel" name="company_email" type="text" [(ngModel)]="model.company_email" placeholder="you@domain.com"
-                  class="form-control" #company_email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required/>
-                <div *ngIf="company_email.errors && (company_email.touched || submitted)">
-                  <div [hidden]="!company_email.errors.required && company_email.dirty" class="alert alert-danger">
-                    Company Email is required.
-                  </div>
-                  <span [hidden]="!company_email.errors.pattern" class="alert alert-danger">
-                    Company Email is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="fax_no">Fax Number</label>
-                <input id="fax_no" #fax_no="ngModel" name="fax_no" type="number" class="form-control" [(ngModel)]="model.fax_no" pattern="[0-8]*"
-                  required/>
-                <div *ngIf="fax_no.errors && (fax_no.touched || submitted)">
-                  <div [hidden]="!fax_no.errors.required && fax_no.dirty" class="alert alert-danger">
-                    Fax no. is required.
-                  </div>
-                  <span [hidden]="!fax_no.errors.pattern" class="alert alert-danger">
-                    Fax no. is invalid.
-                  </span>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="form-group">
-              <label for="project_country">Project Country</label>
-              <select class="form-control" #project_country="ngModel" id="project_country" [(ngModel)]="model.project_country" [ngModelOptions]="{standalone: true}"
-                (ngModelChange)="onChange($event)" required>
-                <option *ngFor="let project_country of project_countries" [ngValue]="project_country.value">{{project_country.desc}}</option>
-              </select>
-              <div *ngIf="project_country.errors && (project_country.touched || submitted)">
-                <div [hidden]="!project_country.errors.required && project_country.dirty" class="alert alert-danger">
-                  Project Country is required.
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h5>Project Progress</h5>
-
-              <div class="form-group">
-                <label for="site_possession">Site Possession</label>
-                <input id="site_possession" #site_possession="ngModel" name="site_possession" type="text" [(ngModel)]="model.site_possession"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-                <div *ngIf="site_possession.errors && (site_possession.touched || submitted)">
-                  <div [hidden]="!site_possession.errors.required && site_possession.dirty" class="alert alert-danger">
-                    Site Possession is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="completion_date">Completion Date</label>
-                <input id="completion_date" name="completion_date" type="text" #completion_date="ngModel" class="form-control" [(ngModel)]="model.completion_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="completion_date.errors && (completion_date.touched || submitted)">
-                  <div [hidden]="!completion_date.errors.required && completion_date.dirty" class="alert alert-danger">
-                    Completion Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_currency">Contract Currency</label>
-                <select class="form-control" #contract_currency="ngModel" id="contract_currency" [(ngModel)]="model.contract_currency" [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let contract_currency of contract_currencies" [ngValue]="contract_currency.value">{{contract_currency.desc}}</option>
-                </select>
-                <div *ngIf="contract_currency.errors && (contract_currency.touched || submitted)">
-                  <div [hidden]="!contract_currency.errors.required && contract_currency.dirty" class="alert alert-danger">
-                    Contract Currency is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_sum">Contract Sum</label>
-                <input id="contract_sum" #contract_sum="ngModel" name="contract_sum" type="number" class="form-control" [(ngModel)]="model.contract_sum"
-                  pattern="[0-8]*" required/>
-                <div *ngIf="contract_sum.errors && (contract_sum.touched || submitted)">
-                  <div [hidden]="!contract_sum.errors.required && contract_sum.dirty" class="alert alert-danger">
-                    Contract Sum is required.
-                  </div>
-                  <span [hidden]="!contract_sum.errors.pattern" class="alert alert-danger">
-                    Contract Sum is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_duration_base">Contract Duration Base</label>
-                <input id="contract_duration_base" name="contract_duration_base" type="text" #contract_duration_base="ngModel" class="form-control"
-                  [(ngModel)]="model.contract_duration_base" #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="contract_duration_base.errors && (contract_duration_base.touched || submitted)">
-                  <div [hidden]="!contract_duration_base.errors.required && contract_duration_base.dirty" class="alert alert-danger">
-                    Contract Duration Base is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_duration_remaining">Contract Duration Remaining</label>
-                <input id="contract_duration_remaining" name="contract_duration_remaining" type="text" #contract_duration_remaining="ngModel"
-                  class="form-control" [(ngModel)]="model.contract_duration_remaining" #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="contract_duration_remaining.errors && (contract_duration_remaining.touched || submitted)">
-                  <div [hidden]="!contract_duration_remaining.errors.required && contract_duration_remaining.dirty" class="alert alert-danger">
-                    Contract Duration Remaining is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_work_done">Percentage Work Done</label>
-                <input id="pct_work_done" #pct_work_done="ngModel" name="pct_work_done" type="number" class="form-control" [(ngModel)]="model.pct_work_done"
-                  pattern=".*" required/>
-                <div *ngIf="pct_work_done.errors && (pct_work_done.touched || submitted)">
-                  <div [hidden]="!pct_work_done.errors.required && pct_work_done.dirty" class="alert alert-danger">
-                    Percentage Work Done is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="remarks">Project Progress Remarks</label>
-                <textarea id="remarks" #remarks="ngModel" name="remarks" type="text" [(ngModel)]="model.remarks" placeholder="Remarks" class="form-control"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="site_issues">Site Issues</label>
-                <input id="site_issues" #site_issues="ngModel" name="site_issues" type="text" [(ngModel)]="model.site_issues" placeholder="Site Issues"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-              </div>
-
-            </div>
-
-            <div>
-              <h5>Project Monitoring</h5>
-
-              <div class="form-group">
-                <label for="desc">Description</label>
-                <input id="desc" #desc="ngModel" name="desc" type="text" [(ngModel)]="model.desc" placeholder="Description" class="form-control"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-                <div *ngIf="desc.errors && (desc.touched || submitted)">
-                  <div [hidden]="!desc.errors.required && desc.dirty" class="alert alert-danger">
-                    Description is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="planned_start_date">Planned Start_date</label>
-                <input id="planned_start_date" name="planned_start_date" type="text" #planned_start_date="ngModel" class="form-control" [(ngModel)]="model.planned_start_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="planned_start_date.errors && (planned_start_date.touched || submitted)">
-                  <div [hidden]="!planned_start_date.errors.required && planned_start_date.dirty" class="alert alert-danger">
-                    Planned Start Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="actual_start_date">Actual Start Date</label>
-                <input id="actual_start_date" name="actual_start_date" type="text" #actual_start_date="ngModel" class="form-control" [(ngModel)]="model.actual_start_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="actual_start_date.errors && (actual_start_date.touched || submitted)">
-                  <div [hidden]="!actual_start_date.errors.required && actual_start_date.dirty" class="alert alert-danger">
-                    Actual Start Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="planned_end_date">Planned End Date</label>
-                <input id="planned_end_date" name="planned_end_date" type="text" #planned_end_date="ngModel" class="form-control" [(ngModel)]="model.planned_end_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="planned_end_date.errors && (planned_end_date.touched || submitted)">
-                  <div [hidden]="!planned_end_date.errors.required && planned_end_date.dirty" class="alert alert-danger">
-                    Planned End Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="actual_end_date">Actual End Date</label>
-                <input id="actual_end_date" name="actual_end_date" type="text" #actual_end_date="ngModel" class="form-control" [(ngModel)]="model.actual_end_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="actual_end_date.errors && (actual_end_date.touched || submitted)">
-                  <div [hidden]="!actual_end_date.errors.required && actual_end_date.dirty" class="alert alert-danger">
-                    Actual End Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_planned">Percentage Completed Planned</label>
-                <input id="pct_completed_planned" #pct_completed_planned="ngModel" name="pct_completed_planned" type="number" class="form-control"
-                  [(ngModel)]="model.pct_completed_planned" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_planned.errors && (pct_completed_planned.touched || submitted)">
-                  <div [hidden]="!pct_completed_planned.errors.required && pct_completed_planned.dirty" class="alert alert-danger">
-                    Percentage Completed Planned is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_actual">Persontage Completed Actual</label>
-                <input id="pct_completed_actual" #pct_completed_actual="ngModel" name="pct_completed_actual" type="number" class="form-control"
-                  [(ngModel)]="model.pct_completed_actual" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_actual.errors && (pct_completed_actual.touched || submitted)">
-                  <div [hidden]="!pct_completed_actual.errors.required && pct_completed_actual.dirty" class="alert alert-danger">
-                    Percentage Completed Actual is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_1wktarget">Percentage Completed One Week Target</label>
-                <input id="pct_completed_1wktarget" #pct_completed_1wktarget="ngModel" name="pct_completed_1wktarget" type="number" class="form-control"
-                  [(ngModel)]="model.pct_completed_1wktarget" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_1wktarget.errors && (pct_completed_1wktarget.touched || submitted)">
-                  <div [hidden]="!pct_completed_1wktarget.errors.required && pct_completed_1wktarget.dirty" class="alert alert-danger">
-                    Percentage Completed One Week Target is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="remark">Monitoring Remarks</label>
-                <textarea id="remark" #remark="ngModel" name="remark" type="text" [(ngModel)]="model.remark" placeholder="Remarks" class="form-control"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
-              </div>
-
-            </div>
-
-            <div class="form-group">
-              <hr/>
-              <button type="submit" [disabled]="!addform.form.valid" class="btn btn-success" (click)="onSubmit()" novalidation>Submit</button>
-            </div>
-
+      <div nz-row [nzGutter]="24">
+        <div nz-form-item nz-col [nzSpan]="24">
+          <div nz-form-label>
+            <label>Name</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.name">
+            <nz-input formControlName="name" [(ngModel)]="model.name" [nzPlaceHolder]="'Project Name'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.name.dirty&&validateForm.controls.name.hasError('required')">Please input your name!</div>
           </div>
         </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
 
-<ng-template #template3>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit Project</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <form #editform="ngForm" novalidate >
-        <div class="row">
-          <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
-
-            <div class="form-group">
-              <label for="name">Name </label>
-              <input id="name" #name="ngModel" name="name" type="text" [(ngModel)]="editProject.name" placeholder="Name" class="form-control"
-                [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-              <div *ngIf="name.errors && (name.touched || submitted)">
-                <div [hidden]="!name.errors.required && name.dirty" class="alert alert-danger">
-                  Name is required.
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="start_date">Start Date</label>
-              <input id="start_date" name="start_date" type="text" #start_date="ngModel" class="form-control" [(ngModel)]="editProject.start_date"
-                #dp="bsDatepicker" bsDatepicker  required/>
-              <div *ngIf="start_date.errors && (start_date.touched || submitted)">
-                <div [hidden]="!start_date.errors.required && start_date.dirty" class="alert alert-danger">
-                  Start Date is required
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="end_date">End Date</label>
-              <input id="end_date" name="end_date" type="text" #end_date="ngModel" class="form-control" [(ngModel)]="editProject.end_date"
-                #dp="bsDatepicker" bsDatepicker [minDate]="minDate" required/>
-              <div *ngIf="end_date.errors && (end_date.touched || submitted)">
-                <div [hidden]="!end_date.errors.required && end_date.dirty" class="alert alert-danger">
-                  End Date is required
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h5>Project Members</h5>
-
-              <div class="form-group">
-                <label for="client_company">Client Company</label>
-                <select class="form-control" #client_company="ngModel" id="client_company" [(ngModel)]="editProject.client_company" [ngModelOptions]="{standalone: true}"
-                  (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let client_company of client_companies" [ngValue]="client_company.value">{{client_company.desc}}</option>
-                </select>
-                <div *ngIf="client_company.errors && (client_company.touched || submitted)">
-                  <div [hidden]="!client_company.errors.required && client_company.dirty" class="alert alert-danger">
-                    Client Company is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="project_manager_person">Project Manager Person</label>
-                <select class="form-control" #project_manager_person="ngModel" id="project_manager_person" [(ngModel)]="editProject.project_manager_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let project_manager_person of project_manager_persons" [ngValue]="project_manager_person.value">{{project_manager_person.desc}}</option>
-                </select>
-                <div *ngIf="project_manager_person.errors && (project_manager_person.touched || submitted)">
-                  <div [hidden]="!project_manager_person.errors.required && project_manager_person.dirty" class="alert alert-danger">
-                    Project Manager Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="architect_person">Architect Person</label>
-                <select class="form-control" #architect_person="ngModel" id="architect_person" [(ngModel)]="editProject.architect_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let architect_person of architect_persons" [ngValue]="architect_person.value">{{architect_person.desc}}</option>
-                </select>
-                <div *ngIf="architect_person.errors && (architect_person.touched || submitted)">
-                  <div [hidden]="!architect_person.errors.required && architect_person.dirty" class="alert alert-danger">
-                    Architect Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="design_architect_person">Design Architect Person</label>
-                <select class="form-control" #design_architect_person="ngModel" id="design_architect_person" [(ngModel)]="editProject.design_architect_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let design_architect_person of design_architect_persons" [ngValue]="design_architect_person.value">{{design_architect_person.desc}}</option>
-                </select>
-                <div *ngIf="design_architect_person.errors && (design_architect_person.touched || submitted)">
-                  <div [hidden]="!design_architect_person.errors.required && design_architect_person.dirty" class="alert alert-danger">
-                    Design Architect Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="quantity_surveyor_person">Quantity Surveyor Person</label>
-                <select class="form-control" #quantity_surveyor_person="ngModel" id="quantity_surveyor_person" [(ngModel)]="editProject.quantity_surveyor_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let quantity_surveyor_person of quantity_surveyor_persons" [ngValue]="quantity_surveyor_person.value">{{quantity_surveyor_person.desc}}</option>
-                </select>
-                <div *ngIf="quantity_surveyor_person.errors && (quantity_surveyor_person.touched || submitted)">
-                  <div [hidden]="!quantity_surveyor_person.errors.required && quantity_surveyor_person.dirty" class="alert alert-danger">
-                    Quantity Surveyor Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="cs_engineer_person">Consultant Engineer Person</label>
-                <select class="form-control" #cs_engineer_person="ngModel" id="cs_engineer_person" [(ngModel)]="editProject.cs_engineer_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let cs_engineer_person of cs_engineer_persons" [ngValue]="cs_engineer_person.value">{{cs_engineer_person.desc}}</option>
-                </select>
-                <div *ngIf="cs_engineer_person.errors && (cs_engineer_person.touched || submitted)">
-                  <div [hidden]="!cs_engineer_person.errors.required && cs_engineer_person.dirty" class="alert alert-danger">
-                    Consultant Engineer Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="service_engineer_person">Service Engineer Person</label>
-                <select class="form-control" #service_engineer_person="ngModel" id="service_engineer_person" [(ngModel)]="editProject.service_engineer_person"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let service_engineer_person of service_engineer_persons" [ngValue]="service_engineer_person.value">{{service_engineer_person.desc}}</option>
-                </select>
-                <div *ngIf="service_engineer_person.errors && (service_engineer_person.touched || submitted)">
-                  <div [hidden]="!service_engineer_person.errors.required && service_engineer_person.dirty" class="alert alert-danger">
-                    Service Engineer Person is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="main_contractor_company">Main Contractor Company</label>
-                <select class="form-control" #main_contractor_company="ngModel" id="main_contractor_company" [(ngModel)]="editProject.main_contractor_company"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let main_contractor_company of main_contractor_companies" [ngValue]="main_contractor_company.value">{{main_contractor_company.desc}}</option>
-                </select>
-                <div *ngIf="main_contractor_company.errors && (main_contractor_company.touched || submitted)">
-                  <div [hidden]="!main_contractor_company.errors.required && main_contractor_company.dirty" class="alert alert-danger">
-                    Main Contractor Company is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Subcontractors</label>
-                <ng-select [(ngModel)]="editProject.subcontractors" #subcontractors="ngModel" [ngModelOptions]="{standalone: true}" [options]="subcontractorses"
-                  [multiple]="true" (ngModelChange)="onChange($event)" required>
-                </ng-select>
-                <div *ngIf="subcontractors.errors && (subcontractors.touched || submitted)">
-                  <div [hidden]="!subcontractors.errors.required && subcontractors.dirty" class="alert alert-danger">
-                    Subcontractors is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Suppliers</label>
-                <ng-select [(ngModel)]="editProject.suppliers" #suppliers="ngModel" [ngModelOptions]="{standalone: true}" [options]="supplierses"
-                  [multiple]="true" (ngModelChange)="onChange($event)" required>
-                </ng-select>
-                <div *ngIf="suppliers.errors && (suppliers.touched || submitted)">
-                  <div [hidden]="!suppliers.errors.required && suppliers.dirty" class="alert alert-danger">
-                    Suppliers is required.
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-            <div>
-              <h5>Contact</h5>
-
-              <div class="form-group">
-                <label for="contact_no">Contact Number</label>
-                <input id="contact_no" #contact_no="ngModel" name="contact_no" type="number" class="form-control" [(ngModel)]="editProject.contact_no"
-                  pattern="[0-8]*" required/>
-                <div *ngIf="contact_no.errors && (contact_no.touched || submitted)">
-                  <div [hidden]="!contact_no.errors.required && contact_no.dirty" class="alert alert-danger">
-                    Contact no. is required.
-                  </div>
-                  <span [hidden]="!contact_no.errors.pattern" class="alert alert-danger">
-                    Contact no. is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="company_email">Company Email Address </label>
-                <input id="company_email" #company_email="ngModel" name="company_email" type="text" [(ngModel)]="editProject.company_email"
-                  placeholder="you@domain.com" class="form-control" #company_email="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                  required/>
-                <div *ngIf="company_email.errors && (company_email.touched || submitted)">
-                  <div [hidden]="!company_email.errors.required && company_email.dirty" class="alert alert-danger">
-                    Company Email is required.
-                  </div>
-                  <span [hidden]="!company_email.errors.pattern" class="alert alert-danger">
-                    Company Email is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="fax_no">Fax Number</label>
-                <input id="fax_no" #fax_no="ngModel" name="fax_no" type="number" class="form-control" [(ngModel)]="editProject.fax_no" pattern="[0-8]*"
-                  required/>
-                <div *ngIf="fax_no.errors && (fax_no.touched || submitted)">
-                  <div [hidden]="!fax_no.errors.required && fax_no.dirty" class="alert alert-danger">
-                    Fax no. is required.
-                  </div>
-                  <span [hidden]="!fax_no.errors.pattern" class="alert alert-danger">
-                    Fax no. is invalid.
-                  </span>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="form-group">
-              <label for="project_country">Project Country</label>
-              <select class="form-control" #project_country="ngModel" id="project_country" [(ngModel)]="editProject.project_country" [ngModelOptions]="{standalone: true}"
-                (ngModelChange)="onChange($event)" required>
-                <option *ngFor="let project_country of project_countries" [ngValue]="project_country.value">{{project_country.desc}}</option>
-              </select>
-              <div *ngIf="project_country.errors && (project_country.touched || submitted)">
-                <div [hidden]="!project_country.errors.required && project_country.dirty" class="alert alert-danger">
-                  Project Country is required.
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h5>Project Progress</h5>
-
-              <div class="form-group">
-                <label for="site_possession">Site Possession</label>
-                <input id="site_possession" #site_possession="ngModel" name="site_possession" type="text" [(ngModel)]="editProject.site_possession"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-                <div *ngIf="site_possession.errors && (site_possession.touched || submitted)">
-                  <div [hidden]="!site_possession.errors.required && site_possession.dirty" class="alert alert-danger">
-                    Site Possession is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="completion_date">Completion Date</label>
-                <input id="completion_date" name="completion_date" type="text" #completion_date="ngModel" class="form-control" [(ngModel)]="editProject.completion_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="completion_date.errors && (completion_date.touched || submitted)">
-                  <div [hidden]="!completion_date.errors.required && completion_date.dirty" class="alert alert-danger">
-                    Completion Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_currency">Contract Currency</label>
-                <select class="form-control" #contract_currency="ngModel" id="contract_currency" [(ngModel)]="editProject.contract_currency"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required>
-                  <option *ngFor="let contract_currency of contract_currencies" [ngValue]="contract_currency.value">{{contract_currency.desc}}</option>
-                </select>
-                <div *ngIf="contract_currency.errors && (contract_currency.touched || submitted)">
-                  <div [hidden]="!contract_currency.errors.required && contract_currency.dirty" class="alert alert-danger">
-                    Contract Currency is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_sum">Contract Sum</label>
-                <input id="contract_sum" #contract_sum="ngModel" name="contract_sum" type="number" class="form-control" [(ngModel)]="editProject.contract_sum"
-                  pattern="[0-8]*" required/>
-                <div *ngIf="contract_sum.errors && (contract_sum.touched || submitted)">
-                  <div [hidden]="!contract_sum.errors.required && contract_sum.dirty" class="alert alert-danger">
-                    Contract Sum is required.
-                  </div>
-                  <span [hidden]="!contract_sum.errors.pattern" class="alert alert-danger">
-                    Contract Sum is invalid.
-                  </span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_duration_base">Contract Duration Base</label>
-                <input id="contract_duration_base" name="contract_duration_base" type="text" #contract_duration_base="ngModel" class="form-control"
-                  [(ngModel)]="editProject.contract_duration_base" #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="contract_duration_base.errors && (contract_duration_base.touched || submitted)">
-                  <div [hidden]="!contract_duration_base.errors.required && contract_duration_base.dirty" class="alert alert-danger">
-                    Contract Duration Base is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contract_duration_remaining">Contract Duration Remaining</label>
-                <input id="contract_duration_remaining" name="contract_duration_remaining" type="text" #contract_duration_remaining="ngModel"
-                  class="form-control" [(ngModel)]="editProject.contract_duration_remaining" #dp="bsDatepicker" bsDatepicker
-                  required/>
-                <div *ngIf="contract_duration_remaining.errors && (contract_duration_remaining.touched || submitted)">
-                  <div [hidden]="!contract_duration_remaining.errors.required && contract_duration_remaining.dirty" class="alert alert-danger">
-                    Contract Duration Remaining is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_work_done">Percentage Work Done</label>
-                <input id="pct_work_done" #pct_work_done="ngModel" name="pct_work_done" type="number" class="form-control" [(ngModel)]="editProject.pct_work_done"
-                  pattern=".*" required/>
-                <div *ngIf="pct_work_done.errors && (pct_work_done.touched || submitted)">
-                  <div [hidden]="!pct_work_done.errors.required && pct_work_done.dirty" class="alert alert-danger">
-                    Percentage Work Done is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="remarks">Project Progress Remarks</label>
-                <textarea id="remarks" #remarks="ngModel" name="remarks" type="text" [(ngModel)]="editProject.remarks" placeholder="Remarks"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
-              </div>
-
-              <div class="form-group">
-                <label for="site_issues">Site Issues</label>
-                <input id="site_issues" #site_issues="ngModel" name="site_issues" type="text" [(ngModel)]="editProject.site_issues" placeholder="Site Issues"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-              </div>
-
-            </div>
-
-            <div>
-              <h5>Project Monitoring</h5>
-
-              <div class="form-group">
-                <label for="desc">Description</label>
-                <input id="desc" #desc="ngModel" name="desc" type="text" [(ngModel)]="editProject.desc" placeholder="Description" class="form-control"
-                  [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required/>
-                <div *ngIf="desc.errors && (desc.touched || submitted)">
-                  <div [hidden]="!desc.errors.required && desc.dirty" class="alert alert-danger">
-                    Description is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="planned_start_date">Planned Start_date</label>
-                <input id="planned_start_date" name="planned_start_date" type="text" #planned_start_date="ngModel" class="form-control" [(ngModel)]="editProject.planned_start_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="planned_start_date.errors && (planned_start_date.touched || submitted)">
-                  <div [hidden]="!planned_start_date.errors.required && planned_start_date.dirty" class="alert alert-danger">
-                    Planned Start Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="actual_start_date">Actual Start Date</label>
-                <input id="actual_start_date" name="actual_start_date" type="text" #actual_start_date="ngModel" class="form-control" [(ngModel)]="editProject.actual_start_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="actual_start_date.errors && (actual_start_date.touched || submitted)">
-                  <div [hidden]="!actual_start_date.errors.required && actual_start_date.dirty" class="alert alert-danger">
-                    Actual Start Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="planned_end_date">Planned End Date</label>
-                <input id="planned_end_date" name="planned_end_date" type="text" #planned_end_date="ngModel" class="form-control" [(ngModel)]="editProject.planned_end_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="planned_end_date.errors && (planned_end_date.touched || submitted)">
-                  <div [hidden]="!planned_end_date.errors.required && planned_end_date.dirty" class="alert alert-danger">
-                    Planned End Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="actual_end_date">Actual End Date</label>
-                <input id="actual_end_date" name="actual_end_date" type="text" #actual_end_date="ngModel" class="form-control" [(ngModel)]="editProject.actual_end_date"
-                  #dp="bsDatepicker" bsDatepicker required/>
-                <div *ngIf="actual_end_date.errors && (actual_end_date.touched || submitted)">
-                  <div [hidden]="!actual_end_date.errors.required && actual_end_date.dirty" class="alert alert-danger">
-                    Actual End Date is required
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_planned">Percentage Completed Planned</label>
-                <input id="pct_completed_planned" #pct_completed_planned="ngModel" name="pct_completed_planned" type="number" class="form-control"
-                  [(ngModel)]="editProject.pct_completed_planned" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_planned.errors && (pct_completed_planned.touched || submitted)">
-                  <div [hidden]="!pct_completed_planned.errors.required && pct_completed_planned.dirty" class="alert alert-danger">
-                    Percentage Completed Planned is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_actual">Persontage Completed Actual</label>
-                <input id="pct_completed_actual" #pct_completed_actual="ngModel" name="pct_completed_actual" type="number" class="form-control"
-                  [(ngModel)]="editProject.pct_completed_actual" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_actual.errors && (pct_completed_actual.touched || submitted)">
-                  <div [hidden]="!pct_completed_actual.errors.required && pct_completed_actual.dirty" class="alert alert-danger">
-                    Percentage Completed Actual is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="pct_completed_1wktarget">Percentage Completed One Week Target</label>
-                <input id="pct_completed_1wktarget" #pct_completed_1wktarget="ngModel" name="pct_completed_1wktarget" type="number" class="form-control"
-                  [(ngModel)]="editProject.pct_completed_1wktarget" pattern="[0-8]*" required/>
-                <div *ngIf="pct_completed_1wktarget.errors && (pct_completed_1wktarget.touched || submitted)">
-                  <div [hidden]="!pct_completed_1wktarget.errors.required && pct_completed_1wktarget.dirty" class="alert alert-danger">
-                    Percentage Completed One Week Target is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="remark">Monitoring Remarks</label>
-                <textarea id="remark" #remark="ngModel" name="remark" type="text" [(ngModel)]="editProject.remark" placeholder="Remarks"
-                  class="form-control" [ngModelOptions]="{standalone: true}" (ngModelChange)="onChange($event)" required></textarea>
-              </div>
-
-            </div>
-
-            <div class="form-group">
-              <hr/>
-              <button type="submit" [disabled]="!editform.form.valid" (click)="onEdit()" class="btn btn-success">Save</button>
-              <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
-            </div>
-
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.start_date">
+            <nz-datepicker formControlName="start_date" [(ngModel)]="model.start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.start_date.dirty&&validateForm.controls.start_date.hasError('required')">Please input your Start Date!</div>
           </div>
         </div>
-      </form>
-    </div>
-  </div>
-</ng-template>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.end_date">
+            <nz-datepicker formControlName="end_date" [(ngModel)]="model.end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.end_date.dirty&&validateForm.controls.end_date.hasError('required')">Please input your End Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.end_date.dirty&&validateForm.controls.end_date.hasError('expired')">End Date must more than Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Client Company</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.client_company">
+              <nz-select formControlName="client_company" [(ngModel)]="model.client_company" [nzSize]="'large'" nzAllowClear>
+                <nz-option *ngFor="let client_company of companies" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Project Manager Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.project_manager_person">
+              <nz-select formControlName="project_manager_person" [(ngModel)]="model.project_manager_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let project_manager_person of projectManagers" [nzLabel]="project_manager_person.first_name+' '+project_manager_person.last_name"
+                  [nzValue]="project_manager_person.first_name+' '+project_manager_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.project_manager_person.dirty&&validateForm.controls.project_manager_person.hasError('required')">Please input your Project Manager Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Architect Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.architect_person">
+              <nz-select formControlName="architect_person" [(ngModel)]="model.architect_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let architect_person of architects" [nzLabel]="architect_person.first_name+' '+architect_person.last_name"
+                  [nzValue]="architect_person.first_name+' '+architect_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.architect_person.dirty&&validateForm.controls.architect_person.hasError('required')">Please input your >Architect Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Design Architect Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.design_architect_person">
+              <nz-select formControlName="design_architect_person" [(ngModel)]="model.design_architect_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let design_architect_person of designArchitects" [nzLabel]="design_architect_person.first_name+' '+design_architect_person.last_name"
+                  [nzValue]="design_architect_person.first_name+' '+design_architect_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.design_architect_person.dirty&&validateForm.controls.design_architect_person.hasError('required')">Please input your Design Architect Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Quantity Surveyor Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.quantity_surveyor_person">
+              <nz-select formControlName="quantity_surveyor_person" [(ngModel)]="model.quantity_surveyor_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let quantity_surveyor_person of quantitySurveyors" [nzLabel]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name"
+                  [nzValue]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.quantity_surveyor_person.dirty&&validateForm.controls.quantity_surveyor_person.hasError('required')">Please input your Quantity Surveyor Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>CS Engineer Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.cs_engineer_person">
+              <nz-select formControlName="cs_engineer_person" [(ngModel)]="model.cs_engineer_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let cs_engineer_person of consultantEngineers" [nzLabel]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name"
+                  [nzValue]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.cs_engineer_person.dirty&&validateForm.controls.cs_engineer_person.hasError('required')">Please input your CS Engineer Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Service Engineer Person</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.service_engineer_person">
+              <nz-select formControlName="service_engineer_person" [(ngModel)]="model.service_engineer_person" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let service_engineer_person of serviceEngineers" [nzLabel]="service_engineer_person.first_name+' '+service_engineer_person.last_name"
+                  [nzValue]="service_engineer_person.first_name+' '+service_engineer_person.last_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.service_engineer_person.dirty&&validateForm.controls.service_engineer_person.hasError('required')">Please input your Service Engineer Person!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addPersonModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Main Contractor Company</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.main_contractor_company">
+              <nz-select formControlName="main_contractor_company" [(ngModel)]="model.main_contractor_company" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'"
+                nzAllowClear>
+                <nz-option *ngFor="let main_contractor_company of mainCompanies" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Subcontractors</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.subcontractors">
+              <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="model.subcontractors" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'">
+                <nz-option *ngFor="let subcontractors of subcontratorCompanies" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
+                  [nzDisabled]="subcontractors.disabled">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.subcontractors.dirty&&validateForm.controls.subcontractors.hasError('required')">Please input your Subcontractors!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Suppliers</label>
+          </div>
+          <div nz-row [nzGutter]="8">
+            <div nz-form-control nz-col [nzSpan]="18" [nzValidateStatus]="validateForm.controls.suppliers">
+              <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="model.suppliers" [nzSize]="'large'" [nzNotFoundContent]="'Press the Add button'">
+                <nz-option *ngFor="let suppliers of supplierCompanies" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+                  [nzDisabled]="suppliers.disabled">
+                </nz-option>
+              </nz-select>
+              <div nz-form-explain *ngIf="validateForm.controls.suppliers.dirty&&validateForm.controls.suppliers.hasError('required')">Please input your Suppliers!</div>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button [nzSize]="'large'" nz-button [nzType]="'dashed'" (click)="openModal('addCompanyModal')">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Contact Number</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contact_no">
+            <nz-input-number formControlName="contact_no" [(ngModel)]="model.contact_no" [nzPlaceHolder]="'Contact Number'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.contact_no.dirty&&validateForm.controls.contact_no.hasError('required')">Please input your Contact Number!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Company Email</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
+            <nz-input formControlName="company_email" [(ngModel)]="model.company_email" [nzPlaceHolder]="'Email Address'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">The input is not valid E-mail!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('required')">Please input your Company Email!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Fax Number</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
+            <nz-input-number formControlName="fax_no" [(ngModel)]="model.fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">Please input your Fax Number!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Project Country</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.project_country">
+            <nz-select formControlName="project_country" [(ngModel)]="model.project_country" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let project_country of project_countries" [nzLabel]="project_country.desc" [nzValue]="project_country.value">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.project_country.dirty&&validateForm.controls.project_country.hasError('required')">Please input your Project Country!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Site Possession</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.site_possession">
+            <nz-input formControlName="site_possession" [(ngModel)]="model.site_possession" [nzPlaceHolder]="'Site Possession'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.site_possession.dirty&&validateForm.controls.site_possession.hasError('required')">Please input your Site Possession!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Completion Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.completion_date">
+            <nz-datepicker formControlName="completion_date" [(ngModel)]="model.completion_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Completion Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.completion_date.dirty&&validateForm.controls.completion_date.hasError('required')">Please input your Completion Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Contract Currency</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_currency">
+            <nz-select formControlName="contract_currency" [(ngModel)]="model.contract_currency" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let contract_currency of contract_currencies" [nzLabel]="contract_currency.desc" [nzValue]="contract_currency.value">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_currency.dirty&&validateForm.controls.contract_currency.hasError('required')">Please input your Contract Currency!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Contract Sum</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_sum">
+            <nz-input-number formControlName="contract_sum" [(ngModel)]="model.contract_sum" [nzPlaceHolder]="'Contract Sum'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_sum.dirty&&validateForm.controls.contract_sum.hasError('required')">Please input your Contract Sum!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Contract Duration Base</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_duration_base">
+            <nz-datepicker formControlName="contract_duration_base" [(ngModel)]="model.contract_duration_base" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Contract Duration Base'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_duration_base.dirty&&validateForm.controls.contract_duration_base.hasError('required')">Please input your Contract Duration Base!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Contract Duration Remaining</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_duration_remaining">
+            <nz-datepicker formControlName="contract_duration_remaining" [(ngModel)]="model.contract_duration_remaining" [nzSize]="'large'"
+              [nzPlaceHolder]="'Choose your Contract Duration Remaining'" style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_duration_remaining.dirty&&validateForm.controls.contract_duration_remaining.hasError('required')">Please input your Contract Duration Remaining!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Percentage Work Done</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_work_done">
+            <nz-input-number formControlName="pct_work_done" [(ngModel)]="model.pct_work_done" [nzMin]="0" [nzMax]="100" [nzPlaceHolder]="'0~100'"
+              [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_work_done.dirty&&validateForm.controls.pct_work_done.hasError('required')">Please input your Percentage Work Done!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="24">
+          <div nz-form-label>
+            <label>Project Progress Remarks</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.remarks">
+            <div style="margin-top: 16px;">
+              <nz-input formControlName="remarks" [(ngModel)]="model.remarks" nzType="textarea" [nzAutosize]="autosize" [nzSize]="'large'"
+                nzPlaceHolder="Project Progress Remarks"></nz-input>
+            </div>
+            <div nz-form-explain *ngIf="validateForm.controls.remarks.dirty&&validateForm.controls.remarks.hasError('required')">Please input your Project Progress Remarks!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Site Issues</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.site_issues">
+            <nz-input formControlName="site_issues" [(ngModel)]="model.site_issues" [nzPlaceHolder]="'Site Issues'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.site_issues.dirty&&validateForm.controls.site_issues.hasError('required')">Please input your Site Issues!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Project Monitoring Description</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.desc">
+            <nz-input formControlName="desc" [(ngModel)]="model.desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.desc.dirty&&validateForm.controls.desc.hasError('required')">Please input your Project Monitoring Description!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Planned Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.planned_start_date">
+            <nz-datepicker formControlName="planned_start_date" [(ngModel)]="model.planned_start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Planned Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_start_date.dirty&&validateForm.controls.planned_start_date.hasError('required')">Please input your Planned Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Actual Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.actual_start_date">
+            <nz-datepicker formControlName="actual_start_date" [(ngModel)]="model.actual_start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Actual Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_start_date.dirty&&validateForm.controls.actual_start_date.hasError('required')">Please input your Actual Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Planned End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.planned_end_date">
+            <nz-datepicker formControlName="planned_end_date" [(ngModel)]="model.planned_end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Planned End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_end_date.dirty&&validateForm.controls.planned_end_date.hasError('required')">Please input your Planned End Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_end_date.dirty&&validateForm.controls.planned_end_date.hasError('expired')">Planned End Date must more than Planned Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Actual End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.actual_end_date">
+            <nz-datepicker formControlName="actual_end_date" [(ngModel)]="model.actual_end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Actual End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_end_date.dirty&&validateForm.controls.actual_end_date.hasError('required')">Please input your Actual End Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_end_date.dirty&&validateForm.controls.actual_end_date.hasError('expired')">Actual End Date must more than Actual Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Percentage Completed Planned</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_planned">
+            <nz-input-number formControlName="pct_completed_planned" [(ngModel)]="model.pct_completed_planned" [nzMin]="0" [nzMax]="100"
+              [nzPlaceHolder]="'0~100'" [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_planned.dirty&&validateForm.controls.pct_completed_planned.hasError('required')">Please input your Percentage Completed Planned!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Percentage Completed Actual</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_actual">
+            <nz-input-number formControlName="pct_completed_actual" [(ngModel)]="model.pct_completed_actual" [nzMin]="0" [nzMax]="100"
+              [nzPlaceHolder]="'0~100'" [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_actual.dirty&&validateForm.controls.pct_completed_actual.hasError('required')">Please input your Percentage Completed Actual!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="12">
+          <div nz-form-label>
+            <label>Percentage Completed One Week Target</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_1wktarget">
+            <nz-input-number formControlName="pct_completed_1wktarget" [(ngModel)]="model.pct_completed_1wktarget" [nzMin]="0" [nzMax]="100"
+              [nzPlaceHolder]="'0~100'" [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_1wktarget.dirty&&validateForm.controls.pct_completed_1wktarget.hasError('required')">Please input your Percentage Completed One Week Target!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]="24">
+          <div nz-form-label>
+            <label>Project Monitoring Remarks</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.remark">
+            <div style="margin-top: 16px;">
+              <nz-input formControlName="remark" [(ngModel)]="model.remark" nzType="textarea" [nzAutosize]="autosize" [nzSize]="'large'"
+                nzPlaceHolder="Project Monitoring Remarks"></nz-input>
+            </div>
+            <div nz-form-explain *ngIf="validateForm.controls.remark.dirty&&validateForm.controls.remark.hasError('required')">Please input your Project Monitoring Remarks!</div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </ng-template>
+  <ng-template #addFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="closeModal('addProjectModal')">
+      cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onSubmit()">
+      Submit
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Edit Project-->
+<nz-modal [nzVisible]="editProjectModal" [nzTitle]="editTitle" [nzContent]="editContent" [nzFooter]="editFooter" (nzOnCancel)="closeModal('editProjectModal')"
+  [nzWidth]="'50%'">
+  <ng-template #editTitle>
+    Edit Project
+  </ng-template>
+  <ng-template #editContent>
+
+    <form nz-form [formGroup]="validateForm">
+      <div nz-row [nzGutter]="24">
+        <div nz-form-item nz-col [nzSpan]=24>
+          <div nz-form-label>
+            <label>Name</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.name">
+            <nz-input formControlName="name" [(ngModel)]="editProject.name" [nzPlaceHolder]="'Project Name'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.name.dirty&&validateForm.controls.name.hasError('required')">Please input your name!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.start_date">
+            <nz-datepicker formControlName="start_date" [(ngModel)]="editProject.start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.start_date.dirty&&validateForm.controls.start_date.hasError('required')">Please input your Start Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.end_date.dirty&&validateForm.controls.end_date.hasError('expired')">End Date must more than Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.end_date">
+            <nz-datepicker formControlName="end_date" [(ngModel)]="editProject.end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.end_date.dirty&&validateForm.controls.end_date.hasError('required')">Please input your End Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Client Company</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.client_company">
+            <nz-select formControlName="client_company" [(ngModel)]="editProject.client_company" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let client_company of companies" [nzLabel]="client_company.company_name" [nzValue]="client_company.company_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.client_company.dirty&&validateForm.controls.client_company.hasError('required')">Please input your Client Company!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Project Manager Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.project_manager_person">
+            <nz-select formControlName="project_manager_person" [(ngModel)]="editProject.project_manager_person" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let project_manager_person of projectManagers" [nzLabel]="project_manager_person.first_name+' '+project_manager_person.last_name"
+                [nzValue]="project_manager_person.first_name+' '+project_manager_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.project_manager_person.dirty&&validateForm.controls.project_manager_person.hasError('required')">Please input your Project Manager Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Architect Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.architect_person">
+            <nz-select formControlName="architect_person" [(ngModel)]="editProject.architect_person" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let architect_person of architects" [nzLabel]="architect_person.first_name+' '+architect_person.last_name"
+                [nzValue]="architect_person.first_name+' '+architect_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.architect_person.dirty&&validateForm.controls.architect_person.hasError('required')">Please input your Architect Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Design Architect Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.design_architect_person">
+            <nz-select formControlName="design_architect_person" [(ngModel)]="editProject.design_architect_person" [nzSize]="'large'"
+              nzAllowClear>
+              <nz-option *ngFor="let design_architect_person of designArchitects" [nzLabel]="design_architect_person.first_name+' '+design_architect_person.last_name"
+                [nzValue]="design_architect_person.first_name+' '+design_architect_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.design_architect_person.dirty&&validateForm.controls.design_architect_person.hasError('required')">Please input your Design Architect Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Quantity Surveyor Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.quantity_surveyor_person">
+            <nz-select formControlName="quantity_surveyor_person" [(ngModel)]="editProject.quantity_surveyor_person" [nzSize]="'large'"
+              nzAllowClear>
+              <nz-option *ngFor="let quantity_surveyor_person of quantitySurveyors" [nzLabel]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name"
+                [nzValue]="quantity_surveyor_person.first_name+' '+quantity_surveyor_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.quantity_surveyor_person.dirty&&validateForm.controls.quantity_surveyor_person.hasError('required')">Please input your Quantity Surveyor Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>CS Engineer Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.cs_engineer_person">
+            <nz-select formControlName="cs_engineer_person" [(ngModel)]="editProject.cs_engineer_person" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let cs_engineer_person of consultantEngineers" [nzLabel]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name"
+                [nzValue]="cs_engineer_person.first_name+' '+cs_engineer_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.cs_engineer_person.dirty&&validateForm.controls.cs_engineer_person.hasError('required')">Please input your CS Engineer Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Service Engineer Person</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.service_engineer_person">
+            <nz-select formControlName="service_engineer_person" [(ngModel)]="editProject.service_engineer_person" [nzSize]="'large'"
+              nzAllowClear>
+              <nz-option *ngFor="let service_engineer_person of serviceEngineers" [nzLabel]="service_engineer_person.first_name+' '+service_engineer_person.last_name"
+                [nzValue]="service_engineer_person.first_name+' '+service_engineer_person.last_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.service_engineer_person.dirty&&validateForm.controls.service_engineer_person.hasError('required')">Please input your Service Engineer Person!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Main Contractor Company</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.main_contractor_company">
+            <nz-select formControlName="main_contractor_company" [(ngModel)]="editProject.main_contractor_company" [nzSize]="'large'"
+              nzAllowClear>
+              <nz-option *ngFor="let main_contractor_company of mainCompanies" [nzLabel]="main_contractor_company.company_name" [nzValue]="main_contractor_company.company_name">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.main_contractor_company.dirty&&validateForm.controls.main_contractor_company.hasError('required')">Please input your Main Contractor Company!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Subcontractors</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.subcontractors">
+            <nz-select formControlName="subcontractors" [nzMode]="'multiple'" [(ngModel)]="editProject.subcontractors" [nzSize]="'large'"
+              [nzNotFoundContent]="'Cannot find'">
+              <nz-option *ngFor="let subcontractors of subcontratorCompanies" [nzLabel]="subcontractors.company_name" [nzValue]="subcontractors.company_name"
+                [nzDisabled]="subcontractors.disabled">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.subcontractors.dirty&&validateForm.controls.subcontractors.hasError('required')">Please input your Subcontractors!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Suppliers</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.suppliers">
+            <nz-select formControlName="suppliers" [nzMode]="'multiple'" [(ngModel)]="editProject.suppliers" [nzSize]="'large'" [nzNotFoundContent]="'Cannot find'">
+              <nz-option *ngFor="let suppliers of supplierCompanies" [nzLabel]="suppliers.company_name" [nzValue]="suppliers.company_name"
+                [nzDisabled]="suppliers.disabled">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.suppliers.dirty&&validateForm.controls.suppliers.hasError('required')">Please input your Suppliers!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Contact Number</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contact_no">
+            <nz-input-number formControlName="contact_no" [(ngModel)]="editProject.contact_no" [nzPlaceHolder]="'Contact Number'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.contact_no.dirty&&validateForm.controls.contact_no.hasError('required')">Please input your Contact Number!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Company Email</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
+            <nz-input formControlName="company_email" [(ngModel)]="editProject.company_email" [nzPlaceHolder]="'Email Address'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">The input is not valid E-mail!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('required')">Please input your Company Email!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Fax Number</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
+            <nz-input-number formControlName="fax_no" [(ngModel)]="editProject.fax_no" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">Please input your Fax Number!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Project Country</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.project_country">
+            <nz-select formControlName="project_country" [(ngModel)]="editProject.project_country" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let project_country of project_countries" [nzLabel]="project_country.desc" [nzValue]="project_country.value">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.project_country.dirty&&validateForm.controls.project_country.hasError('required')">Please input your Project Country!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Site Possession</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.site_possession">
+            <nz-input formControlName="site_possession" [(ngModel)]="editProject.site_possession" [nzPlaceHolder]="'Site Possession'"
+              [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.site_possession.dirty&&validateForm.controls.site_possession.hasError('required')">Please input your Contact Number!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Completion Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.completion_date">
+            <nz-datepicker formControlName="completion_date" [(ngModel)]="editProject.completion_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Completion Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.completion_date.dirty&&validateForm.controls.completion_date.hasError('required')">Please input your Completion Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Contract Currency</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_currency">
+            <nz-select formControlName="contract_currency" [(ngModel)]="editProject.contract_currency" [nzSize]="'large'" nzAllowClear>
+              <nz-option *ngFor="let contract_currency of contract_currencies" [nzLabel]="contract_currency.desc" [nzValue]="contract_currency.value">
+              </nz-option>
+            </nz-select>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_currency.dirty&&validateForm.controls.contract_currency.hasError('required')">Please input your Contract Currency!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Contract Sum</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_sum">
+            <nz-input-number formControlName="contract_sum" [(ngModel)]="editProject.contract_sum" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_sum.dirty&&validateForm.controls.contract_sum.hasError('required')">Please input your Contract Sum!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Contract Duration Base</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_duration_base">
+            <nz-datepicker formControlName="contract_duration_base" [(ngModel)]="editProject.contract_duration_base" [nzSize]="'large'"
+              [nzPlaceHolder]="'Choose your Contract Duration Base'" style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_duration_base.dirty&&validateForm.controls.contract_duration_base.hasError('required')">Please input your Contract Duration Base!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Contract Duration Remaining</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.contract_duration_remaining">
+            <nz-datepicker formControlName="contract_duration_remaining" [(ngModel)]="editProject.contract_duration_remaining" [nzSize]="'large'"
+              [nzPlaceHolder]="'Choose your Contract Duration Remaining'" style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.contract_duration_remaining.dirty&&validateForm.controls.contract_duration_remaining.hasError('required')">Please input your Contract Duration Remaining!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Percentage Work Done</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_work_done">
+            <nz-input-number formControlName="pct_work_done" [(ngModel)]="editProject.pct_work_done" [nzPlaceHolder]="'Fax Number'" [nzSize]="'large'"
+              style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_work_done.dirty&&validateForm.controls.pct_work_done.hasError('required')">Please input your Percentage Work Done!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=24>
+          <div nz-form-label>
+            <label>Project Progress Remarks</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.remarks">
+            <div style="margin-top: 16px;">
+              <nz-input formControlName="remarks" [(ngModel)]="editProject.remarks" nzType="textarea" [nzAutosize]="autosize" [nzSize]="'large'"
+                nzPlaceHolder="Project Progress Remarks"></nz-input>
+            </div>
+            <div nz-form-explain *ngIf="validateForm.controls.remarks.dirty&&validateForm.controls.remarks.hasError('required')">Please input your Project Progress Remarks!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Site Issues</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.site_issues">
+            <nz-input formControlName="site_issues" [(ngModel)]="editProject.site_issues" [nzPlaceHolder]="'Site Issues'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.site_issues.dirty&&validateForm.controls.site_issues.hasError('required')">Please input your Site Issues!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Project Monitoring Description</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.desc">
+            <nz-input formControlName="desc" [(ngModel)]="editProject.desc" [nzPlaceHolder]="'Project Monitoring Descriptionn'" [nzSize]="'large'">
+            </nz-input>
+            <div nz-form-explain *ngIf="validateForm.controls.desc.dirty&&validateForm.controls.desc.hasError('required')">Please input your Project Monitoring Description!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Planned Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.planned_start_date">
+            <nz-datepicker formControlName="planned_start_date" [(ngModel)]="editProject.planned_start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Planned Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_start_date.dirty&&validateForm.controls.planned_start_date.hasError('required')">Please input your Planned Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Actual Start Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.actual_start_date">
+            <nz-datepicker formControlName="actual_start_date" [(ngModel)]="editProject.actual_start_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Actual Start Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_start_date.dirty&&validateForm.controls.actual_start_date.hasError('required')">Please input your Actual Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Planned End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.planned_end_date">
+            <nz-datepicker formControlName="planned_end_date" [(ngModel)]="editProject.planned_end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Planned End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_end_date.dirty&&validateForm.controls.planned_end_date.hasError('required')">Please input your Planned End Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.planned_end_date.dirty&&validateForm.controls.planned_end_date.hasError('expired')">Planned End Date must more than Planned Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Actual End Date</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.actual_end_date">
+            <nz-datepicker formControlName="actual_end_date" [(ngModel)]="editProject.actual_end_date" [nzSize]="'large'" [nzPlaceHolder]="'Choose your Actual End Date'"
+              style="width:100%;">
+            </nz-datepicker>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_end_date.dirty&&validateForm.controls.actual_end_date.hasError('required')">Please input your Actual End Date!</div>
+            <div nz-form-explain *ngIf="validateForm.controls.actual_end_date.dirty&&validateForm.controls.actual_end_date.hasError('expired')">Actual End Date must more than Actual Start Date!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Percentage Completed Planned</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_planned">
+            <nz-input-number formControlName="pct_completed_planned" [(ngModel)]="editProject.pct_completed_planned" [nzPlaceHolder]="'Percentage Completed Planned'"
+              [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_planned.dirty&&validateForm.controls.pct_completed_planned.hasError('required')">Please input your Percentage Completed Planned!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Percentage Completed Actual</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_actual">
+            <nz-input-number formControlName="pct_completed_actual" [(ngModel)]="editProject.pct_completed_actual" [nzPlaceHolder]="'Percentage Completed Actual'"
+              [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_actual.dirty&&validateForm.controls.pct_completed_actual.hasError('required')">Please input your Percentage Completed Actual!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=12>
+          <div nz-form-label>
+            <label>Percentage Completed One Week Target</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.pct_completed_1wktarget">
+            <nz-input-number formControlName="pct_completed_1wktarget" [(ngModel)]="editProject.pct_completed_1wktarget" [nzPlaceHolder]="'Percentage Completed One Week Target'"
+              [nzSize]="'large'" style="width:100%;">
+            </nz-input-number>
+            <div nz-form-explain *ngIf="validateForm.controls.pct_completed_1wktarget.dirty&&validateForm.controls.pct_completed_1wktarget.hasError('required')">Please input your Percentage Completed One Week Target!</div>
+          </div>
+        </div>
+
+        <div nz-form-item nz-col [nzSpan]=24>
+          <div nz-form-label>
+            <label>Project Monitoring Remarks</label>
+          </div>
+          <div nz-form-control [nzValidateStatus]="validateForm.controls.remark">
+            <div style="margin-top: 16px;">
+              <nz-input formControlName="remark" [(ngModel)]="editProject.remark" nzType="textarea" [nzAutosize]="autosize" [nzSize]="'large'"
+                nzPlaceHolder="Project Monitoring Remarks"></nz-input>
+            </div>
+            <div nz-form-explain *ngIf="validateForm.controls.remark.dirty&&validateForm.controls.remark.hasError('required')">Please input your Project Monitoring Remarks!</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #editFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="closeModal('editProjectModal')">
+      Cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()">
+      Save
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Add Person -->
+<nz-modal [nzVisible]="addPersonModal" [nzTitle]="addPersonTitle" [nzContent]="addPersonContent" [nzFooter]="addPersonFooter"
+  (nzOnCancel)="closeModal('addPersonModal')">
+  <ng-template #addPersonTitle>
+    Add Person
+  </ng-template>
+  <ng-template #addPersonContent>
+    <form nz-form [formGroup]="addPersonValidateForm">
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>First Name</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.first_name">
+          <nz-input formControlName="first_name" [(ngModel)]="personModel.first_name" [nzPlaceHolder]="'Your First Name'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.first_name.dirty&&addPersonValidateForm.controls.first_name.hasError('required')">Please input your First Name!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Last Name</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.last_name">
+          <nz-input formControlName="last_name" [(ngModel)]="personModel.last_name" [nzPlaceHolder]="'Your Last Name'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.last_name.dirty&&addPersonValidateForm.controls.last_name.hasError('required')">Please input your Last Name!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Job Title</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.job_title">
+          <nz-input formControlName="job_title" [(ngModel)]="personModel.job_title" [nzPlaceHolder]="'Your Job'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.job_title.dirty&&addPersonValidateForm.controls.job_title.hasError('required')">Please input your Job Title!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Postal Code</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.postal_code">
+          <nz-input-number formControlName="postal_code" [(ngModel)]="personModel.postal_code" [nzPlaceHolder]="'Postal Code'" [nzSize]="'large'"
+            style="width:100%;">
+          </nz-input-number>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.postal_code.dirty&&addPersonValidateForm.controls.postal_code.hasError('required')">Please input your Postal Code!</div>
+        </div>
+      </div>
+
+      <div nz-form-label>
+        <label>Address</label>
+      </div>
+      <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.address">
+        <nz-input formControlName="address" [(ngModel)]="personModel.address" [nzPlaceHolder]="'Your Address'" [nzSize]="'large'">
+        </nz-input>
+        <div nz-form-explain *ngIf="addPersonValidateForm.controls.address.dirty&&addPersonValidateForm.controls.address.hasError('required')">Please input your Address!</div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>City</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.city">
+          <nz-select formControlName="city" [(ngModel)]="personModel.city" nzAllowClear>
+            <nz-option *ngFor="let city of cities" [nzLabel]="city.desc" [nzValue]="city.value">
+            </nz-option>
+          </nz-select>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.city.dirty&&addPersonValidateForm.controls.city.hasError('required')">Please input your City!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Contact Number</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.contact_no">
+          <nz-input-number formControlName="contact_no" [(ngModel)]="personModel.contact_no" [nzPlaceHolder]="'Contact Number'" [nzSize]="'large'"
+            style="width:100%;">
+          </nz-input-number>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.contact_no.dirty&&addPersonValidateForm.controls.contact_no.hasError('required')">Please input your Contact Number!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Email</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.email">
+          <nz-input formControlName="email" [(ngModel)]="personModel.email" [nzPlaceHolder]="'Email Address'" [nzSize]="'large'">
+          </nz-input>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.email.dirty&&addPersonValidateForm.controls.email.hasError('email')">The input is not valid E-mail!</div>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.email.dirty&&addPersonValidateForm.controls.email.hasError('required')">Please input your Company Email!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>BirthDay</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.dateOfBirth">
+          <nz-datepicker formControlName="dateOfBirth" [(ngModel)]="personModel.dateOfBirth" [nzSize]="'large'" [nzPlaceHolder]="'Choose your birthday'"
+            style="width: 100%;"></nz-datepicker>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.dateOfBirth.dirty&&addPersonValidateForm.controls.dateOfBirth.hasError('required')">Please input your birthday!</div>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.dateOfBirth.dirty&&addPersonValidateForm.controls.dateOfBirth.hasError('expired')">Birthday must less than today!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Provider Type</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.provider_type">
+          <nz-select formControlName="provider_type" [(ngModel)]="personModel.provider_type" nzAllowClear>
+            <nz-option *ngFor="let provider_type of provider_types" [nzLabel]="provider_type.desc" [nzValue]="provider_type.value">
+            </nz-option>
+          </nz-select>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.provider_type.dirty&&addPersonValidateForm.controls.provider_type.hasError('required')">Please input your Provider Type!</div>
+        </div>
+      </div>
+
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Gender</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addPersonValidateForm.controls.gender">
+          <nz-select formControlName="gender" [(ngModel)]="personModel.gender" nzAllowClear>
+            <nz-option *ngFor="let gender of genders" [nzLabel]="gender.desc" [nzValue]="gender.value">
+            </nz-option>
+          </nz-select>
+          <div nz-form-explain *ngIf="addPersonValidateForm.controls.gender.dirty&&addPersonValidateForm.controls.gender.hasError('required')">Please input your Gender!</div>
+        </div>
+      </div>
+
+    </form>
+  </ng-template>
+  <ng-template #addPersonFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="closeModal('addPersonModal')">
+      cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!addPersonValidateForm.valid" (click)="personOnSubmit()">
+      Submit
+    </button>
+  </ng-template>
+</nz-modal>
+
+<!-- Add Company -->
+<nz-modal [nzVisible]="addCompanyModal" [nzTitle]="'Add Company'" [nzContent]="addForm" (nzOnCancel)="closeModal('addCompanyModal')" (nzOnOk)="companyOnSubmit()">
+  <ng-template #addForm>
+    <h3>Company Detail</h3>
+    <form nz-form [formGroup]="addCompanyValidateForm">
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>Name</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_name">
+          <nz-input formControlName="company_name" [nzSize]="'large'" [(ngModel)]="companyModel.company_name">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_name.dirty&&addCompanyValidateForm.controls.company_name.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>company_reg_no</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_reg_no">
+          <nz-input formControlName="company_reg_no" [nzSize]="'large'" [(ngModel)]="companyModel.company_reg_no">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_reg_no.dirty&&addCompanyValidateForm.controls.company_reg_no.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>country_origin</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.country_origin">
+          <nz-select [(ngModel)]="companyModel.country_origin" [ngModelOptions]="{standalone: true}">
+            <nz-option *ngFor="let country_origin of country_origins" [nzLabel]="country_origin.label" [nzValue]="country_origin.value">
+            </nz-option>
+          </nz-select>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.country_origin.dirty&&addCompanyValidateForm.controls.country_origin.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>company_type</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_type">
+          <nz-select [(ngModel)]="companyModel.company_type" [ngModelOptions]="{standalone: true}">
+            <nz-option *ngFor="let company_type of company_types" [nzLabel]="company_type.value" [nzValue]="company_type.desc">
+            </nz-option>
+          </nz-select>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_type.dirty&&addCompanyValidateForm.controls.company_type.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>address_1</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_1">
+          <nz-input formControlName="address_1" [nzSize]="'large'" [(ngModel)]="companyModel.address_1">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_1.dirty&&addCompanyValidateForm.controls.address_1.hasError('required')">Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_2">
+          <nz-input formControlName="address_2" [nzSize]="'large'" [(ngModel)]="companyModel.address_2">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_2.dirty&&addCompanyValidateForm.controls.address_2.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.address_3">
+          <nz-input formControlName="address_3" [nzSize]="'large'" [(ngModel)]="companyModel.address_3">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.address_3.dirty&&addCompanyValidateForm.controls.address_3.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>postal_code</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.postal_code">
+          <nz-input formControlName="postal_code" [nzSize]="'large'" [(ngModel)]="companyModel.postal_code">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.postal_code.dirty&&addCompanyValidateForm.controls.postal_code.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>city</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.city">
+          <nz-input formControlName="city" [nzSize]="'large'" [(ngModel)]="companyModel.city">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.city.dirty&&addCompanyValidateForm.controls.city.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <br>
+      <h4>Company Contact</h4>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>phone_no</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.phone_no">
+          <nz-input formControlName="phone_no" [nzSize]="'large'" [(ngModel)]="companyModel.phone_no">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.phone_no.dirty&&addCompanyValidateForm.controls.phone_no.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>company_email</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.company_email">
+          <nz-input formControlName="company_email" [nzSize]="'large'" [(ngModel)]="companyModel.company_email">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.company_email.dirty&&addCompanyValidateForm.controls.company_email.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label>fax_no</label>
+        </div>
+        <div nz-form-control [nzValidateStatus]="addCompanyValidateForm.controls.fax_no">
+          <nz-input formControlName="fax_no" [nzSize]="'large'" [(ngModel)]="companyModel.fax_no">
+          </nz-input>
+          <div nz-form-explain *ngIf="addCompanyValidateForm.controls.fax_no.dirty&&addCompanyValidateForm.controls.fax_no.hasError('required')">
+            Please input your username!</div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</nz-modal>

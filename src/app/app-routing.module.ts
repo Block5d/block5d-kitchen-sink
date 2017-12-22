@@ -3,10 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegUserComponent } from './reg-user/reg-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
-import { CodeManagementComponent } from './code-management/code-management.component';
-import { OrgChartComponent } from './org-chart/org-chart.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
-import { UserGroupComponent } from './user-group/user-group.component';
+import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
+import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -16,11 +15,13 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
-import { CodeManagementV2Component } from './code-management-v2/code-management-v2.component';
-import { ProjectManagementV2Component} from './project-management-v2/project-management-v2.component';
 import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { WebformComponent } from './webform/webform.component'
 
+import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
+import { CodeManagementComponent } from './code-management/code-management.component';
+import { OrgChartComponent } from './org-chart/org-chart.component';
+import { WebformTextFieldComponent } from './webform-modal/webform-text-field/webform-text-field.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
 const CONFIGURATION: string = 'Configuration';
@@ -59,15 +60,7 @@ const routes: Routes = [
         component: CodeManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Code Management"
-        }
-      },
-      {
-        path: 'codeManagementV2',
-        component: CodeManagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: 'Code Management V2'
+          breadcrumb: 'Code Management'
         }
       },
       {
@@ -75,7 +68,7 @@ const routes: Routes = [
         component: OrgChartComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Organization Chart"
+          breadcrumb: 'Organization Chart'
         }
       },
       {
@@ -83,15 +76,23 @@ const routes: Routes = [
         component: CompanymanagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Company Management"
+          breadcrumb: 'Company Management'
         }
       },
       {
-        path: 'user-group',
-        component: UserGroupComponent,
+        path: 'company-managementv2',
+        component: CompanymanagementV2Component,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "User Group"
+          breadcrumb: 'Company Management'
+        }
+      },
+      {
+        path: 'user-group-v2',
+        component: UserGroupV2Component,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: 'User Group'
         }
       },
       {
@@ -99,23 +100,23 @@ const routes: Routes = [
         component: WorkflowComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Workflow"
+          breadcrumb: 'Workflow'
         }
       },
       {
         path: 'c-input',
         component: ParentComponentComponent,
         data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Component Interaction (@Input)"
+          group: CONFIGURATION,
+          breadcrumb: 'Component Interaction (@Input)'
         }
       },
       {
         path: 'vote-user',
         component: VoteUserComponent,
         data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "like & Dislike User (@Output)"
+          group: CONFIGURATION,
+          breadcrumb: 'like & Dislike User (@Output)'
         }
       },
       {
@@ -123,7 +124,7 @@ const routes: Routes = [
         component: ProjectSubmissionComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Submission"
+          breadcrumb: 'Project Submission'
         }
       },
       {
@@ -131,7 +132,7 @@ const routes: Routes = [
         component: PersonManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Person Management"
+          breadcrumb: 'Person Management'
         }
       },
       {
@@ -139,15 +140,7 @@ const routes: Routes = [
         component: ProjectManagementComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Management"
-        }
-      },
-      {
-        path: 'pro-mana-2',
-        component:ProjectManagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Project Management 2"
+          breadcrumb: 'Project Management'
         }
       },
       {
@@ -155,30 +148,36 @@ const routes: Routes = [
         component: ProjectMembersComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: "Project Members"
-        }
-      },
-      {
-        path: 'pro-mem-2',
-        component: ProjectMembersV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Project Members 2"
+          breadcrumb: 'Project Members'
         }
       },
       {
         path: 'upload-firebase',
         component: UploadtoFireStoreComponent,
         data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Upload to Firebase Storage"
+          group: CONFIGURATION,
+          breadcrumb: 'Upload to Firebase Storage'
         }
       },
       {
         path: 'upload-s3', component: UploadtoS3Component,
         data: {
-          group: PROJECT_SETUP,
-          breadcrumb: "Upload to AWS S3"
+          group: CONFIGURATION,
+          breadcrumb: 'Upload to AWS S3'
+        }
+      },
+      {
+        path: 'upload-local', component: UploadtoLocalComponent,
+        data: {
+          group: CONFIGURATION,
+          breadcrumb: 'Upload to Local Storage'
+        }
+      },
+      {
+        path: 'webform-textfield', component: WebformTextFieldComponent,
+        data: {
+          group: CONFIGURATION,
+          breadcrumb: "Webform TextField"
         }
       },
       {

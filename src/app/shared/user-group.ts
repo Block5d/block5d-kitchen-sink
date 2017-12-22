@@ -3,7 +3,7 @@ export class UserGroup {
     constructor(
         public project_id: string,
         public group_name: string,
-        public members:Array<string>,
+        public members:string,
         public createdAt:Date,
         public modifiedAt:Date
     ){

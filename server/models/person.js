@@ -11,15 +11,7 @@ module.exports = mongoose.model('person', {
     dateOfBirth: Date,
     gender: String,
     postal_code:Number,
-    address: {
-        type: String,
-        validate: {
-          validator: function(v) {
-            return v.length > 6;
-          },
-          message: '{VALUE} must be more than 6 chars!'
-        }
-      },
+    address: String,
     city: String,
     provider_type: String,
     firebase_user_uid:String,

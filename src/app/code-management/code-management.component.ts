@@ -1,117 +1,100 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CodeManaService } from '../services/code-mana.service';
-import { AddCodeMana, SearchCodeMana, AddCategory } from '../shared/code-mana';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { AddCodeMana, AddCategory } from '../shared/code-mana';
 
 @Component({
   selector: 'app-code-management',
   templateUrl: './code-management.component.html',
   styleUrls: ['./code-management.component.css']
 })
-
 export class CodeManagementComponent implements OnInit {
-  categorymodel= false; codemodel= false; editcodemodel= false;
-  searchcode = new SearchCodeMana('', 'Code');
-  codenum: number;
-  searchtype = [{label: 'Code', value: 'Code'},
-    {label: 'Code Desc.', value: 'CodeDesc'},
-    {label: 'Category Desc.', value: 'CateDesc'},
-    {label: 'Category Code', value: 'CateCode'}];
-  addcategory = new AddCategory('', '', true);
-  addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
-  editcode = new AddCodeMana(null, '', '', null, '', '', null, null, null, '', '', '');
-  private resultcode: Observable<AddCodeMana[]>;
+  categorymodel = false; codemodel = false; editcodemodel = false; isJSON = true; isObject = true; CodeString; categoryCodeString;
+  searchtype = [{ label: 'Code', value: 'Code' },
+  { label: 'Code Desc.', value: 'CodeDesc' },
+  { label: 'Category Desc.', value: 'CateDesc' },
+  { label: 'Category Code', value: 'CateCode' }];
+  addcategory = new AddCategory('', null, true); selectcategory = null; jsonlist;
+  addcode = new AddCodeMana(null, { code_desc: null, code: null },
+    { categoryDesc: null, categoryCode: null }, true, new Date(), new Date(), '', '', '');
+  editcode = new AddCodeMana(null, { code_desc: null, code: null },
+    { categoryDesc: null, categoryCode: null }, null, null, null, '', '', '');
+  private resultcode: Observable<AddCategory[]>;
   private category: Observable<AddCategory[]>;
   constructor(
-    private modalService: BsModalService,
-    private codemanaservice: CodeManaService,
-    private toastyService: ToastyService,
-    private toastyConfig: ToastyConfig
+    private codemanaservice: CodeManaService
   ) {
+    this.resultcode = this.codemanaservice.searchcategory(null);
   }
+
   ngOnInit() {
+  }
+  selectChange(obj) {
+    let sth = JSON.parse(JSON.stringify(obj.categoryCode));
+    console.log(this.selectcategory);
+    this.jsonlist = {};
+    this.jsonlist = obj.categoryCode;
   }
   getcategory() {
     this.category = this.codemanaservice.getcategroy();
   }
   closeModal(template) {
     switch (template) {
-      case 'categorymodel' :
-      this.categorymodel = false; break;
-      case 'codemodel' :
-      this.codemodel = false; break;
-      case 'editmodel' :
-      this.editcodemodel = false; console.log(this.editcodemodel);  break;
+      case 'categorymodel':
+        this.categorymodel = false; break;
+      case 'codemodel':
+        this.codemodel = false; break;
+      case 'editmodel':
+        this.editcodemodel = false; console.log(this.editcodemodel); break;
     }
   }
   openModal(template) {
     console.log(template);
     switch (template) {
-      case 'categorymodel' :
-      this.categorymodel = true; break;
-      case 'codemodel' :
-      this.getcategory();
-      this.codemodel = true; break;
+      case 'categorymodel':
+        this.categorymodel = true; break;
+      case 'codemodel':
+        this.getcategory();
+        this.codemodel = true; break;
     }
   }
   delete(result) {
     this.codemanaservice.deletecode(result).subscribe();
-    this.resultcode = this.codemanaservice.searchcode(null);
-  }
-  search() {
-    this.resultcode = this.codemanaservice.searchcode(this.searchcode);
+    this.resultcode = this.codemanaservice.searchcategory(null);
   }
   edit(result) {
     this.editcodemodel = true;
     this.editcode = result;
-    this.editcode.categoryCode = result.category_details.categoryCode;
-    this.editcode.categoryDesc = result.category_details.categoryDesc;
-    this.editcode.code = result.code_details.code;
-    this.editcode.code_desc = result.code_details.code_desc ;
-    this.editcode.is_category = result.category_details.is_category;
     this.editcode.modified_date = new Date();
   }
   saveeditcode() {
     this.editcode.modified_date = new Date();
+    console.log(this.editcode);
     this.codemanaservice.updatecode(this.editcode).subscribe();
-    this.resultcode = this.codemanaservice.searchcode(null);
+    this.resultcode = this.codemanaservice.searchcategory(null);
     this.editcodemodel = false;
   }
   savecategory() {
+    console.log(this.isJSON);
+    if (this.isJSON) {
+      this.addcategory.categoryCode = new Array(JSON.parse(this.categoryCodeString));
+    } else {
+      this.addcategory.categoryCode = this.categoryCodeString.split(',');
+    }
     console.log(this.addcategory);
-    this.codemanaservice.addcategory(this.addcategory).subscribe();
-    this.categorymodel = false;
+    this.codemanaservice.addcategory(this.addcategory).subscribe(result => {
+      this.categorymodel = false;
+      this.addcategory = new AddCategory('', null, true);
+      this.resultcode = this.codemanaservice.searchcategory(null);
+    });
   }
   saveaddcode() {
-    this.addcode._id = this.codenum;
-    this.codemanaservice.addcode(this.addcode)
-      .subscribe(user => {
-        console.log(user);
-        this.addSuccessToast('Successfully added', `Added ${this.addcode.code}`);
-      });
-    this.resultcode = this.codemanaservice.searchcode(null);
-    this.addcode = new AddCodeMana(null, '', '', null, '', '', true, new Date(), new Date(), '', '', '');
-    this.codemodel = false;
+    console.log(this.addcode);
+    this.codemanaservice.addcode(this.addcode).subscribe(result => {
+      this.resultcode = this.codemanaservice.searchcategory(null);
+      this.codemodel = false;
+      this.addcode = new AddCodeMana(null, { code_desc: null, code: null },
+        { categoryDesc: null, categoryCode: null }, true, new Date(), new Date(), '', '', '');
+    });
   }
-  addSuccessToast(title, msg) {
-    var toastOptions: ToastOptions = {
-      title: title,
-      msg: msg,
-      showClose: true,
-      timeout: 1500,
-      theme: 'bootstrap',
-      onAdd: (toast: ToastData) => {
-        console.log('Toast ' + toast.id + ' has been added!');
-      },
-      onRemove: function (toast: ToastData) {
-        console.log('Toast ' + toast.id + ' has been removed!');
-      }
-    };
-    this.toastyService.success(toastOptions);
-  }
-
-
 }

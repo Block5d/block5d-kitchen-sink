@@ -22,38 +22,31 @@ export class PersonManagementService {
     private toastyConfig: ToastyConfig
   ) { }
 
-  public savePersonSubmission(person) {
+  public savePerson(person) {
     console.log(person.contact)
     return this.httpClient.post(this.personURL, person, httpOptions)
-      .pipe(catchError(this.handleError<PersonManagement>('addUser')))
+      .pipe(catchError(this.handleError<PersonManagement>('addPerson')))
   };
 
-
-  public getAllUsers(url) {
-    var getURL = this.personURL;
-    if (url) {
-      getURL = url;
-    }
+  public getAllPersons(smodel) : Observable<PersonManagement[]> {
+    var getURL = `${this.personURL}?keyword=${smodel.keyword}&type=${smodel.type}&currentPerPage=${smodel.currentPerPage}&itemsPerPage=${smodel.itemsPerPage}`;
+    console.log(getURL);
     return this.httpClient.get<PersonManagement[]>(getURL, httpOptions)
-      .pipe(catchError(this.handleError<PersonManagement[]>('getPersons')))
+      .pipe(catchError(this.handleError<PersonManagement[]>('getPersons')));
+
   }
 
-  public searchUsers(keyword, type) {
-    return this.getAllUsers(this.personURL + '?keyword=' + keyword + '&type=' + type);
-  }
-
-
-  public updateUser(person) {
+  public updatePerson(person) {
     console.log('service running......')
     return this.httpClient.put(this.personURL, person, httpOptions)
-      .pipe(catchError(this.handleError<PersonManagement>('updateUser')))
+      .pipe(catchError(this.handleError<PersonManagement>('updatePerson')))
   };
 
 
-  public deleteUser(person) {
+  public deletePerson(person) {
     let deleteParams = new HttpParams().set('_id', person._id);
     return this.httpClient.delete<PersonManagement>(this.personURL, { params: deleteParams })
-      .pipe(catchError(this.handleError<PersonManagement>('deleteUser')))
+      .pipe(catchError(this.handleError<PersonManagement>('deletePerson')))
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

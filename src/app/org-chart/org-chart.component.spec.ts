@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrgChartComponent } from './org-chart.component';
+import { OrgChartV2Component } from './org-chart.component';
 
-describe('OrgChartComponent', () => {
-  let component: OrgChartComponent;
-  let fixture: ComponentFixture<OrgChartComponent>;
+describe('OrgChartV2Component', () => {
+  let component: OrgChartV2Component;
+  let fixture: ComponentFixture<OrgChartV2Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrgChartComponent ]
+      declarations: [ OrgChartV2Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgChartComponent);
+    fixture = TestBed.createComponent(OrgChartV2Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

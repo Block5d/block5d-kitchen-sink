@@ -16,13 +16,14 @@ export class CodeManaService {
   constructor(private httpClient: HttpClient,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig) { }
-  searchcode(option) {
+  searchcategory(option) {
     if (option === null || option.keyword === '') {
-      return this.httpClient.get<AddCodeMana[]>(this.addcodeurl, httpOptions);
+      // return this.httpClient.get<AddCodeMana[]>(this.addcodeurl, httpOptions);
+      return this.httpClient.get<AddCategory[]>(this.addcategroy, httpOptions);
     }else {
       let url = `${this.addcodeurl}?keywork=${option.keyword}&type=${option.type}`;
       console.log(url);
-      return this.httpClient.get<AddCodeMana[]>(url, httpOptions);
+      return this.httpClient.get<AddCategory[]>(url, httpOptions);
     }
   }
   getcategroy() {

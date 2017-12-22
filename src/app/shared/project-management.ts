@@ -1,5 +1,6 @@
 export class ProjectManagement{
     constructor(
+        public _id:string,
         public name:string,
         public start_date:Date,
         public end_date:Date,
@@ -11,7 +12,7 @@ export class ProjectManagement{
         public cs_engineer_person:string,
         public service_engineer_person:string,
         public main_contractor_company:string,
-        public subcontractors:Array<number>,
+        public subcontractors:Array<string>,
         public suppliers:Array<string>,
         public contact_no:number,
         public company_email:string,

@@ -1,0 +1,385 @@
+<div class="jumbotron">
+  <form #searchUserForm="ngForm"  novalidate class="row">
+    <div class="input-group col-lg-11">
+      <nz-input [(ngModel)]="searchcondition.keyword"  name="keyword" 
+      [nzPlaceHolder]="'Basic usage'" (ngModelChange)="onChange($event)"></nz-input>
+      <nz-select style="width: 120px;" [(ngModel)]="selectedOption" 
+      [(ngModel)]="searchcondition.condition" [ngModelOptions]="{standalone: true}" >
+          <nz-option
+            *ngFor="let condition of conditions"
+            [nzLabel]="condition.label"
+            [nzValue]="condition">
+          </nz-option>
+      </nz-select>
+    <div class="col-lg-4">
+        <button nz-button [nzType]="'primary'" (click)="onSearch(company)">
+          <i class="anticon anticon-search"></i><span>Search</span>
+        </button>
+        <button nz-button [nzType]="'primary'" (click)="add()">
+            <span>Add</span>
+        </button>
+    </div>
+    </div>
+  </form>
+</div>
+
+<nz-table *ngIf="( companies | async)?.length > 0" class="table">
+  <thead nz-thed>
+    <tr>
+      <th nz-th>#</th>
+      <th nz-th>Name</th>
+      <th nz-th>Registration No.</th>
+      <th nz-th>Type</th>
+      <th nz-th>Country</th>
+      <th nz-th>Created Date</th>
+      <th nz-th>Updated Date</th>
+      <th nz-th>Action</th>
+    </tr>
+  </thead>
+  <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let company of companies | async">
+      <td nz-td scope="row">{{company._id}}</td>
+      <td nz-td>{{company.company_name}}</td>
+      <td nz-td>{{company.company_reg_no}}</td>
+      <td nz-td>{{company.company_type}}</td>
+      <td nz-td>{{company.country_origin}}</td>
+      <td nz-td>{{company.created_date  | date:medium}}</td>
+      <td nz-td>{{company.modified_date  | date:medium}}</td>
+      <td nz-td>
+        <button nz-button [nzType]="'primary'" (click)="edit(company)" >
+            <i class="anticon anticon-edit"></i>
+      </button>
+        <button nz-button [nzType]="'danger'" (click)="onDelete(company)">
+            <i class="anticon anticon-delete"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<nz-modal [nzVisible]="addform" [nzTitle]="'Add Company'" [nzContent]="addForm" [nzFooter]="modalFooter" (nzOnCancel)="cancel($event)">
+  <ng-template #addForm>
+      <h3>Company Detail</h3>
+      <form nz-form [formGroup]="validateForm">
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label >Name</label>
+                </div>
+            <div nz-form-control [nzValidateStatus]="validateForm.controls.company_name">
+                <nz-input formControlName="company_name"  [nzSize]="'large'"  [(ngModel)]="model.company_name">
+                </nz-input>
+              <div nz-form-explain *ngIf="validateForm.controls.company_name.dirty&&validateForm.controls.company_name.hasError('required')">Please input your company_name!</div>
+            </div>
+          </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_reg_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_reg_no">
+                <nz-input formControlName="company_reg_no"  [nzSize]="'large'"  [(ngModel)]="model.company_reg_no">
+                </nz-input>
+                <div nz-form-explain *ngIf="validateForm.controls.company_reg_no.dirty&&validateForm.controls.company_reg_no.hasError('required')">Please input your company_reg_no!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>country_origin</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.country_origin">
+                  <nz-select formControlName="country_origin"
+                  [(ngModel)]="model.country_origin"  >
+                      <nz-option
+                        *ngFor="let country_origin of country_origins"
+                        [nzLabel]="country_origin.label"
+                        [nzValue]="country_origin.value">
+                      </nz-option>
+                  </nz-select>
+                <div nz-form-explain *ngIf="validateForm.controls.country_origin.dirty&&validateForm.controls.country_origin.hasError('required')">Please input your country_origin!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_type</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_type">
+                  <nz-select 
+                  [(ngModel)]="model.company_type"  formControlName="company_type" >
+                      <nz-option
+                        *ngFor="let company_type of company_types"
+                        [nzLabel]="company_type.value"
+                        [nzValue]="company_type.desc">
+                      </nz-option>
+                  </nz-select>
+                <div nz-form-explain *ngIf="validateForm.controls.company_type.dirty&&validateForm.controls.company_type.hasError('required')">Please input your company_type!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>address_1</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_1">
+                <nz-input formControlName="address_1" [nzSize]="'large'" [(ngModel)]="model.address_1">
+                </nz-input>
+                <div nz-form-explain *ngIf="validateForm.controls.address_1.dirty&&validateForm.controls.address_1.hasError('required')">Please input your address_1!</div>
+              </div>
+            </div> 
+          <div nz-form-item>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_2">
+                <nz-input formControlName="address_2" [nzSize]="'large'" [(ngModel)]="model.address_2">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.address_2.dirty&&validateForm.controls.address_2.hasError('required')">
+                  Please input your address_2!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_3">
+                <nz-input formControlName="address_3"  [nzSize]="'large'" [(ngModel)]="model.address_3">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.address_3.dirty&&validateForm.controls.address_3.hasError('required')">
+                  Please input your address_3!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>postal_code</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.postal_code">
+                <nz-input-number formControlName="postal_code" [(ngModel)]="model.postal_code"  [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.postal_code.dirty&&validateForm.controls.postal_code.hasError('required')">
+                  Please input your postal_code!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>city</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.city">
+                <nz-input formControlName="city" [nzSize]="'large'" [(ngModel)]="model.city">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.city.dirty&&validateForm.controls.city.hasError('required')">
+                  Please input your city!</div>
+              </div>
+            </div>
+            <br>
+            <h4>Company Contact</h4>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>phone_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.phone_no">
+                <nz-input-number formControlName="phone_no" [(ngModel)]="model.phone_no" [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.phone_no.dirty&&validateForm.controls.phone_no.hasError('required')">
+                  Please input your phone_no!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_email</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
+                <nz-input formControlName="company_email"  [nzSize]="'large'"  [(ngModel)]="model.company_email">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('required')">
+                  Please input your company_email!</div>
+                  <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">Please input your Company Email!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>fax_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
+                <nz-input-number formControlName="fax_no" [(ngModel)]="model.fax_no"  [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">
+                  Please input your fax_no!</div>
+              </div>
+            </div>
+      </form>
+  </ng-template>
+  <ng-template #modalFooter>
+      <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+       cancel
+      </button>
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onSubmit()">
+       submit
+      </button>
+  </ng-template>
+</nz-modal>
+
+
+
+<nz-modal [nzVisible]="editform" [nzTitle]="'Edit Company'" [nzContent]="editForm" [nzFooter]="editModalFooter" (nzOnCancel)="editCancel($event)">
+  <ng-template #editForm>
+      <h4>Edit Company</h4>
+      <form nz-form [formGroup]="validateForm">
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>Name</label>
+                </div>
+            <div nz-form-control [nzValidateStatus]="validateForm.controls.company_name">
+              <nz-input formControlName="company_name"  [nzSize]="'large'"  [(ngModel)]="editCompany.company_name">
+              </nz-input>
+              <div nz-form-explain *ngIf="validateForm.controls.company_name.dirty&&validateForm.controls.company_name.hasError('required')">Please input your company_name!</div>
+            </div>
+          </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_reg_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_reg_no">
+                <nz-input formControlName="company_reg_no"  [nzSize]="'large'"  [(ngModel)]="editCompany.company_reg_no">
+                </nz-input>
+                <div nz-form-explain *ngIf="validateForm.controls.company_reg_no.dirty&&validateForm.controls.company_reg_no.hasError('required')">Please input your company_reg_no!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>country_origin</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.country_origin">
+                  <nz-select 
+                  [(ngModel)]="editCompany.country_origin"  formControlName="country_origin" >
+                      <nz-option
+                        *ngFor="let country_origin of country_origins"
+                        [nzLabel]="country_origin.label"
+                        [nzValue]="country_origin.value">
+                      </nz-option>
+                  </nz-select>
+                <div nz-form-explain *ngIf="validateForm.controls.country_origin.dirty&&validateForm.controls.country_origin.hasError('required')">Please input your country_origin!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_type</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_type">
+                  <nz-select 
+                  [(ngModel)]="editCompany.company_type"  formControlName="company_type" >
+                      <nz-option
+                        *ngFor="let company_type of company_types"
+                        [nzLabel]="company_type.value"
+                        [nzValue]="company_type.desc">
+                      </nz-option>
+                  </nz-select>
+                <div nz-form-explain *ngIf="validateForm.controls.company_type.dirty&&validateForm.controls.company_type.hasError('required')">Please input your company_type!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>address_1</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_1">
+                <nz-input formControlName="address_1" [nzSize]="'large'" [(ngModel)]="editCompany.address_1">
+                </nz-input>
+                <div nz-form-explain *ngIf="validateForm.controls.address_1.dirty&&validateForm.controls.address_1.hasError('required')">Please input your address_1!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_2">
+                <nz-input formControlName="address_2" [nzSize]="'large'" [(ngModel)]="editCompany.address_2">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.address_2.dirty&&validateForm.controls.address_2.hasError('required')">
+                  Please input your address_2!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.address_3">
+                <nz-input formControlName="address_3"  [nzSize]="'large'" [(ngModel)]="editCompany.address_3">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.address_3.dirty&&validateForm.controls.address_3.hasError('required')">
+                  Please input your address_3!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>postal_code</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.postal_code">
+                <nz-input-number formControlName="postal_code" [(ngModel)]="model.postal_code"  [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.postal_code.dirty&&validateForm.controls.postal_code.hasError('required')">
+                  Please input your postal_code!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>city</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.city">
+                <nz-input formControlName="city" [nzSize]="'large'" [(ngModel)]="editCompany.city">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.city.dirty&&validateForm.controls.city.hasError('required')">
+                  Please input your city!</div>
+              </div>
+            </div>
+            <br>
+            <h4>Company Contact</h4>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>phone_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.phone_no">
+                <nz-input-number formControlName="phone_no" [(ngModel)]="model.phone_no"  [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.phone_no.dirty&&validateForm.controls.phone_no.hasError('required')">
+                  Please input your phone_no!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>company_email</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.company_email">
+                <nz-input formControlName="company_email"  [nzSize]="'large'"  [(ngModel)]="editCompany.company_email">
+                </nz-input>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('required')">
+                  Please input your company_email!</div>
+                  <div nz-form-explain *ngIf="validateForm.controls.company_email.dirty&&validateForm.controls.company_email.hasError('email')">Please input your Company Email!</div>
+              </div>
+            </div>
+          <div nz-form-item>
+              <div nz-form-label>
+                  <label>fax_no</label>
+                </div>
+              <div nz-form-control [nzValidateStatus]="validateForm.controls.fax_no">
+                <nz-input-number formControlName="fax_no" [(ngModel)]="model.fax_no"  [nzMin]="0" 
+                [nzSize]="'large'" style="width:100%;">
+                </nz-input-number>
+                <div nz-form-explain 
+                *ngIf="validateForm.controls.fax_no.dirty&&validateForm.controls.fax_no.hasError('required')">
+                  Please input your fax_no!</div>
+              </div>
+            </div>
+      </form>
+  </ng-template>
+  <ng-template #editModalFooter>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="cancel($event)">
+     cancel
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" (click)="onEdit()">
+     submit
+    </button>
+</ng-template>
+</nz-modal>
+
