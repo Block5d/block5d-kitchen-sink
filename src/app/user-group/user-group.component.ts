@@ -20,12 +20,12 @@ import 'rxjs/add/operator/switchMap';
 import { environment } from '../../environments/environment';
 import * as _ from 'lodash';
 @Component({
-  selector: 'app-user-group-v2',
-  templateUrl: './user-group-v2.component.html',
-  styleUrls: ['./user-group-v2.component.css'],
+  selector: 'app-user-group',
+  templateUrl: './user-group.component.html',
+  styleUrls: ['./user-group.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserGroupV2Component implements OnInit {
+export class UserGroupComponent implements OnInit {
   private groups : Observable<UserGroup[]>;
   model = new UserGroup('','',null,null,null);
   searchcondition = new UserGroupSearch('','project_id');
