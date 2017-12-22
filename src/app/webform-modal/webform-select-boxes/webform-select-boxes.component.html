@@ -23,7 +23,7 @@
               <label>Values {{i+1}}</label>
             </div>
             <div nz-form-control>
-              <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Description'" formControlName="desc">
+              <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Description'" formControlName="label">
               </nz-input>
               <nz-input style="width: 40%; margin-right:8px;" [nzSize]="'large'" [nzPlaceHolder]="'Value'" formControlName="value">
               </nz-input>
@@ -43,7 +43,7 @@
       <ng-template #nzTabHeading>
         Validation
       </ng-template>
-
+      <!-- Edit Validation Here -->
 
     </nz-tab>
 
@@ -57,9 +57,8 @@
         <label>{{selectBoxesModel.label}}</label>
       </div>
       <div nz-form-control>
-        <label nz-checkbox [(ngModel)]="selectBoxes" *ngFor="let selectBoxesData of dataArray.controls">
-          <span>{{selectBoxesData.value.desc}}</span>
-        </label>
+        <nz-checkbox-group [(ngModel)]="dataArray.value">
+        </nz-checkbox-group>
       </div>
     </div>
 

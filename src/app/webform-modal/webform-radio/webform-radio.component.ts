@@ -11,6 +11,7 @@ export class WebformRadioComponent implements OnInit {
 
   radioModel = new WebformRadio('');
   radioForm:FormGroup;
+  radioValue:string;
 
   constructor(
     private fb:FormBuilder
