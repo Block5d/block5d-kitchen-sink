@@ -8,8 +8,15 @@
         <label>Label</label>
       </div>
       <div nz-form-control>
-        <nz-input name="label" [(ngModel)]="textFieldModel.label" [nzPlaceHolder]="'Field Label'" [nzSize]="'large'">
-        </nz-input>
+        <nz-select (ngModelChange)="change($event)" 
+        [(ngModel)]="textFieldModel.label" [ngModelOptions]="{standalone: true}" >
+            <nz-option 
+              *ngFor="let model of models"
+              [nzLabel]="model.label"
+              [nzValue]="model.label"
+              >
+            </nz-option>
+        </nz-select>
       </div>
     </div>
 
