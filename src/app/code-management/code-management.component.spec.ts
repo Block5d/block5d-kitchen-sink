@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrgChartV2Component } from './org-chart-v2.component';
+import { CodeManagementV3Component } from './code-management.component';
 
-describe('OrgChartV2Component', () => {
-  let component: OrgChartV2Component;
-  let fixture: ComponentFixture<OrgChartV2Component>;
+describe('CodeManagementV3Component', () => {
+  let component: CodeManagementV3Component;
+  let fixture: ComponentFixture<CodeManagementV3Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrgChartV2Component ]
+      declarations: [ CodeManagementV3Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgChartV2Component);
+    fixture = TestBed.createComponent(CodeManagementV3Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

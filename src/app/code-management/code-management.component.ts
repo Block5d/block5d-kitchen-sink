@@ -4,11 +4,11 @@ import { CodeManaService } from '../services/code-mana.service';
 import { AddCodeMana, AddCategory } from '../shared/code-mana';
 
 @Component({
-  selector: 'app-code-management-v3',
-  templateUrl: './code-management-v3.component.html',
-  styleUrls: ['./code-management-v3.component.css']
+  selector: 'app-code-management',
+  templateUrl: './code-management.component.html',
+  styleUrls: ['./code-management.component.css']
 })
-export class CodeManagementV3Component implements OnInit {
+export class CodeManagementComponent implements OnInit {
   categorymodel = false; codemodel = false; editcodemodel = false; isJSON = true; isObject = true; CodeString; categoryCodeString;
   searchtype = [{ label: 'Code', value: 'Code' },
   { label: 'Code Desc.', value: 'CodeDesc' },
