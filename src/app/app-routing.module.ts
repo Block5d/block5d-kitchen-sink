@@ -5,7 +5,6 @@ import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
 import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
-import { UserGroupComponent } from './user-group/user-group.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
@@ -17,9 +16,8 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
-
-import { CodeManagementV3Component } from './code-management-v3/code-management-v3.component';
-import { OrgChartV2Component } from './org-chart-v2/org-chart-v2.component';
+import { CodeManagementComponent } from './code-management/code-management.component';
+import { OrgChartComponent } from './org-chart/org-chart.component';
 import { WebformTextFieldComponent } from './webform-modal/webform-text-field/webform-text-field.component';
 
 const PROJECT_SETUP: string = 'Project Setup';
@@ -56,7 +54,7 @@ const routes: Routes = [
       },
       {
         path: 'codeManagement',
-        component: CodeManagementV3Component,
+        component: CodeManagementComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'Code Management'
@@ -64,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: 'org-chart',
-        component: OrgChartV2Component,
+        component: OrgChartComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'Organization Chart'
@@ -84,14 +82,6 @@ const routes: Routes = [
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'Company Management'
-        }
-      },
-      {
-        path: 'user-group',
-        component: UserGroupComponent,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: 'User Group'
         }
       },
       {

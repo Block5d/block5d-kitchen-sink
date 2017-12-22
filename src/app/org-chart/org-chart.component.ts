@@ -5,11 +5,11 @@ import { OrgChartService } from '../services/org-chart.service';
 import { Person, Persondetail } from '../shared/org-chart';
 
 @Component({
-  selector: 'app-org-chart-v2',
-  templateUrl: './org-chart-v2.component.html',
-  styleUrls: ['./org-chart-v2.component.css']
+  selector: 'app-org-chart',
+  templateUrl: './org-chart.component.html',
+  styleUrls: ['./org-chart.component.css']
 })
-export class OrgChartV2Component implements OnInit {
+export class OrgChartComponent implements OnInit {
   submitperson = new Person(null, '', '');
   projectidoption = [
     { label: '2017TCAH16HSt', value: '1' },

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrgChartV2Component } from './org-chart-v2.component';
+import { OrgChartV2Component } from './org-chart.component';
 
 describe('OrgChartV2Component', () => {
   let component: OrgChartV2Component;

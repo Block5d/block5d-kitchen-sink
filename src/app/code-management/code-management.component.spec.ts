@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CodeManagementV3Component } from './code-management-v3.component';
+import { CodeManagementV3Component } from './code-management.component';
 
 describe('CodeManagementV3Component', () => {
   let component: CodeManagementV3Component;
