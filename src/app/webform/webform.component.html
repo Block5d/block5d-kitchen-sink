@@ -13,7 +13,7 @@
         <div nz-col [nzSpan]="4">
           <label>Name</label>
           <div nz-form-control>
-            <nz-input style="width:120px"></nz-input>
+            <nz-input style="width:120px"  [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}"></nz-input>
           </div>
         </div>
         <div nz-col [nzSpan]="4">
@@ -37,7 +37,7 @@
           <label></label>
           <div>
             <button nz-button [nzType]="'default'">Cancel</button>
-            <button nz-button [nzType]="'primary'">Save</button>
+            <button nz-button [nzType]="'primary'" (click)="onSave()">Save</button>
           </div>
         </div>
       </div>
@@ -66,38 +66,6 @@
     </nz-sider>
     <nz-content>
 
-
-
-      <!-- <label>
-    First Name
-    </label>
-    <br>
-    <form nz-form>
-    <div nz-form-control>
-        <nz-input></nz-input>
-      </div>
-    </form>
-
-    <label>
-    Last Name
-    </label>
-      <br>
-      <form nz-form>
-          <div nz-form-control>
-              <nz-input></nz-input>
-            </div>
-      </form>
-
-    <label>
-   Email
-    </label>
-    <br>
-    <form nz-form>
-    <div nz-form-control>
-    <nz-input></nz-input>
-    </div>
-    </form>
-    <button nz-button [nzType]="'primary'">Submit</button> -->
     </nz-content>
   </nz-layout>
 </nz-layout>

@@ -83,6 +83,7 @@ import { ProjectMembersService } from './services/project-members.service';
 import { WebformComponent } from './webform/webform.component';
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
+import { WebformService } from './services/webform.service';
 
 @NgModule({
   declarations: [
@@ -167,7 +168,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     CodeManaService,
     OrgChartService,
     WorkflowService,
-    WorkflowSubmitService],
+    WorkflowSubmitService,
+    WebformService],
 
   bootstrap: [AppComponent]
 
