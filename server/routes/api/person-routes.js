@@ -7,7 +7,7 @@ module.exports = function(app){
     //CREATE PERSON
   app.post(PERSON_API_URL, (req, res)=>{
     //console.log("got data ....");
-    var person = req.body;
+    var person = req.body; 
     //console.log(person);
     var newPerson = new Person();
     newPerson.first_name = person.first_name;

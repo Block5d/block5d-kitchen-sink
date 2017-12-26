@@ -6,7 +6,7 @@ module.exports = mongoose.model('person', {
     job_title: String,
     contact: {
         contact_no:Number,
-        email:String
+        email:String 
     }, 
     dateOfBirth: Date,
     gender: String,

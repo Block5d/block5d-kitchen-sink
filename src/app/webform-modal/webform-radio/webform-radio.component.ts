@@ -11,8 +11,16 @@ export class WebformRadioComponent implements OnInit {
 
   radioModel = new WebformRadio('');
   radioForm:FormGroup;
-  radioValue:string;
-
+  models=[{label:"gender"}]
+  change(nzValue){
+   //console.log(nzValue)
+   for(let i=0;i<this.models.length;i++){
+    if(this.models[i].label==nzValue){
+      this.radioModel=this.models[i];
+      //console.log(this.textFieldModel)
+    }
+   }
+  }
   constructor(
     private fb:FormBuilder
   ) {
