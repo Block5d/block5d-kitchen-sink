@@ -80,9 +80,7 @@ import { ProjectSubmissionService } from './services/project-submission.service'
 import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersService } from './services/project-members.service';
-import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
 import { WebformComponent } from './webform/webform.component';
-
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
 
