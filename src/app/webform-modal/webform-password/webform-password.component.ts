@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformPassword } from '../../shared/webform-modal';
 
 @Component({
@@ -8,9 +8,16 @@ import { WebformPassword } from '../../shared/webform-modal';
 })
 export class WebformPasswordComponent implements OnInit {
 
-  passwordModel = new WebformPassword('', '', '');
+  @Output() savePassword = new EventEmitter<any>();
+
+  passwordModel = new WebformPassword('', '', '', null);
 
   constructor() { }
+
+  onSave(passwordModel) {
+    console.log(passwordModel);
+    this.savePassword.emit(passwordModel);
+  }
 
   ngOnInit() {
   }

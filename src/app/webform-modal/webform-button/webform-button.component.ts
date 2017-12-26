@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformButton } from '../../shared/webform-modal';
 
 @Component({
@@ -8,7 +8,9 @@ import { WebformButton } from '../../shared/webform-modal';
 })
 export class WebformButtonComponent implements OnInit {
 
-  buttonModel = new WebformButton('', '', '', '');
+  @Output() saveButton = new EventEmitter<any>();
+
+  buttonModel = new WebformButton('', '', '', '', null);
 
   actions = [{ desc: "Submit", value: "submit" }, { desc: "Reset", value: "reset" }];
 
@@ -18,6 +20,11 @@ export class WebformButtonComponent implements OnInit {
   sizes = [{ desc: "Small", value: "small" }, { desc: "Medium", value: "default" }, { desc: "Large", value: "large" }];
 
   constructor() { }
+
+  onSave(buttonModel) {
+    console.log(buttonModel);
+    this.saveButton.emit(buttonModel);
+  }
 
   ngOnInit() {
   }

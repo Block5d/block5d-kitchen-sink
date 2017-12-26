@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformCheckBox } from '../../shared/webform-modal';
 
 @Component({
@@ -8,7 +8,9 @@ import { WebformCheckBox } from '../../shared/webform-modal';
 })
 export class WebformCheckBoxComponent implements OnInit {
 
-  checkBoxModel = new WebformCheckBox('');
+  @Output() saveCheckBox = new EventEmitter<any>();
+
+  checkBoxModel = new WebformCheckBox('', null);
 
   _checked = false;
 
@@ -16,6 +18,11 @@ export class WebformCheckBoxComponent implements OnInit {
 
   _console(value) {
     console.log(value);
+  }
+
+  onSave(checkBoxModel) {
+    console.log(checkBoxModel);
+    this.saveCheckBox.emit(checkBoxModel);
   }
 
   ngOnInit() {
