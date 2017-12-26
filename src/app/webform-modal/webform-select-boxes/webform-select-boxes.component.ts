@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WebformSelectBoxes, AddValueModel } from '../../shared/webform-modal';
+import { WebformSelectBoxes, AddValueModel, SelectBoxesValue } from '../../shared/webform-modal';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 
@@ -12,6 +12,7 @@ export class WebformSelectBoxesComponent implements OnInit {
 
   selectBoxesModel = new WebformSelectBoxes('');
   selectBoxesForm:FormGroup;
+  selectBoxesValue=[];
 
   constructor(
     private fb:FormBuilder
@@ -27,7 +28,8 @@ export class WebformSelectBoxesComponent implements OnInit {
   }
 
   addField(){
-    this.dataArray.push(this.fb.group(new AddValueModel))
+    this.dataArray.push(this.fb.group(new SelectBoxesValue))
+    console.log(this.dataArray);
     console.log(this.dataArray.controls);
   }
 

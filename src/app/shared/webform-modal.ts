@@ -79,6 +79,11 @@ export class AddValueModel {
     value = '';
 }
 
+export class SelectBoxesValue{
+    label = '';
+    value = '';
+}
+
 export class Select {
     id = 0;
     selectModels: AddValueModel[];
