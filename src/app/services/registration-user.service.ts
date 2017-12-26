@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import { SearchUsrCriteria } from '../shared/search-user';
 
-const httpOptions = {
+const httpOptions = { 
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 

@@ -14,6 +14,9 @@ import { ProjectManagementComponent } from './project-management/project-managem
 import { ProjectMembersComponent } from './project-members/project-members.component';
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
+import { ProjectMembersV2Component } from './project-members-v2/project-members-v2.component';
+import { WebformComponent } from './webform/webform.component'
+
 import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
@@ -166,6 +169,13 @@ const routes: Routes = [
         data: {
           group: CONFIGURATION,
           breadcrumb: "Webform TextField"
+        }
+      },
+      {
+        path: 'web-form', component: WebformComponent,
+        data: {
+          group: PROJECT_SETUP,
+          breadcrumb: "Web Form"
         }
       }
     ]},
