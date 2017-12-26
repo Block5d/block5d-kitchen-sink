@@ -68,6 +68,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
+import { WebformTimePickerComponent } from './webform-modal/webform-time-picker/webform-time-picker.component';
+import { WebformDatePickerComponent } from './webform-modal/webform-date-picker/webform-date-picker.component';
 
 // Services
 import { UserGroupService } from './services/user-group.service';
@@ -82,6 +84,7 @@ import { ProjectManagementService } from './services/project-management.service'
 import { ProjectMembersService } from './services/project-members.service';
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
+
 
 @NgModule({
   declarations: [
@@ -123,6 +126,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     WebformContentComponent,
     WebformButtonComponent,
     UploadtoLocalComponent,
+    WebformTimePickerComponent,
+    WebformDatePickerComponent,
   ],
   imports: [
     BrowserModule,
