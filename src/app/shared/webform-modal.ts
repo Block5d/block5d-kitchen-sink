@@ -74,6 +74,24 @@ export class WebformButton {
     ) { }
 }
 
+export class WebformDatePicker {
+    constructor(
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
+}
+
+
+export class WebformTimePicker {
+    constructor(
+        label: string,
+        placeholder: string,
+        description: string
+    ) { }
+}
+
+
 export class AddValueModel {
     desc = '';
     value = '';

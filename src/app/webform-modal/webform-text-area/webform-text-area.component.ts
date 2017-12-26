@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformTextArea } from '../../shared/webform-modal';
 
 @Component({
@@ -8,9 +8,16 @@ import { WebformTextArea } from '../../shared/webform-modal';
 })
 export class WebformTextAreaComponent implements OnInit {
 
+  @Output() saveTextArea = new EventEmitter<any>();
+
   textAreaModel = new WebformTextArea('', '', '', null);
 
   constructor() { }
+
+  onSave(textAreaModel) {
+    console.log(textAreaModel);
+    this.saveTextArea.emit(textAreaModel);
+  }
 
   ngOnInit() {
   }

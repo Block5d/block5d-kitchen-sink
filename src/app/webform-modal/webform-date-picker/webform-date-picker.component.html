@@ -1,3 +1,75 @@
-<p>
-  webform-date-picker works!
-</p>
+<div nz-row [nzGutter]="24">
+  <h4>Date Picker Component</h4>
+  <nz-tabset nz-col [nzSpan]="12">
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Display
+      </ng-template>
+      <form nz-form>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Label</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="label" [(ngModel)]="datePickerModel.label" [nzPlaceHolder]="'Area Label'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Placeholder</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="placeholder" [(ngModel)]="datePickerModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Description</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="description" [(ngModel)]="datePickerModel.description" [nzPlaceHolder]="'Description for this datePicker'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
+
+      </form>
+    </nz-tab>
+
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Validation
+      </ng-template>
+      <!-- Edit Validation Here -->
+
+    </nz-tab>
+
+  </nz-tabset>
+
+  <div nz-col [nzSpan]="12">
+    <h6>Preview</h6>
+    <br/>
+    <div nz-form class="preview-form">
+      <div nz-form-label>
+        <label>{{datePickerModel.label}}</label>
+      </div>
+      <div nz-form-control>
+        <nz-datepicker [nzPlaceHolder]="datePickerModel.placeholder" style="width:100%;"></nz-datepicker>
+        <span>{{datePickerModel.description}}</span>
+      </div>
+    </div>
+
+    <br/>
+
+    <div style="float:right;">
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="onSave(datePickerModel)">Save</button>
+      <button nz-button [nzType]="'danger'" [nzSize]="'large'">Remove</button>
+    </div>
+
+  </div>
+
+</div>
