@@ -12,7 +12,7 @@ export class WebformSelectBoxesComponent implements OnInit {
 
   @Output() saveSelectBoxes = new EventEmitter<any>();
 
-  selectBoxesModel = new WebformSelectBoxes('');
+  selectBoxesModel = new WebformSelectBoxes('', null, null);
   selectBoxesForm: FormGroup;
   selectBoxesValue = [];
 
@@ -23,6 +23,7 @@ export class WebformSelectBoxesComponent implements OnInit {
   }
 
   onSave(selectBoxesModel) {
+    selectBoxesModel.selectBoxesValues = this.dataArray.value
     console.log(selectBoxesModel);
     this.saveSelectBoxes.emit(selectBoxesModel);
   }

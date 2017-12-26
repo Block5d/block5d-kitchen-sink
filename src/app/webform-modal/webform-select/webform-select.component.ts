@@ -13,7 +13,7 @@ export class WebformSelectComponent implements OnInit {
 
   // @Input() select: Select;
 
-  selectModel = new WebformSelect('', '', '');
+  selectModel = new WebformSelect('', '', '', null, null);
   jsonModel: String;
   models = [{ label: "Currency", placeholder: "", description: "Currency" },
   { label: "Country", placeholder: "", description: "Country" },
@@ -47,6 +47,7 @@ export class WebformSelectComponent implements OnInit {
   }
 
   onSave(selectModel) {
+    selectModel.selectValues = this.dataArray.value
     console.log(selectModel);
     this.saveSelect.emit(selectModel);
   }

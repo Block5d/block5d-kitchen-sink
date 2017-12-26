@@ -10,7 +10,7 @@ export class WebformButtonComponent implements OnInit {
 
   @Output() saveButton = new EventEmitter<any>();
 
-  buttonModel = new WebformButton('', '', '', '');
+  buttonModel = new WebformButton('', '', '', '', null);
 
   actions = [{ desc: "Submit", value: "submit" }, { desc: "Reset", value: "reset" }];
 

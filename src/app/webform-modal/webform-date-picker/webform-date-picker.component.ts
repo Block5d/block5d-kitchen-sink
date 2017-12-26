@@ -10,7 +10,7 @@ export class WebformDatePickerComponent implements OnInit {
 
   @Output() saveDatePicker = new EventEmitter<any>();
 
-  datePickerModel = new WebformDatePicker('', '', '');
+  datePickerModel = new WebformDatePicker('', '', '', null);
 
   constructor() { }
 

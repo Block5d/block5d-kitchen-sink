@@ -10,7 +10,7 @@ export class WebformTextFieldComponent implements OnInit {
 
   @Output() saveTextField = new EventEmitter<any>();
 
-  textFieldModel = new WebformTextField('', '', '');
+  textFieldModel = new WebformTextField('', '', '', null);
   models = [{ label: "Name", placeholder: "Admin", description: "Your Name" },
   { label: "Address", placeholder: "Address", description: "Address" }]
   change(nzValue) {

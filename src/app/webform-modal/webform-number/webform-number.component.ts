@@ -10,7 +10,7 @@ export class WebformNumberComponent implements OnInit {
 
   @Output() saveNumber = new EventEmitter<any>();
 
-  numberModel = new WebformNumber('', '', '');
+  numberModel = new WebformNumber('', '', '', null);
   models = [{ label: "Phone Num", placeholder: "", description: "Phone Num" },
   { label: "Fax Num", placeholder: "", description: "Fax Num" },
   { label: "Precentage", placeholder: "", description: "Precentage" },
