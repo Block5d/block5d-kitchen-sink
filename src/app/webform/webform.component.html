@@ -7,19 +7,19 @@
             <label>Title</label>
           </div>
           <div nz-form-control>
-            <nz-input style="width:120px"></nz-input>
+            <nz-input style="width:120px" [nzPlaceHolder]="'Person'" [nzType]="'inputValue'"></nz-input>
           </div>
         </div>
         <div nz-col [nzSpan]="4">
           <label>Name</label>
           <div nz-form-control>
-            <nz-input style="width:120px"></nz-input>
+            <nz-input style="width:120px" [nzPlaceHolder]="'Person'" [nzType]="'inputValue'"></nz-input>
           </div>
         </div>
         <div nz-col [nzSpan]="4">
           <label>Display as</label>
           <div>
-            <!-- <nz-select style="width: 120px;" [(ngModel)]="selectedOption" nzAllowClear>
+            <!-- <nz-select style="width: 120px;" [(ngModel)]="selectedOption" >
               <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option">
                 <ng-template #nzOptionTemplate><i class="anticon" [ngClass]="'anticon-'+option.label"></i> {{option.label}}</ng-template>
               </nz-option>
@@ -66,8 +66,9 @@
     </nz-sider>
     <nz-content>
 
-
-
+      
+     
+        
       <!-- <label>
     First Name
     </label>
