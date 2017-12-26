@@ -68,6 +68,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
 import { UserGroupComponent } from './user-group/user-group.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
+import { WebformTimePickerComponent } from './webform-modal/webform-time-picker/webform-time-picker.component';
+import { WebformDatePickerComponent } from './webform-modal/webform-date-picker/webform-date-picker.component';
 
 // Services
 import { UserGroupService } from './services/user-group.service';
@@ -83,6 +85,7 @@ import { ProjectMembersService } from './services/project-members.service';
 import { WebformComponent } from './webform/webform.component';
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
+
 
 @NgModule({
   declarations: [
@@ -124,6 +127,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     WebformContentComponent,
     WebformButtonComponent,
     UploadtoLocalComponent,
+    WebformTimePickerComponent,
+    WebformDatePickerComponent,
   ],
   imports: [
     DragulaModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformNumber } from '../../shared/webform-modal';
 
 @Component({
@@ -8,21 +8,29 @@ import { WebformNumber } from '../../shared/webform-modal';
 })
 export class WebformNumberComponent implements OnInit {
 
+  @Output() saveNumber = new EventEmitter<any>();
+
   numberModel = new WebformNumber('', '', '');
-  models=[{label:"Phone Num",placeholder:"",description:"Phone Num"},
-  {label:"Fax Num",placeholder:"",description:"Fax Num"},
-  {label:"Precentage",placeholder:"",description:"Precentage"},
-  {label:"Postal Code",placeholder:"",description:"Postal Code"}]
-  change(nzValue){
-   //console.log(nzValue)
-   for(let i=0;i<this.models.length;i++){
-    if(this.models[i].label==nzValue){
-      this.numberModel=this.models[i];
-      //console.log(this.textFieldModel)
+  models = [{ label: "Phone Num", placeholder: "", description: "Phone Num" },
+  { label: "Fax Num", placeholder: "", description: "Fax Num" },
+  { label: "Precentage", placeholder: "", description: "Precentage" },
+  { label: "Postal Code", placeholder: "", description: "Postal Code" }]
+  change(nzValue) {
+    //console.log(nzValue)
+    for (let i = 0; i < this.models.length; i++) {
+      if (this.models[i].label == nzValue) {
+        this.numberModel = this.models[i];
+        //console.log(this.textFieldModel)
+      }
     }
-   }
   }
   constructor() { }
+
+  onSave(numberModel) {
+    console.log(numberModel);
+    this.saveNumber.emit(numberModel);
+  }
+
 
   ngOnInit() {
   }
