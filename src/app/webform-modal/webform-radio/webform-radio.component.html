@@ -12,8 +12,17 @@
             <label>Label</label>
           </div>
           <div nz-form-control>
-            <nz-input [(ngModel)]="radioModel.label" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Radio Label'" [nzSize]="'large'" >
-            </nz-input>
+            <!-- <nz-input [(ngModel)]="radioModel.label" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Radio Label'" [nzSize]="'large'" >
+            </nz-input> -->
+            <nz-select (ngModelChange)="change($event)" 
+            [(ngModel)]="radioModel.label" [ngModelOptions]="{standalone: true}" >
+                <nz-option 
+                  *ngFor="let model of models"
+                  [nzLabel]="model.label"
+                  [nzValue]="model.label"
+                  >
+                </nz-option>
+            </nz-select>
           </div>
         </div>
 
