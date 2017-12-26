@@ -12,8 +12,17 @@
             <label>Label</label>
           </div>
           <div nz-form-control>
-            <nz-input name="label" [(ngModel)]="selectModel.label" [nzPlaceHolder]="'Select Label'" [nzSize]="'large'">
-            </nz-input>
+            <!-- <nz-input name="label" [(ngModel)]="selectModel.label" [nzPlaceHolder]="'Select Label'" [nzSize]="'large'">
+            </nz-input> -->
+            <nz-select (ngModelChange)="change($event)" 
+            [(ngModel)]="selectModel.label" [ngModelOptions]="{standalone: true}" >
+                <nz-option 
+                  *ngFor="let model of models"
+                  [nzLabel]="model.label"
+                  [nzValue]="model.label"
+                  >
+                </nz-option>
+            </nz-select>
           </div>
         </div>
 
@@ -151,6 +160,14 @@
         </div>
 
       </form>
+    </nz-tab>
+
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Validation
+      </ng-template>
+      <!-- Edit Valition Here-->
+
     </nz-tab>
 
   </nz-tabset>

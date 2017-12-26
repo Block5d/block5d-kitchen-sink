@@ -64,10 +64,9 @@ import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.componen
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
-import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 
 // Services
@@ -111,12 +110,9 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     LoadingSpinnerComponent,
     ProjectMembersComponent,
     BreadcrumbComponent,
-    ProjectMembersV2Component,
     WebformComponent,
-
-    CompanymanagementV2Component,
     OrgChartComponent,
-    UserGroupV2Component,
+    UserGroupComponent,
     CodeManagementComponent,
     WebformTextFieldComponent,
     WebformNumberComponent,

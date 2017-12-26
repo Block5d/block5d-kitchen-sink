@@ -1,55 +1,70 @@
 <div nz-row [nzGutter]="24">
+  <h4>Button Component</h4>
+  <nz-tabset nz-col [nzSpan]="12">
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Display
+      </ng-template>
+      <form nz-form>
 
-  <form nz-col [nzSpan]="12" nz-form>
-    <h4>Button Component</h4>
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Label</label>
+          </div>
+          <div nz-form-control>
+            <nz-input name="label" [(ngModel)]="buttonModel.label" [nzPlaceHolder]="'Button Label'" [nzSize]="'large'">
+            </nz-input>
+          </div>
+        </div>
 
-    <div nz-form-item>
-      <div nz-form-label>
-        <label>Label</label>
-      </div>
-      <div nz-form-control>
-        <nz-input name="label" [(ngModel)]="buttonModel.label" [nzPlaceHolder]="'Button Label'" [nzSize]="'large'">
-        </nz-input>
-      </div>
-    </div>
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Action</label>
+          </div>
+          <div nz-form-control>
+            <nz-select name="action" [(ngModel)]="buttonModel.action" nzAllowClear>
+              <nz-option *ngFor="let action of actions" [nzLabel]="action.desc" [nzValue]="action.value">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
 
-    <div nz-form-item>
-      <div nz-form-label>
-        <label>Action</label>
-      </div>
-      <div nz-form-control>
-        <nz-select name="action" [(ngModel)]="buttonModel.action" nzAllowClear>
-          <nz-option *ngFor="let action of actions" [nzLabel]="action.desc" [nzValue]="action.value">
-          </nz-option>
-        </nz-select>
-      </div>
-    </div>
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Theme</label>
+          </div>
+          <div nz-form-control>
+            <nz-select name="theme" [(ngModel)]="buttonModel.theme" nzAllowClear>
+              <nz-option *ngFor="let theme of themes" [nzLabel]="theme.desc" [nzValue]="theme.value">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
 
-    <div nz-form-item>
-      <div nz-form-label>
-        <label>Theme</label>
-      </div>
-      <div nz-form-control>
-        <nz-select name="theme" [(ngModel)]="buttonModel.theme" nzAllowClear>
-          <nz-option *ngFor="let theme of themes" [nzLabel]="theme.desc" [nzValue]="theme.value">
-          </nz-option>
-        </nz-select>
-      </div>
-    </div>
+        <div nz-form-item>
+          <div nz-form-label>
+            <label>Size</label>
+          </div>
+          <div nz-form-control>
+            <nz-select name="size" [(ngModel)]="buttonModel.size" nzAllowClear>
+              <nz-option *ngFor="let size of sizes" [nzLabel]="size.desc" [nzValue]="size.value">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
 
-    <div nz-form-item>
-      <div nz-form-label>
-        <label>Size</label>
-      </div>
-      <div nz-form-control>
-        <nz-select name="size" [(ngModel)]="buttonModel.size" nzAllowClear>
-          <nz-option *ngFor="let size of sizes" [nzLabel]="size.desc" [nzValue]="size.value">
-          </nz-option>
-        </nz-select>
-      </div>
-    </div>
+      </form>
+    </nz-tab>
 
-  </form>
+    <nz-tab>
+      <ng-template #nzTabHeading>
+        Validation
+      </ng-template>
+      <!-- Edit Validation Here -->
+
+    </nz-tab>
+
+  </nz-tabset>
 
   <div nz-col [nzSpan]="12">
     <h6>Preview</h6>
@@ -70,4 +85,3 @@
   </div>
 
 </div>
-
