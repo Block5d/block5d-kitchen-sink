@@ -16,16 +16,22 @@
             </nz-input>
           </div>
         </div>
-
-        <div nz-form-item>
-          <div nz-form-label>
-            <label>Placeholder</label>
-          </div>
-          <div nz-form-control>
-            <nz-input name="placeholder" [(ngModel)]="textFieldModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
-            </nz-input>
-          </div>
-        </div>
+    <div nz-form-item>
+      <div nz-form-label>
+        <label>Label</label>
+      </div>
+      <div nz-form-control>
+        <nz-select (ngModelChange)="change($event)" 
+        [(ngModel)]="textFieldModel.label" [ngModelOptions]="{standalone: true}" >
+            <nz-option 
+              *ngFor="let model of models"
+              [nzLabel]="model.label"
+              [nzValue]="model.label"
+              >
+            </nz-option>
+        </nz-select>
+      </div>
+    </div>
 
         <div nz-form-item>
           <div nz-form-label>

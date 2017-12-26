@@ -13,7 +13,19 @@ export class WebformSelectComponent implements OnInit {
 
   selectModel = new WebformSelect('', '', '');
   jsonModel:String;
-
+  models=[{label:"Currency",placeholder:"",description:"Currency"},
+  {label:"Country",placeholder:"",description:"Country"},
+  {label:"City",placeholder:"",description:"City"},
+  {label:"Nationality",placeholder:"",description:"Nationality"}]
+  change(nzValue){
+   //console.log(nzValue)
+   for(let i=0;i<this.models.length;i++){
+    if(this.models[i].label==nzValue){
+      this.selectModel=this.models[i];
+      //console.log(this.textFieldModel)
+    }
+   }
+  }
   dataSourceTypes = [
     { desc: "Values", value: "values" },
     { desc: "Json", value: "json" }
