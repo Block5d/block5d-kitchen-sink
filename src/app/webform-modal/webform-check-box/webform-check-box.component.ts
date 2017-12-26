@@ -10,7 +10,7 @@ export class WebformCheckBoxComponent implements OnInit {
 
   @Output() saveCheckBox = new EventEmitter<any>();
 
-  checkBoxModel = new WebformCheckBox('');
+  checkBoxModel = new WebformCheckBox('', null);
 
   _checked = false;
 

@@ -11,7 +11,7 @@ export class WebformRadioComponent implements OnInit {
 
   @Output() saveRadio = new EventEmitter<any>();
 
-  radioModel = new WebformRadio('');
+  radioModel = new WebformRadio('', null, null);
   radioForm: FormGroup;
   models = [{ label: "gender" }]
   change(nzValue) {
@@ -30,6 +30,7 @@ export class WebformRadioComponent implements OnInit {
   }
 
   onSave(radioModel) {
+    radioModel.radioValues = this.dataArray.value
     console.log(radioModel);
     this.saveRadio.emit(radioModel);
   }
