@@ -11,8 +11,8 @@ export class WebformTextFieldComponent implements OnInit {
   @Output() saveTextField = new EventEmitter<any>();
 
   textFieldModel = new WebformTextField('', '', '', null);
-  models = [{ label: "Name", placeholder: "Admin", description: "Your Name" },
-  { label: "Address", placeholder: "Address", description: "Address" }]
+  models = [{ label: "Name", placeholder: "Admin", description: "Your Name", validation: null },
+  { label: "Address", placeholder: "Address", description: "Address", validation: null }]
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {

@@ -1,124 +1,123 @@
 export class WebformTextField {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 export class WebformNumber {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 export class WebformPassword {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 export class WebformTextArea {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        rows: number,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public rows: number,
+        public validation: object
     ) { }
 }
 
 export class WebformCheckBox {
     constructor(
-        label: string,
-        validation:object
+        public label: string,
+        public validation: object
     ) { }
 }
 
 export class WebformSelectBoxes {
     constructor(
-        label: string,
-        selectBoxesValues:Array<string>,
-        validation:object
+        public label: string,
+        public selectBoxesValues: Array<string>,
+        public validation: object
     ) { }
 }
 
 export class WebformSelect {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        selectValues:Array<string>,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public selectValues: Array<string>,
+        public validation: object
     ) { }
 }
 
 export class WebformRadio {
     constructor(
-        label: string,
-        radioValues:Array<string>,
-        validation:object
+        public label: string,
+        public radioValues: Array<string>,
+        public validation: object
     ) { }
 }
 
 export class WebformHtmlElement {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 export class WebformButton {
     constructor(
-        label: string,
-        action: string,
-        theme: string,
-        size: string,
-        validation:object
+        public label: string,
+        public action: string,
+        public theme: string,
+        public size: string,
+        public validation: object
     ) { }
 }
 
 export class WebformDatePicker {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 
 export class WebformTimePicker {
     constructor(
-        label: string,
-        placeholder: string,
-        description: string,
-        validation:object
+        public label: string,
+        public placeholder: string,
+        public description: string,
+        public validation: object
     ) { }
 }
 
 
 export class AddValueModel {
-    desc = '';
-    value = '';
+    public desc = '';
+    public value = '';
 }
 
-export class SelectBoxesValue{
-    label = '';
-    value = '';
+export class SelectBoxesValue {
+    public label = '';
+    public value = '';
 }
 
 export class Select {
-    id = 0;
-    selectModels: AddValueModel[];
-  }
-  
+    public id = 0;
+    public selectModels: AddValueModel[];
+}

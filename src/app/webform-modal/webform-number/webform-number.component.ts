@@ -11,10 +11,10 @@ export class WebformNumberComponent implements OnInit {
   @Output() saveNumber = new EventEmitter<any>();
 
   numberModel = new WebformNumber('', '', '', null);
-  models = [{ label: "Phone Num", placeholder: "", description: "Phone Num" },
-  { label: "Fax Num", placeholder: "", description: "Fax Num" },
-  { label: "Precentage", placeholder: "", description: "Precentage" },
-  { label: "Postal Code", placeholder: "", description: "Postal Code" }]
+  models = [{ label: "Phone Num", placeholder: "", description: "Phone Num", validation: null },
+  { label: "Fax Num", placeholder: "", description: "Fax Num", validation: null },
+  { label: "Precentage", placeholder: "", description: "Precentage", validation: null },
+  { label: "Postal Code", placeholder: "", description: "Postal Code", validation: null }]
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {

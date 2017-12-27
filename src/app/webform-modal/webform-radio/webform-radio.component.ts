@@ -13,7 +13,7 @@ export class WebformRadioComponent implements OnInit {
 
   radioModel = new WebformRadio('', null, null);
   radioForm: FormGroup;
-  models = [{ label: "gender" }]
+  models = [{ label: "gender", radioValues: [], validation: null }]
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {
