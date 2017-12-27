@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformRadio, AddValueModel } from '../../shared/webform-modal';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
@@ -9,14 +9,31 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 })
 export class WebformRadioComponent implements OnInit {
 
-  radioModel = new WebformRadio('');
-  radioForm:FormGroup;
+  @Output() saveRadio = new EventEmitter<any>();
 
+  radioModel = new WebformRadio('', null, null);
+  radioForm: FormGroup;
+  models = [{ label: "gender" }]
+  change(nzValue) {
+    //console.log(nzValue)
+    for (let i = 0; i < this.models.length; i++) {
+      if (this.models[i].label == nzValue) {
+        this.radioModel = this.models[i];
+        //console.log(this.textFieldModel)
+      }
+    }
+  }
   constructor(
-    private fb:FormBuilder
+    private fb: FormBuilder
   ) {
     this.createForm();
-   }
+  }
+
+  onSave(radioModel) {
+    radioModel.radioValues = this.dataArray.value
+    console.log(radioModel);
+    this.saveRadio.emit(radioModel);
+  }
 
   createForm() {
     this.radioForm = this.fb.group({
@@ -24,7 +41,7 @@ export class WebformRadioComponent implements OnInit {
     });
   }
 
-  addField(){
+  addField() {
     this.dataArray.push(this.fb.group(new AddValueModel))
     console.log(this.dataArray.controls);
   }
@@ -33,7 +50,7 @@ export class WebformRadioComponent implements OnInit {
     return this.radioForm.get('dataArray') as FormArray;
   };
 
-  removeField(i){
+  removeField(i) {
     this.dataArray.removeAt(i);
   }
 

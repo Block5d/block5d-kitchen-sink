@@ -64,11 +64,12 @@ import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.componen
 import { ProjectSubmissionComponent } from './project-submission/project-submission.component';
 import { PersonManagementComponent } from './person-management/person-management.component';
 import { ProjectMembersComponent } from './project-members/project-members.component';
-import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
+import { WebformTimePickerComponent } from './webform-modal/webform-time-picker/webform-time-picker.component';
+import { WebformDatePickerComponent } from './webform-modal/webform-date-picker/webform-date-picker.component';
 
 // Services
 import { UserGroupService } from './services/user-group.service';
@@ -82,9 +83,10 @@ import { PersonManagementService } from './services/person-management.service';
 import { ProjectManagementService } from './services/project-management.service';
 import { ProjectMembersService } from './services/project-members.service';
 import { WebformComponent } from './webform/webform.component';
-
 import { WorkflowService } from './services/workflow.service';
 import { WorkflowSubmitService } from './services/workflow-submit.service';
+import { WebformService } from './services/webform.service';
+
 
 @NgModule({
   declarations: [
@@ -111,10 +113,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     ProjectMembersComponent,
     BreadcrumbComponent,
     WebformComponent,
-
-    CompanymanagementV2Component,
     OrgChartComponent,
-    UserGroupV2Component,
+    UserGroupComponent,
     CodeManagementComponent,
     WebformTextFieldComponent,
     WebformNumberComponent,
@@ -128,6 +128,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     WebformContentComponent,
     WebformButtonComponent,
     UploadtoLocalComponent,
+    WebformTimePickerComponent,
+    WebformDatePickerComponent,
   ],
   imports: [
     DragulaModule,
@@ -171,7 +173,8 @@ import { WorkflowSubmitService } from './services/workflow-submit.service';
     CodeManaService,
     OrgChartService,
     WorkflowService,
-    WorkflowSubmitService],
+    WorkflowSubmitService,
+    WebformService],
 
   bootstrap: [AppComponent]
 

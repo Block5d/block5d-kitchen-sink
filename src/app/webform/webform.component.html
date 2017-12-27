@@ -13,7 +13,7 @@
         <div nz-col [nzSpan]="4">
           <label>Name</label>
           <div nz-form-control>
-            <nz-input style="width:120px" [nzPlaceHolder]="'Person'" [nzType]="'inputValue'"></nz-input>
+            <nz-input style="width:120px"  [(ngModel)]="model.name" [ngModelOptions]="{standalone: true}" [nzPlaceHolder]="'Person'" [nzType]="'inputValue'"></nz-input>
           </div>
         </div>
         <div nz-col [nzSpan]="4">
@@ -37,7 +37,7 @@
           <label></label>
           <div>
             <button nz-button [nzType]="'default'">Cancel</button>
-            <button nz-button [nzType]="'primary'">Save</button>
+            <button nz-button [nzType]="'primary'" (click)="onSave()">Save</button>
           </div>
         </div>
       </div>
@@ -45,11 +45,13 @@
   </nz-header>
   <hr>
   <nz-layout>
+ 
+      <!-- <div class="wrapper"> -->
     <nz-sider>
       <div id="we"><p style="align:center">Basic Components</p>
         <div class='wrapper'>
-          <div class="container" [dragula]='"first-bag"'>
-            <div>Text Field</div>
+          <div class="container" [dragula]='"bag-one"'>
+            <div ng-template #WebformTextFieldComponent>Text Field</div>
             <div>Number</div>
             <div>Password</div>
             <div>Text Area</div>
@@ -66,39 +68,14 @@
     </nz-sider>
     <nz-content>
 
-      
-     
+        <div class='container' [dragula]='"bag-one"'>
+          <div [(ngModel)]="contents"></div>
+          <div></div>
+          
+        </div>
         
-      <!-- <label>
-    First Name
-    </label>
-    <br>
-    <form nz-form>
-    <div nz-form-control>
-        <nz-input></nz-input>
-      </div>
-    </form>
-
-    <label>
-    Last Name
-    </label>
-      <br>
-      <form nz-form>
-          <div nz-form-control>
-              <nz-input></nz-input>
-            </div>
-      </form>
-
-    <label>
-   Email
-    </label>
-    <br>
-    <form nz-form>
-    <div nz-form-control>
-    <nz-input></nz-input>
-    </div>
-    </form>
-    <button nz-button [nzType]="'primary'">Submit</button> -->
     </nz-content>
+
+  
   </nz-layout>
 </nz-layout>

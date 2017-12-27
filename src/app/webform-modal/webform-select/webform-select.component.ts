@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { WebformSelect, AddValueModel, Select } from '../../shared/webform-modal';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
@@ -9,18 +9,32 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 })
 export class WebformSelectComponent implements OnInit {
 
+  @Output() saveSelect = new EventEmitter<any>();
+
   // @Input() select: Select;
 
-  selectModel = new WebformSelect('', '', '');
-  jsonModel:String;
-
+  selectModel = new WebformSelect('', '', '', null, null);
+  jsonModel: String;
+  models = [{ label: "Currency", placeholder: "", description: "Currency" },
+  { label: "Country", placeholder: "", description: "Country" },
+  { label: "City", placeholder: "", description: "City" },
+  { label: "Nationality", placeholder: "", description: "Nationality" }]
+  change(nzValue) {
+    //console.log(nzValue)
+    for (let i = 0; i < this.models.length; i++) {
+      if (this.models[i].label == nzValue) {
+        this.selectModel = this.models[i];
+        //console.log(this.textFieldModel)
+      }
+    }
+  }
   dataSourceTypes = [
     { desc: "Values", value: "values" },
     { desc: "Json", value: "json" }
   ];
 
   dataSourceType = { value: "" };
-  selectValueForm: FormGroup; 
+  selectValueForm: FormGroup;
 
   constructor(
     private fb: FormBuilder
@@ -28,13 +42,16 @@ export class WebformSelectComponent implements OnInit {
     this.createForm();
   }
 
-  wth(){
+  wth() {
     console.log(this.dataSourceType)
   }
 
-  onSave() {
-    console.log(this.dataSourceType)
+  onSave(selectModel) {
+    selectModel.selectValues = this.dataArray.value
+    console.log(selectModel);
+    this.saveSelect.emit(selectModel);
   }
+
 
   createForm() {
     this.selectValueForm = this.fb.group({
@@ -42,7 +59,7 @@ export class WebformSelectComponent implements OnInit {
     });
   }
 
-  addField(){
+  addField() {
     this.dataArray.push(this.fb.group(new AddValueModel))
     console.log(this.dataArray.controls);
   }
@@ -51,7 +68,7 @@ export class WebformSelectComponent implements OnInit {
     return this.selectValueForm.get('dataArray') as FormArray;
   };
 
-  removeField(i){
+  removeField(i) {
     this.dataArray.removeAt(i);
   }
 

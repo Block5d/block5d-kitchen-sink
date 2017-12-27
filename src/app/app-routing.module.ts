@@ -4,8 +4,7 @@ import { RegUserComponent } from './reg-user/reg-user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { CompanymanagementComponent } from './companymanagement/companymanagement.component';
-import { CompanymanagementV2Component } from './companymanagement-v2/companymanagement-v2.component';
-import { UserGroupV2Component } from './user-group-v2/user-group-v2.component';
+import { UserGroupComponent } from './user-group/user-group.component';
 import { WorkflowComponent } from './workflow/workflow.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
 import { VoteUserComponent } from './vote-user/vote-user.component';
@@ -16,7 +15,6 @@ import { ProjectMembersComponent } from './project-members/project-members.compo
 import { UploadtoFireStoreComponent } from './uploadto-fire-store/uploadto-fire-store.component';
 import { UploadtoS3Component } from './uploadto-s3/uploadto-s3.component';
 import { WebformComponent } from './webform/webform.component'
-
 import { UploadtoLocalComponent } from './uploadto-local/uploadto-local.component';
 import { CodeManagementComponent } from './code-management/code-management.component';
 import { OrgChartComponent } from './org-chart/org-chart.component';
@@ -44,11 +42,12 @@ const routes: Routes = [
         component: UserListComponent,
         data: {
           group: PROJECT_SETUP,
-          breadcrumb: 'List of users'
+          breadcrumb: 'List of Users'
         }
       },
       {
-        path: 'search-user', component: SearchUserComponent,
+        path: 'search-user', 
+        component: SearchUserComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'Search User'
@@ -79,16 +78,8 @@ const routes: Routes = [
         }
       },
       {
-        path: 'company-managementv2',
-        component: CompanymanagementV2Component,
-        data: {
-          group: PROJECT_SETUP,
-          breadcrumb: 'Company Management'
-        }
-      },
-      {
-        path: 'user-group-v2',
-        component: UserGroupV2Component,
+        path: 'user-group',
+        component: UserGroupComponent,
         data: {
           group: PROJECT_SETUP,
           breadcrumb: 'User Group'

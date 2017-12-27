@@ -1,5 +1,5 @@
 <div nz-row [nzGutter]="24">
-  <h4>Password Component</h4>
+  <h4>Time Picker Component</h4>
   <nz-tabset nz-col [nzSpan]="12">
     <nz-tab>
       <ng-template #nzTabHeading>
@@ -12,7 +12,7 @@
             <label>Label</label>
           </div>
           <div nz-form-control>
-            <nz-input name="label" [(ngModel)]="passwordModel.label" [nzPlaceHolder]="'Password Label'" [nzSize]="'large'">
+            <nz-input name="label" [(ngModel)]="timePickerModel.label" [nzPlaceHolder]="'Area Label'" [nzSize]="'large'">
             </nz-input>
           </div>
         </div>
@@ -22,7 +22,7 @@
             <label>Placeholder</label>
           </div>
           <div nz-form-control>
-            <nz-input name="placeholder" [(ngModel)]="passwordModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
+            <nz-input name="placeholder" [(ngModel)]="timePickerModel.placeholder" [nzPlaceHolder]="'Placeholder'" [nzSize]="'large'">
             </nz-input>
           </div>
         </div>
@@ -32,7 +32,7 @@
             <label>Description</label>
           </div>
           <div nz-form-control>
-            <nz-input name="description" [(ngModel)]="passwordModel.description" [nzPlaceHolder]="'Description for this password'" [nzSize]="'large'">
+            <nz-input name="description" [(ngModel)]="timePickerModel.description" [nzPlaceHolder]="'Description for this timePicker'" [nzSize]="'large'">
             </nz-input>
           </div>
         </div>
@@ -55,18 +55,18 @@
     <br/>
     <div nz-form class="preview-form">
       <div nz-form-label>
-        <label>{{passwordModel.label}}</label>
+        <label>{{timePickerModel.label}}</label>
       </div>
       <div nz-form-control>
-        <nz-input [nzPlaceHolder]="passwordModel.placeholder" [nzSize]="'large'" [nzDisabled]="true"></nz-input>
-        <span>{{passwordModel.description}}</span>
+        <nz-timepicker [nzPlaceHolder]="timePickerModel.placeholder"></nz-timepicker><br>
+        <span>{{timePickerModel.description}}</span>
       </div>
     </div>
 
     <br/>
 
     <div style="float:right;">
-      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="onSave(passwordModel)">Save</button>
+      <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="onSave(timePickerModel)">Save</button>
       <button nz-button [nzType]="'danger'" [nzSize]="'large'">Remove</button>
     </div>
 

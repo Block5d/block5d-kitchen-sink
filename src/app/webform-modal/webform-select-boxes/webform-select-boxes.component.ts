@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { WebformSelectBoxes, AddValueModel } from '../../shared/webform-modal';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { WebformSelectBoxes, AddValueModel, SelectBoxesValue } from '../../shared/webform-modal';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 
@@ -10,15 +10,23 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 })
 export class WebformSelectBoxesComponent implements OnInit {
 
-  selectBoxesModel = new WebformSelectBoxes('');
-  selectBoxesForm:FormGroup;
+  @Output() saveSelectBoxes = new EventEmitter<any>();
+
+  selectBoxesModel = new WebformSelectBoxes('', null, null);
+  selectBoxesForm: FormGroup;
+  selectBoxesValue = [];
 
   constructor(
-    private fb:FormBuilder
-  ) { 
+    private fb: FormBuilder
+  ) {
     this.createForm();
   }
 
+  onSave(selectBoxesModel) {
+    selectBoxesModel.selectBoxesValues = this.dataArray.value
+    console.log(selectBoxesModel);
+    this.saveSelectBoxes.emit(selectBoxesModel);
+  }
 
   createForm() {
     this.selectBoxesForm = this.fb.group({
@@ -26,8 +34,9 @@ export class WebformSelectBoxesComponent implements OnInit {
     });
   }
 
-  addField(){
-    this.dataArray.push(this.fb.group(new AddValueModel))
+  addField() {
+    this.dataArray.push(this.fb.group(new SelectBoxesValue))
+    console.log(this.dataArray);
     console.log(this.dataArray.controls);
   }
 
@@ -35,7 +44,7 @@ export class WebformSelectBoxesComponent implements OnInit {
     return this.selectBoxesForm.get('dataArray') as FormArray;
   };
 
-  removeField(i){
+  removeField(i) {
     this.dataArray.removeAt(i);
   }
 
