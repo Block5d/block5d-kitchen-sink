@@ -10,9 +10,12 @@ export class WebformTextFieldComponent implements OnInit {
 
   @Output() saveTextField = new EventEmitter<any>();
 
-  textFieldModel = new WebformTextField('', '', '', null);
-  models = [{ label: "Name", placeholder: "Admin", description: "Your Name", validation: null },
-  { label: "Address", placeholder: "Address", description: "Address", validation: null }]
+  textFieldModel = new WebformTextField('', '', '',
+  { required: false, unique: false, minlength: null, maxlength: null, error_massage: '' });
+  models = [{ label: "Name", placeholder: "Admin", description: "Your Name", validation:
+  { required: false, unique: false, minlength: null, maxlength: null, error_massage: '' }},
+  { label: "Address", placeholder: "Address", description: "Address", validation:
+  { required: false, unique: false, minlength: null, maxlength: null, error_massage: '' }}];
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {
@@ -22,6 +25,10 @@ export class WebformTextFieldComponent implements OnInit {
       }
     }
   }
+  _console(value) {
+    console.log(value);
+  }
+
   constructor() { }
 
   onSave(textFieldModel) {

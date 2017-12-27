@@ -44,7 +44,14 @@
       <ng-template #nzTabHeading>
         Validation
       </ng-template>
-      <!-- Edit Validation Here -->
+      <label nz-checkbox [(ngModel)]="timePickerModel.validation.required" (ngModelChange)="_console($event)">
+        <span>Required</span>
+      </label>
+      <h6>
+        <span>Custom Error Message</span>
+      </h6>
+      <nz-input [(ngModel)]="timePickerModel.validation.error_massage" [nzPlaceHolder]="'Custom Error Message'" (ngModelChange)="_console($event)"></nz-input>
+
 
     </nz-tab>
 

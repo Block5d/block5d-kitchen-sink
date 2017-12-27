@@ -10,7 +10,7 @@ export class WebformTimePickerComponent implements OnInit {
 
   @Output() saveTimePicker = new EventEmitter<any>();
 
-  timePickerModel = new WebformTimePicker('', '', '', null);
+  timePickerModel = new WebformTimePicker('', '', '', { required: false, error_massage: '' });
 
   constructor() { }
 

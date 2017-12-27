@@ -13,12 +13,24 @@ export class WebformSelectComponent implements OnInit {
 
   // @Input() select: Select;
 
-  selectModel = new WebformSelect('', '', '', null, null);
+  selectModel = new WebformSelect('', '', '', null, { required: false, unique: false, error_massage: '' });
   jsonModel: String;
-  models = [{ label: "Currency", placeholder: "", description: "Currency", selectValues: [], validation: null },
-  { label: "Country", placeholder: "", description: "Country", selectValues: [], validation: null },
-  { label: "City", placeholder: "", description: "City", selectValues: [], validation: null },
-  { label: "Nationality", placeholder: "", description: "Nationality", selectValues: [], validation: null }]
+  models = [{
+    label: "Currency", placeholder: "", description: "Currency", selectValues: [], validation:
+      { required: false, unique: false, error_massage: '' }
+  },
+  {
+    label: "Country", placeholder: "", description: "Country", selectValues: [], validation:
+      { required: false, unique: false, error_massage: '' }
+  },
+  {
+    label: "City", placeholder: "", description: "City", selectValues: [], validation:
+      { required: false, unique: false, error_massage: '' }
+  },
+  {
+    label: "Nationality", placeholder: "", description: "Nationality", selectValues: [], validation:
+      { required: false, unique: false, error_massage: '' }
+  }]
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {

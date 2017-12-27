@@ -56,7 +56,31 @@
       <ng-template #nzTabHeading>
         Validation
       </ng-template>
-      <!-- Edit Validation Here -->
+      <label nz-checkbox [(ngModel)]="textFieldModel.validation.required" (ngModelChange)="_console($event)">
+        <span>Required</span>
+      </label>
+      <label nz-checkbox [(ngModel)]="textFieldModel.validation.unique" (ngModelChange)="_console($event)">
+        <span>Unique</span>
+      </label>
+      <div nz-row [nzGutter]="48" >
+        <div nz-col [nzSpan]="12">
+          <h6>
+            <span>Minimum Length</span>
+          </h6>
+          <nz-input-number style="width:100%" [(ngModel)]="textFieldModel.validation.minlength" [nzMin]="1" [nzMax]="10" [nzStep]="1"></nz-input-number>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <h6>
+            <span>Maximum Length</span>
+          </h6>
+          <nz-input-number style="width:100%" [(ngModel)]="textFieldModel.validation.maxlength" [nzMin]="1" [nzMax]="10" [nzStep]="1"></nz-input-number>
+        </div>
+      </div>
+      <h6>
+        <span>Custom Error Message</span>
+      </h6>
+      <nz-input [(ngModel)]="textFieldModel.validation.error_massage" [nzPlaceHolder]="'Custom Error Message'" (ngModelChange)="_console($event)"></nz-input>
+
 
     </nz-tab>
 

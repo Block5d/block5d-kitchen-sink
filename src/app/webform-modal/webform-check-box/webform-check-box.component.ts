@@ -10,7 +10,7 @@ export class WebformCheckBoxComponent implements OnInit {
 
   @Output() saveCheckBox = new EventEmitter<any>();
 
-  checkBoxModel = new WebformCheckBox('', null);
+  checkBoxModel = new WebformCheckBox('', { required: false, error_massage: ''});
 
   _checked = false;
 
@@ -21,7 +21,7 @@ export class WebformCheckBoxComponent implements OnInit {
   }
 
   onSave(checkBoxModel) {
-    console.log(checkBoxModel);
+    console.log(JSON.stringify(checkBoxModel));
     this.saveCheckBox.emit(checkBoxModel);
   }
 

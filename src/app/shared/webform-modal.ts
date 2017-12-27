@@ -3,7 +3,7 @@ export class WebformTextField {
         public label: string,
         public placeholder: string,
         public description: string,
-        public validation: object
+        public validation: { required: boolean, unique: boolean, minlength: number, maxlength: number, error_massage: string}
     ) { }
 }
 
@@ -12,7 +12,7 @@ export class WebformNumber {
         public label: string,
         public placeholder: string,
         public description: string,
-        public validation: object
+        public validation: { required: boolean, minlength: number, maxlength: number, error_massage: string}
     ) { }
 }
 
@@ -21,7 +21,7 @@ export class WebformPassword {
         public label: string,
         public placeholder: string,
         public description: string,
-        public validation: object
+        public validation: { required: boolean, unique: boolean, minlength: number, maxlength: number, error_massage: string}
     ) { }
 }
 
@@ -31,14 +31,14 @@ export class WebformTextArea {
         public placeholder: string,
         public description: string,
         public rows: number,
-        public validation: object
+        public validation: { required: boolean, unique: boolean, minlength: number, maxlength: number, error_massage: string}
     ) { }
 }
 
 export class WebformCheckBox {
     constructor(
         public label: string,
-        public validation: object
+        public validation: {required: boolean, error_massage: string }
     ) { }
 }
 
@@ -46,7 +46,7 @@ export class WebformSelectBoxes {
     constructor(
         public label: string,
         public selectBoxesValues: Array<string>,
-        public validation: object
+        public validation: {required: boolean, error_massage: string }
     ) { }
 }
 
@@ -56,7 +56,7 @@ export class WebformSelect {
         public placeholder: string,
         public description: string,
         public selectValues: Array<string>,
-        public validation: object
+        public validation: { required: boolean, unique: boolean, error_massage: string}
     ) { }
 }
 
@@ -64,7 +64,7 @@ export class WebformRadio {
     constructor(
         public label: string,
         public radioValues: Array<string>,
-        public validation: object
+        public validation: { required: boolean, error_massage: string}
     ) { }
 }
 
@@ -83,7 +83,6 @@ export class WebformButton {
         public action: string,
         public theme: string,
         public size: string,
-        public validation: object
     ) { }
 }
 
@@ -92,7 +91,7 @@ export class WebformDatePicker {
         public label: string,
         public placeholder: string,
         public description: string,
-        public validation: object
+        public validation: { requiredDay: boolean, requiredMonth: boolean, requiredYear: boolean, error_massage: string}
     ) { }
 }
 
@@ -102,7 +101,7 @@ export class WebformTimePicker {
         public label: string,
         public placeholder: string,
         public description: string,
-        public validation: object
+        public validation: { required: boolean, error_massage: string}
     ) { }
 }
 

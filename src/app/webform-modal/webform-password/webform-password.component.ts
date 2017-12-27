@@ -10,7 +10,7 @@ export class WebformPasswordComponent implements OnInit {
 
   @Output() savePassword = new EventEmitter<any>();
 
-  passwordModel = new WebformPassword('', '', '', null);
+  passwordModel = new WebformPassword('', '', '', { required: false, unique: false, minlength: null, maxlength: null, error_massage: '' });
 
   constructor() { }
 

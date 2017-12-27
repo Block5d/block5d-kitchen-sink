@@ -171,7 +171,17 @@
       <ng-template #nzTabHeading>
         Validation
       </ng-template>
-      <!-- Edit Valition Here-->
+      <label nz-checkbox [(ngModel)]="selectModel.validation.required" (ngModelChange)="_console($event)">
+        <span>Required</span>
+      </label>
+      <label nz-checkbox [(ngModel)]="selectModel.validation.unique" (ngModelChange)="_console($event)">
+        <span>Unique</span>
+      </label>
+      <h6>
+        <span>Custom Error Message</span>
+      </h6>
+      <nz-input [(ngModel)]="selectModel.validation.error_massage" [nzPlaceHolder]="'Custom Error Message'" (ngModelChange)="_console($event)"></nz-input>
+
 
     </nz-tab>
 

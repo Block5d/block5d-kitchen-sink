@@ -11,9 +11,9 @@ export class WebformRadioComponent implements OnInit {
 
   @Output() saveRadio = new EventEmitter<any>();
 
-  radioModel = new WebformRadio('', null, null);
+  radioModel = new WebformRadio('', null, { required: false, error_massage: '' });
   radioForm: FormGroup;
-  models = [{ label: "gender", radioValues: [], validation: null }]
+  models = [{ label: "gender", radioValues: [], validation: { required: false, error_massage: '' } }];
   change(nzValue) {
     //console.log(nzValue)
     for (let i = 0; i < this.models.length; i++) {

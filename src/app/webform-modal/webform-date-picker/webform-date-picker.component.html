@@ -44,7 +44,20 @@
       <ng-template #nzTabHeading>
         Validation
       </ng-template>
-      <!-- Edit Validation Here -->
+      <label nz-checkbox [(ngModel)]="datePickerModel.validation.requiredDay" (ngModelChange)="_console($event)">
+        <span>Required Day</span>
+      </label>
+      <label nz-checkbox [(ngModel)]="datePickerModel.validation.requiredMonth" (ngModelChange)="_console($event)">
+        <span>Required Month</span>
+      </label>
+      <label nz-checkbox [(ngModel)]="datePickerModel.validation.requiredYear" (ngModelChange)="_console($event)">
+        <span>Required Year</span>
+      </label>
+      <h6>
+        <span>Custom Error Message</span>
+      </h6>
+      <nz-input [(ngModel)]="datePickerModel.validation.error_massage" [nzPlaceHolder]="'Custom Error Message'" (ngModelChange)="_console($event)"></nz-input>
+
 
     </nz-tab>
 

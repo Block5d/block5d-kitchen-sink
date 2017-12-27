@@ -10,7 +10,8 @@ export class WebformTextAreaComponent implements OnInit {
 
   @Output() saveTextArea = new EventEmitter<any>();
 
-  textAreaModel = new WebformTextArea('', '', '', null, null);
+  textAreaModel = new WebformTextArea('', '', '', null,
+  { required: false, unique: false, minlength: null, maxlength: null, error_massage: '' });
 
   constructor() { }
 

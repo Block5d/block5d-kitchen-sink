@@ -12,7 +12,7 @@ export class WebformSelectBoxesComponent implements OnInit {
 
   @Output() saveSelectBoxes = new EventEmitter<any>();
 
-  selectBoxesModel = new WebformSelectBoxes('', null, null);
+  selectBoxesModel = new WebformSelectBoxes('', null, { required: false, error_massage: '' });
   selectBoxesForm: FormGroup;
   selectBoxesValue = [];
 
