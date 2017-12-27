@@ -22,6 +22,9 @@ import { WebformTextAreaComponent } from '../webform-modal/webform-text-area/web
 export class WebformComponent implements OnInit {
   model = new WebForm('','','',null,null,null);
   contents = [];
+  
+    
+  
   onSave(){
     console.log(this.model)
     this.model.content=this.contents;
@@ -36,6 +39,14 @@ export class WebformComponent implements OnInit {
     });
    } 
 
+   add() {
+    var  newObject= {
+      name: this.model.content,
+    
+    }
+    console.log();
+    this.contents.push(newObject);
+  }
    
 
   ngOnInit() {

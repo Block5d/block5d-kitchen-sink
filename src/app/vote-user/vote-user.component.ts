@@ -58,7 +58,7 @@ export class VoteUserComponent implements OnInit {
 
   onDislikeEvt(dislike: boolean) {
     var newdisLike = {
-      name: this.model.voteUser,
+      name: this.model.voteUser, 
       dislike: dislike
     }
     console.log("dislike..." + dislike);

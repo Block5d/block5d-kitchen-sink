@@ -68,6 +68,11 @@
     </nz-sider>
     <nz-content>
 
+        <nz-modal [nzVisible]="isVisible" (onEvent)="buttonModel">
+            <ng-template #buttonModel>
+
+            </ng-template>
+          </nz-modal>
         <div class='container' [dragula]='"bag-one"'>
           <div [(ngModel)]="contents"></div>
           <div></div>
